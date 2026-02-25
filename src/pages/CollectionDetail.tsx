@@ -8,16 +8,26 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { ArrowLeft, Heart } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
+import QuotationSection from '@/components/QuotationSection';
 import { Collection, Project } from '@/lib/adminData';
 
 const CollectionDetail = () => {
   const { slug } = useParams();
-  const [selectedArtwork, setSelectedArtwork] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [collections, setCollections] = useState<Collection[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState<{
+    id: string;
+    title: string;
+    image: string;
+    description: string;
+    materials: string;
+    useCase: string;
+    features: string[];
+  } | null>(null);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
   const assetBase = apiBase.replace(/\/api\/?$/i, '');
 
@@ -58,12 +68,14 @@ const CollectionDetail = () => {
           : []
     });
 
-    const normalizeProject = (project: any): Project => ({
+    const normalizeProject = (project: any): Project => {
+      const rawCollectionId = project?.collection_id ?? project?.collectionId ?? project?.collection?.id;
+      return {
       id: String(project?.id ?? ''),
       title: project?.title || '',
       description: project?.description || '',
       image: project?.image || '',
-      collection_id: project?.collection_id ? String(project.collection_id) : '',
+      collection_id: rawCollectionId ? String(rawCollectionId) : '',
       material_used: Array.isArray(project?.material_used)
         ? project.material_used
         : typeof project?.material_used === 'string'
@@ -79,7 +91,8 @@ const CollectionDetail = () => {
         : typeof project?.features === 'string'
           ? project.features.split(',').map((item: string) => item.trim()).filter(Boolean)
           : []
-    });
+      };
+    };
 
     const loadData = async () => {
       try {
@@ -140,9 +153,21 @@ const CollectionDetail = () => {
       }));
   }, [collection, projects]);
 
-  const openModal = (artwork) => {
-    setSelectedArtwork(artwork);
-    setIsModalOpen(true);
+  const openProjectModal = (project: {
+    id: string;
+    title: string;
+    image: string;
+    description: string;
+    materials: string;
+    useCase: string;
+    features: string[];
+  }) => {
+    setSelectedProject(project);
+    setIsProjectModalOpen(true);
+  };
+
+  const openQuote = () => {
+    setIsQuoteOpen(true);
   };
 
   if (isLoading) {
@@ -190,18 +215,18 @@ const CollectionDetail = () => {
         </div>
       </section>
 
-      {/* Artwork Grid */}
+      {/* Projects Grid */}
       <section className="py-20">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {artworks.length === 0 ? (
-              <div className="col-span-full text-center text-gray-600">No artworks available.</div>
+              <div className="col-span-full text-center text-gray-600">No projects available.</div>
             ) : (
             artworks.map((artwork) => (
               <Card 
                 key={artwork.id} 
-                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-                onClick={() => openModal(artwork)}
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                onClick={() => openProjectModal(artwork)}
               >
                 <div className="relative overflow-hidden">
                   <img 
@@ -211,7 +236,7 @@ const CollectionDetail = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-4 left-4 right-4">
-                      <Button className="w-full bg-white text-gray-900 hover:bg-gray-100">
+                      <Button className="w-full bg-white text-gray-900 hover:bg-gray-100" type="button">
                         View Details
                       </Button>
                     </div>
@@ -227,52 +252,49 @@ const CollectionDetail = () => {
         </div>
       </section>
 
-      {/* Modal Popup */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <Dialog open={isProjectModalOpen} onOpenChange={setIsProjectModalOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          {selectedArtwork && (
+          {selectedProject && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-2xl font-bold">{selectedArtwork.title}</DialogTitle>
+                <DialogTitle className="text-2xl font-bold">{selectedProject.title}</DialogTitle>
               </DialogHeader>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <img 
-                    src={normalizeImageUrl(selectedArtwork.image)} 
-                    alt={selectedArtwork.title}
+                    src={normalizeImageUrl(selectedProject.image)} 
+                    alt={selectedProject.title}
                     className="w-full h-80 object-cover rounded-lg"
                   />
-                  <div className="flex gap-2">
-                    <Button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600">
-                      Request Quote
-                    </Button>
-                    <Button variant="outline" className="p-3">
-                      <Heart className="w-4 h-4" />
-                    </Button>
-                  </div>
+                  <Button
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                    onClick={openQuote}
+                  >
+                    Request Quote
+                  </Button>
                 </div>
                 <div className="space-y-4">
                   <p className="text-base text-gray-700">
-                    {selectedArtwork.description}
+                    {selectedProject.description}
                   </p>
                   
                   <div className="space-y-3">
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Materials Used:</h4>
-                      <p className="text-gray-600 text-sm">{selectedArtwork.materials}</p>
+                      <p className="text-gray-600 text-sm">{selectedProject.materials}</p>
                     </div>
                     
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Perfect For:</h4>
-                      <p className="text-gray-600 text-sm">{selectedArtwork.useCase}</p>
+                      <p className="text-gray-600 text-sm">{selectedProject.useCase}</p>
                     </div>
                   </div>
                   
                   <div className="pt-4">
                     <h4 className="font-semibold text-gray-900 mb-2">Features:</h4>
                     <div className="flex flex-wrap gap-2">
-                      {(selectedArtwork.features || []).length ? (
-                        (selectedArtwork.features || []).map((feature, index) => (
+                      {(selectedProject.features || []).length ? (
+                        (selectedProject.features || []).map((feature, index) => (
                           <Badge key={index} variant="secondary">{feature}</Badge>
                         ))
                       ) : (
@@ -284,6 +306,12 @@ const CollectionDetail = () => {
               </div>
             </>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
+        <DialogContent className="max-w-5xl p-0 bg-transparent border-none max-h-[90vh] overflow-y-auto">
+          <QuotationSection variant="modal" onSubmitted={() => setIsQuoteOpen(false)} />
         </DialogContent>
       </Dialog>
 

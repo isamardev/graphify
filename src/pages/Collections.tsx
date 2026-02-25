@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { ArrowLeft } from 'lucide-react';
@@ -17,8 +16,6 @@ const Collections = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [selectedCollection, setSelectedCollection] = useState<Collection | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const assetBase = (() => {
     const baseUrl = (import.meta as any)?.env?.VITE_API_BASE_URL || '';
@@ -103,6 +100,13 @@ const Collections = () => {
     };
   }, [assetBase]);
 
+  const toSlug = (value: string) =>
+    value
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
   const categoryOptions = (() => {
     const counts = collections.reduce<Record<string, number>>((acc, collection) => {
       const key = collection.category_id || 'uncategorized';
@@ -137,11 +141,6 @@ const Collections = () => {
   const filteredGroups = selectedCategory === 'all'
     ? groupedCollections
     : groupedCollections.filter((group) => group.id === selectedCategory);
-
-  const openModal = (collection: Collection) => {
-    setSelectedCollection(collection);
-    setIsModalOpen(true);
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -205,44 +204,42 @@ const Collections = () => {
                     {group.items.map((collection) => {
                       const imageUrl = normalizeImageUrl(collection.image);
                       return (
-                        <Card
-                          key={collection.id}
-                          className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-pointer h-full"
-                          onClick={() => openModal(collection)}
-                        >
-                          <div className="relative overflow-hidden">
-                            <img 
-                              src={imageUrl} 
-                              alt={collection.title}
-                              className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                              <div className="absolute bottom-4 left-4 right-4">
-                                <Button className="w-full bg-white text-gray-900 hover:bg-gray-100" type="button">
-                                  View Collection
-                                </Button>
+                        <Link key={collection.id} to={`/collections/${toSlug(collection.title)}`}>
+                          <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-pointer h-full">
+                            <div className="relative overflow-hidden">
+                              <img 
+                                src={imageUrl} 
+                                alt={collection.title}
+                                className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-110"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div className="absolute bottom-4 left-4 right-4">
+                                  <Button className="w-full bg-white text-gray-900 hover:bg-gray-100" type="button">
+                                    View Collection
+                                  </Button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <CardContent className="p-6">
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">{collection.title}</h3>
-                            <p className="text-gray-600 text-sm line-clamp-2">{collection.description}</p>
-                            {collection.tags.length > 0 && (
-                              <div className="flex flex-wrap gap-2 mt-4">
-                                {collection.tags.slice(0, 3).map((tag, index) => (
-                                  <Badge key={index} variant="secondary" className="text-xs">
-                                    {tag}
-                                  </Badge>
-                                ))}
-                                {collection.tags.length > 3 && (
-                                  <Badge variant="secondary" className="text-xs">
-                                    +{collection.tags.length - 3}
-                                  </Badge>
-                                )}
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
+                            <CardContent className="p-6">
+                              <h3 className="text-xl font-bold text-gray-900 mb-2">{collection.title}</h3>
+                              <p className="text-gray-600 text-sm line-clamp-2">{collection.description}</p>
+                              {collection.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mt-4">
+                                  {collection.tags.slice(0, 3).map((tag, index) => (
+                                    <Badge key={index} variant="secondary" className="text-xs">
+                                      {tag}
+                                    </Badge>
+                                  ))}
+                                  {collection.tags.length > 3 && (
+                                    <Badge variant="secondary" className="text-xs">
+                                      +{collection.tags.length - 3}
+                                    </Badge>
+                                  )}
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        </Link>
                       );
                     })}
                   </div>
@@ -252,46 +249,6 @@ const Collections = () => {
           )}
         </div>
       </section>
-
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          {selectedCollection && (
-            <>
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-bold">{selectedCollection.title}</DialogTitle>
-                <DialogDescription className="text-base text-gray-600">
-                  {categories.find((cat) => cat.id === selectedCollection.category_id)?.name || 'Uncategorized'}
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <img
-                  src={normalizeImageUrl(selectedCollection.image)}
-                  alt={selectedCollection.title}
-                  className="w-full h-72 object-cover rounded-lg"
-                />
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">Description</h4>
-                    <p className="text-gray-600">{selectedCollection.description}</p>
-                  </div>
-                  {selectedCollection.tags.length > 0 && (
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Tags</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedCollection.tags.map((tag, index) => (
-                          <Badge key={index} variant="secondary" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
 
       <Footer />
     </div>

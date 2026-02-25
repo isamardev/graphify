@@ -60,12 +60,14 @@ export const ProjectManager = () => {
     return `${root}/${segment.replace(/^\/+/, '')}`;
   };
 
-  const normalizeProject = (project: any): Project => ({
+  const normalizeProject = (project: any): Project => {
+    const rawCollectionId = project?.collection_id ?? project?.collectionId ?? project?.collection?.id;
+    return {
     id: String(project?.id ?? ''),
     title: project?.title || '',
     description: project?.description || '',
     image: project?.image || '',
-    collection_id: project?.collection_id ? String(project.collection_id) : '',
+    collection_id: rawCollectionId ? String(rawCollectionId) : '',
     material_used: Array.isArray(project?.material_used)
       ? project.material_used
       : typeof project?.material_used === 'string'
@@ -81,7 +83,8 @@ export const ProjectManager = () => {
       : typeof project?.features === 'string'
         ? project.features.split(',').map((item: string) => item.trim()).filter(Boolean)
         : []
-  });
+    };
+  };
 
   const normalizeCollection = (collection: any): Collection => ({
     id: String(collection?.id ?? ''),
@@ -183,9 +186,9 @@ export const ProjectManager = () => {
       if (imageFile) {
         payload.append('image', imageFile);
       }
-      materialUsed.forEach((item) => payload.append('material_used[]', item));
-      perfectFor.forEach((item) => payload.append('perfect_for[]', item));
-      features.forEach((item) => payload.append('features[]', item));
+      payload.append('material_used', materialUsed.join(', '));
+      payload.append('perfect_for', perfectFor.join(', '));
+      payload.append('features', features.join(', '));
 
       if (editingProject) {
         payload.append('_method', 'PUT');
