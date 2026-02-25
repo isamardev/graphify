@@ -73,17 +73,6 @@ const ServicesSection = () => {
     };
   }, [apiBase]);
 
-  const toSlug = (value: string) =>
-    value
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-
-  const handleLearnMore = (slug: string) => {
-    navigate(`/services/${slug}`);
-  };
-
   const handleShowAllServices = () => {
     navigate('/services');
   };
@@ -150,19 +139,12 @@ const ServicesSection = () => {
                     ))}
                   </div>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 gap-3">
                     <Button 
                       onClick={handleRequestService}
                       className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
                     >
                       Request This Service
-                    </Button>
-                    <Button 
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => handleLearnMore(toSlug(service.name))}
-                    >
-                      Learn More
                     </Button>
                   </div>
                 </CardContent>

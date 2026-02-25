@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Link } from 'react-router-dom';
 import { Category, Collection } from '@/lib/adminData';
 
@@ -12,6 +13,8 @@ const PortfolioSection = () => {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCollection, setSelectedCollection] = useState<Collection | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
   const assetBase = apiBase.replace(/\/api\/?$/i, '');
 
@@ -90,13 +93,6 @@ const PortfolioSection = () => {
     };
   }, [apiBase]);
 
-  const toSlug = (value: string) =>
-    value
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-
   const categoryOptions = useMemo(() => {
     const counts = collections.reduce<Record<string, number>>((acc, collection) => {
       const key = collection.category_id || 'uncategorized';
@@ -120,6 +116,11 @@ const PortfolioSection = () => {
   const filteredItems = selectedCategory === 'all'
     ? collections
     : collections.filter((item) => (item.category_id || 'uncategorized') === selectedCategory);
+
+  const openModal = (collection: Collection) => {
+    setSelectedCollection(collection);
+    setIsModalOpen(true);
+  };
 
   return (
     <section id="portfolio" className="py-20 bg-gray-50">
@@ -159,8 +160,11 @@ const PortfolioSection = () => {
             <div className="col-span-full text-center text-gray-600">No collections found.</div>
           ) : (
           filteredItems.map((item) => (
-            <Link key={item.id} to={`/collections/${toSlug(item.title)}`}>
-              <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-pointer">
+              <Card
+                key={item.id}
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-pointer"
+                onClick={() => openModal(item)}
+              >
                 <div className="relative overflow-hidden">
                   <img 
                     src={normalizeImageUrl(item.image)} 
@@ -169,7 +173,7 @@ const PortfolioSection = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-4 left-4 right-4">
-                      <Button className="w-full bg-white text-gray-900 hover:bg-gray-100">
+                      <Button className="w-full bg-white text-gray-900 hover:bg-gray-100" type="button">
                         View Collection
                       </Button>
                     </div>
@@ -187,7 +191,6 @@ const PortfolioSection = () => {
                   </div>
                 </CardContent>
               </Card>
-            </Link>
           )))}
         </div>
 
@@ -199,6 +202,45 @@ const PortfolioSection = () => {
           </Link>
         </div>
       </div>
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          {selectedCollection && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold">{selectedCollection.title}</DialogTitle>
+                <DialogDescription className="text-base text-gray-600">
+                  {categories.find((cat) => cat.id === selectedCollection.category_id)?.name || 'Uncategorized'}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <img
+                  src={normalizeImageUrl(selectedCollection.image)}
+                  alt={selectedCollection.title}
+                  className="w-full h-72 object-cover rounded-lg"
+                />
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-2">Description</h4>
+                    <p className="text-gray-600">{selectedCollection.description}</p>
+                  </div>
+                  {selectedCollection.tags.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">Tags</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedCollection.tags.map((tag, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
