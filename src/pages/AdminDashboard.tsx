@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LogOut, Users, Folder, Image, Briefcase, MessageSquare, Quote, User, FileText, Star } from 'lucide-react';
@@ -46,163 +47,169 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       {/* Header */}
-      <div className="border-b bg-card">
-        <div className="container mx-auto px-6 py-4">
+      <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-white/5 backdrop-blur-lg">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
+            <div className="flex items-center gap-4">
+              <h1 className="text-xl font-bold text-white tracking-tight">Admin <span className="text-[#06B6D4]">Dashboard</span></h1>
+              <Badge variant="outline" className="border-[#3584DE]/20 text-[#3584DE] bg-[#3584DE]/5">v2.0 Luxury</Badge>
+            </div>
             <Button
-              variant="outline"
+              variant="ghost"
               onClick={handleLogout}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-gray-400 hover:text-white hover:bg-white/10"
             >
               <LogOut className="h-4 w-4" />
-              Logout
+              <span>Logout</span>
             </Button>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Main Content */}
-      <div className="container mx-auto p-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <TabsTrigger 
-                  key={tab.id} 
-                  value={tab.id}
-                  className="flex items-center gap-2 text-xs"
-                >
-                  <Icon className="h-4 w-4" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
+      <main className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <div className="overflow-x-auto pb-2 scrollbar-hide">
+            <TabsList className="inline-flex h-12 items-center justify-center rounded-xl bg-white/5 p-1 text-gray-400 border border-white/10 min-w-full lg:min-w-0">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <TabsTrigger 
+                    key={tab.id} 
+                    value={tab.id}
+                    className="inline-flex items-center justify-center whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#3584DE] data-[state=active]:text-white data-[state=active]:shadow-lg shadow-[#3584DE]/20 gap-2"
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span>{tab.label}</span>
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+          </div>
 
-          <TabsContent value="teams">
-            <Card>
-              <CardHeader>
-                <CardTitle>Team Management</CardTitle>
-                <CardDescription>Manage team members and their roles</CardDescription>
+          <TabsContent value="teams" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Team Management</CardTitle>
+                <CardDescription className="text-gray-400">Manage team members and their roles in the organization.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <TeamManager />
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="categories">
-            <Card>
-              <CardHeader>
-                <CardTitle>Category Management</CardTitle>
-                <CardDescription>Manage project categories</CardDescription>
+          <TabsContent value="categories" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Categories</CardTitle>
+                <CardDescription className="text-gray-400">Organize your collections into meaningful categories.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <CategoryManager />
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="collections">
-            <Card>
-              <CardHeader>
-                <CardTitle>Collection Management</CardTitle>
-                <CardDescription>Manage art collections</CardDescription>
+          <TabsContent value="collections" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Collection Management</CardTitle>
+                <CardDescription className="text-gray-400">Manage your portfolio collections and artworks.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <CollectionManager />
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="projects">
-            <Card>
-              <CardHeader>
-                <CardTitle>Project Management</CardTitle>
-                <CardDescription>Manage projects and artwork</CardDescription>
+          <TabsContent value="projects" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Project Management</CardTitle>
+                <CardDescription className="text-gray-400">Manage individual projects and gallery items.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <ProjectManager />
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="services">
-            <Card>
-              <CardHeader>
-                <CardTitle>Service Management</CardTitle>
-                <CardDescription>Manage services and pricing</CardDescription>
+          <TabsContent value="services" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Service Management</CardTitle>
+                <CardDescription className="text-gray-400">Manage professional services and pricing.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <ServiceManager />
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="authors">
-            <Card>
-              <CardHeader>
-                <CardTitle>Author Management</CardTitle>
-                <CardDescription>Manage blog authors</CardDescription>
+          <TabsContent value="authors" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Author Management</CardTitle>
+                <CardDescription className="text-gray-400">Manage authors for your journal articles.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <AuthorManager />
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="blogs">
-            <Card>
-              <CardHeader>
-                <CardTitle>Blog Management</CardTitle>
-                <CardDescription>Manage blog posts and content</CardDescription>
+          <TabsContent value="blogs" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Blog Management</CardTitle>
+                <CardDescription className="text-gray-400">Manage blog posts and editorial content.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <BlogManager />
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="contacts">
-            <Card>
-              <CardHeader>
-                <CardTitle>Contact Messages</CardTitle>
-                <CardDescription>View contact form submissions</CardDescription>
+          <TabsContent value="contacts" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Contact Messages</CardTitle>
+                <CardDescription className="text-gray-400">View and manage contact form inquiries.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <ContactViewer />
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="quotes">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quote Requests</CardTitle>
-                <CardDescription>View quote request submissions</CardDescription>
+          <TabsContent value="quotes" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Quote Requests</CardTitle>
+                <CardDescription className="text-gray-400">View and manage project quote requests.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <QuoteViewer />
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="reviews">
-            <Card>
-              <CardHeader>
-                <CardTitle>Review Management</CardTitle>
-                <CardDescription>Manage client reviews</CardDescription>
+
+          <TabsContent value="reviews" className="mt-0 focus-visible:outline-none">
+            <Card className="border-white/10 bg-white/5 backdrop-blur-xl">
+              <CardHeader className="border-b border-white/5 pb-8">
+                <CardTitle className="text-2xl font-bold text-white">Review Management</CardTitle>
+                <CardDescription className="text-gray-400">Manage client reviews and feedback.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-8">
                 <ReviewManager />
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
+      </main>
     </div>
   );
 };

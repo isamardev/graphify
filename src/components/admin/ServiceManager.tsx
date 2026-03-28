@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 import { Pencil, Trash2, Plus, Eye } from 'lucide-react';
 import axios from 'axios';
 import { Service } from '@/lib/adminData';
@@ -170,125 +171,161 @@ export const ServiceManager = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Services</h3>
+        <div>
+          <h2 className="text-xl font-bold text-white tracking-tight">Expert Services</h2>
+          <p className="text-gray-400 text-sm font-light">Manage the premium services you offer to clients.</p>
+        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => openDialog()} className="flex items-center gap-2">
+            <Button onClick={() => { resetForm(); setIsDialogOpen(true); }} className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl gap-2 shadow-lg shadow-[#3584DE]/20">
               <Plus className="h-4 w-4" />
               Add Service
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md">
+          <DialogContent className="sm:max-w-[600px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8 max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>{editingService ? 'Edit' : 'Add'} Service</DialogTitle>
-              <DialogDescription>
-                {editingService ? 'Update' : 'Create a new'} service information.
+              <DialogTitle className="text-2xl font-bold tracking-tight">{editingService ? 'Edit Service' : 'Add New Service'}</DialogTitle>
+              <DialogDescription className="text-gray-400 font-light">
+                Define the details for your professional service.
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleSubmit}>
-              <div className="grid gap-4 py-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                    required
-                  />
-                </div>
-                {editingService && (formData.imageUrl || editingService.image) && (
+            <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Current Image</Label>
-                    <img
-                      src={normalizeImageUrl(formData.imageUrl || editingService.image)}
-                      alt={editingService.name}
-                      className="w-full h-40 rounded-lg object-cover"
+                    <Label htmlFor="name" className="text-gray-300 ml-1">Service Name</Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      required
+                      className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
                     />
                   </div>
-                )}
-                <div className="space-y-2">
-                  <Label htmlFor="image">Image File</Label>
-                  <Input
-                    key={fileInputKey}
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
-                    required={!editingService}
-                  />
+                  <div className="space-y-2">
+                    <Label htmlFor="price" className="text-gray-300 ml-1">Starting Price / Label</Label>
+                    <Input
+                      id="price"
+                      placeholder="e.g. $500, Contact us, On request"
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      required
+                      className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="price">Price</Label>
-                  <Input
-                    id="price"
-                    value={formData.price}
-                    onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
-                    placeholder="$99.99"
-                    required
-                  />
+                  <Label htmlFor="image" className="text-gray-300 ml-1">Service Image</Label>
+                  <div className="flex flex-col gap-4">
+                    {(editingService || imageFile) && (
+                      <div className="aspect-video rounded-xl overflow-hidden border border-white/10">
+                        <img 
+                          src={imageFile ? URL.createObjectURL(imageFile) : normalizeImageUrl(formData.imageUrl)} 
+                          alt="Preview" 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <Input
+                      key={fileInputKey}
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                      className="bg-white/5 border-white/10 rounded-xl file:bg-transparent file:text-white file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-widest"
+                    />
+                  </div>
                 </div>
               </div>
-              <DialogFooter>
-                <Button type="submit">{editingService ? 'Update' : 'Create'}</Button>
+
+              <div className="space-y-2">
+                <Label htmlFor="description" className="text-gray-300 ml-1">Service Description</Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  required
+                  className="bg-white/5 border-white/10 rounded-xl min-h-[120px] focus:ring-[#3584DE] resize-none"
+                />
+              </div>
+
+              <DialogFooter className="pt-4">
+                <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="text-gray-400 hover:text-white hover:bg-white/5">
+                  Cancel
+                </Button>
+                <Button type="submit" className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl px-8 shadow-lg shadow-[#3584DE]/20">
+                  {editingService ? 'Update Service' : 'Add Service'}
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden backdrop-blur-xl">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Actions</TableHead>
+          <TableHeader className="bg-white/5">
+            <TableRow className="border-white/10">
+              <TableHead className="w-[120px]">Image</TableHead>
+              <TableHead>Service Name</TableHead>
+              <TableHead>Starting Price</TableHead>
+              <TableHead className="hidden md:table-cell">Description</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {services.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={3} className="text-center text-muted-foreground">
-                  No services found
+                <TableCell colSpan={5} className="text-center py-20 text-gray-500 italic">
+                  No services added yet.
                 </TableCell>
               </TableRow>
             ) : (
               services.map((service) => (
-                <TableRow key={service.id}>
-                  <TableCell className="font-medium">{service.name}</TableCell>
-                  <TableCell className="font-semibold text-primary">{service.price}</TableCell>
+                <TableRow key={service.id} className="border-white/5 hover:bg-white/5 transition-colors">
                   <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setViewingService(service)}
+                    <div className="aspect-video rounded-lg overflow-hidden border border-white/10">
+                      <img 
+                        src={normalizeImageUrl(service.image)} 
+                        alt={service.name} 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-bold text-white tracking-tight">{service.name}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className="border-[#06B6D4]/20 text-[#06B6D4] bg-[#06B6D4]/5 rounded-lg text-[10px] uppercase tracking-wider">
+                      {service.price}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell max-w-md">
+                    <p className="text-gray-400 text-sm font-light truncate">{service.description}</p>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => { setViewingService(service); }}
+                        className="text-gray-400 hover:text-[#06B6D4] hover:bg-white/5"
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => openDialog(service)}
+                        className="text-gray-400 hover:text-white hover:bg-white/5"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => handleDelete(service.id)}
-                        className="text-destructive hover:text-destructive"
+                        className="text-gray-400 hover:text-red-400 hover:bg-white/5"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -301,26 +338,34 @@ export const ServiceManager = () => {
         </Table>
       </div>
 
-      {/* View Dialog */}
-      <Dialog open={!!viewingService} onOpenChange={() => setViewingService(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Service Details</DialogTitle>
-          </DialogHeader>
+      <Dialog open={!!viewingService} onOpenChange={(open) => !open && setViewingService(null)}>
+        <DialogContent className="sm:max-w-[500px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-0 overflow-hidden">
           {viewingService && (
-            <div className="space-y-4">
-              <div className="text-center">
-                <img
-                  src={normalizeImageUrl(viewingService.image)}
-                  alt={viewingService.name}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
+            <div>
+              <div className="aspect-video w-full">
+                <img 
+                  src={normalizeImageUrl(viewingService.image)} 
+                  alt={viewingService.name} 
+                  className="w-full h-full object-cover"
                 />
-                <h3 className="font-semibold text-lg">{viewingService.name}</h3>
-                <p className="text-xl font-bold text-primary mb-2">{viewingService.price}</p>
               </div>
-              <div>
-                <Label className="font-medium">Description:</Label>
-                <p className="text-sm text-muted-foreground mt-1">{viewingService.description}</p>
+              <div className="p-8 space-y-6">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <Badge className="bg-[#06B6D4]/10 text-[#06B6D4] border-none text-[10px] uppercase tracking-widest">
+                      Professional Service
+                    </Badge>
+                    <span className="text-gray-500 text-xs font-bold">{viewingService.price}</span>
+                  </div>
+                  <h3 className="text-3xl font-bold tracking-tight text-white mb-4">{viewingService.name}</h3>
+                  <p className="text-gray-400 text-sm font-light leading-relaxed">
+                    {viewingService.description}
+                  </p>
+                </div>
+                
+                <Button onClick={() => setViewingService(null)} className="w-full bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-xl">
+                  Close Preview
+                </Button>
               </div>
             </div>
           )}

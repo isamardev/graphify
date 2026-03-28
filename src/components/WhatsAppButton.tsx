@@ -31,10 +31,10 @@ const WhatsAppButton = () => {
     <div className="fixed bottom-6 left-6 z-40">
       <Button
         onClick={handleWhatsAppClick}
-        className="bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+        className="bg-[#25D366] hover:bg-[#25D366]/90 text-white rounded-2xl w-14 h-14 p-0 shadow-[0_0_20px_rgba(37,211,102,0.3)] hover:shadow-[0_0_30px_rgba(37,211,102,0.5)] transition-all duration-500 hover:scale-110 border border-white/10"
         aria-label="Contact us on WhatsApp"
       >
-        <MessageCircle className="w-6 h-6" />
+        <MessageCircle className="w-7 h-7" />
       </Button>
     </div>
   );

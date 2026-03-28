@@ -79,116 +79,86 @@ const Services = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-transparent">
       <Header />
       
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 text-white">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center mb-6">
-            <Link to="/" className="flex items-center text-white hover:text-yellow-400 transition-colors">
-              <ArrowLeft className="w-5 h-5 mr-2" />
+      <main className="pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="mb-16">
+            <Link to="/" className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-8 group">
+              <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
               Back to Home
             </Link>
+            <div className="max-w-3xl">
+              <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
+                Our Expertise
+              </Badge>
+              <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
+                Premium <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Services</span>
+              </h1>
+              <p className="text-lg text-gray-400 font-light leading-relaxed">
+                Comprehensive wall art solutions for every space, style, and purpose. From residential homes to large commercial projects, we bring your vision to life with high-end craftsmanship.
+              </p>
+            </div>
           </div>
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-4">
-              Our <span className="bg-gradient-to-r from-yellow-400 to-pink-400 bg-clip-text text-transparent">Services</span>
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Comprehensive wall art solutions for every space, style, and purpose. From residential homes to large commercial projects.
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* Services Grid */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {isLoading ? (
-              <div className="col-span-full text-center text-gray-600">Loading services...</div>
+              <div className="col-span-full flex flex-col items-center justify-center py-32">
+                <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p className="text-gray-400 font-light">Loading our services...</p>
+              </div>
             ) : services.length === 0 ? (
-              <div className="col-span-full text-center text-gray-600">No services found.</div>
+              <div className="col-span-full text-center py-32">
+                <p className="text-gray-400 text-lg">No services available at the moment.</p>
+              </div>
             ) : (
-            services.map((service, index) => {
-              const IconComponent = iconPool[index % iconPool.length];
-              return (
-                <Card key={service.id} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
-                  <div className="relative">
-                    <img 
-                      src={normalizeImageUrl(service.image)} 
-                      alt={service.name}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4">
-                      <div className="inline-flex items-center justify-center w-12 h-12 bg-white rounded-full">
-                        <IconComponent className="w-6 h-6 text-blue-600" />
+              services.map((service, index) => {
+                const Icon = iconPool[index % iconPool.length];
+                return (
+                  <Card key={service.id} className="group overflow-hidden border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-500">
+                    <div className="relative h-64 overflow-hidden">
+                      <img 
+                        src={normalizeImageUrl(service.image)} 
+                        alt={service.name}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60"></div>
+                      <div className="absolute top-4 right-4 w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:bg-[#3584DE] group-hover:border-[#3584DE] transition-all duration-500">
+                        <Icon className="w-6 h-6 text-white" />
                       </div>
                     </div>
-                  </div>
-                  
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <CardTitle className="text-xl text-gray-900">{service.name}</CardTitle>
-                      <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                        {service.price || 'Contact for pricing'}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent className="pt-0">
-                    <p className="text-gray-600 mb-6">{service.description}</p>
-                    
-                    <div className="space-y-2 mb-6">
-                      <h4 className="font-semibold text-gray-900">What's Included:</h4>
-                      {(service as any)?.features?.map((feature: string, featureIndex: number) => (
-                        <div key={featureIndex} className="flex items-center text-sm text-gray-600">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                          {feature}
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <Button 
-                      onClick={openQuote}
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-                    >
-                      Request This Service
-                    </Button>
-                  </CardContent>
-                </Card>
-              );
-            }))}
-          </div>
-
-          {/* CTA Section */}
-          <div className="text-center mt-16 p-8 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl">
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              Not Sure Which Service You Need?
-            </h3>
-            <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
-              Our consultation process helps identify the perfect solution for your space. Let's discuss your vision and create a custom plan.
-            </p>
-            <Button 
-              size="lg"
-              onClick={openQuote}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-full hover:scale-105 transition-all duration-300"
-            >
-              Schedule Free Consultation
-            </Button>
+                    <CardHeader className="p-8">
+                      <div className="flex justify-between items-start mb-4">
+                        <CardTitle className="text-2xl font-bold text-white tracking-tight group-hover:text-[#06B6D4] transition-colors">
+                          {service.name}
+                        </CardTitle>
+                      </div>
+                      <p className="text-gray-400 text-sm leading-relaxed mb-8 font-light line-clamp-4">
+                        {service.description}
+                      </p>
+                      <Button 
+                        onClick={openQuote}
+                        className="w-full bg-white/5 border border-white/10 text-white hover:bg-[#3584DE] hover:border-[#3584DE] transition-all duration-300"
+                      >
+                        Request Quote
+                      </Button>
+                    </CardHeader>
+                  </Card>
+                );
+              })
+            )}
           </div>
         </div>
-      </section>
-
-      <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
-        <DialogContent className="max-w-5xl p-0 bg-transparent border-none max-h-[90vh] overflow-y-auto">
-          <QuotationSection variant="modal" onSubmitted={() => setIsQuoteOpen(false)} />
-        </DialogContent>
-      </Dialog>
+      </main>
 
       <Footer />
+      
+      <Dialog open={isQuoteOpen} onValueChange={setIsQuoteOpen}>
+        <DialogContent className="max-w-4xl p-0 bg-[#0F172A] border-white/10 overflow-y-auto max-h-[90vh]">
+          <QuotationSection />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -1,7 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Calendar, Users, Clock, Palette, X } from 'lucide-react';
 
 const BookingSection = () => {
@@ -52,31 +52,34 @@ const BookingSection = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Book Your <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Consultation</span>
+    <section id="booking" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="text-center mb-20">
+          <Badge variant="outline" className="mb-4 border-secondary/20 text-secondary bg-secondary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
+            Consultation
+          </Badge>
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+            Book Your <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Consultation</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
             Ready to transform your space? Choose the consultation type that best fits your needs and let's bring your vision to life.
           </p>
         </div>
 
         {/* Consultation Options */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
           {consultationOptions.map((option, index) => {
             const IconComponent = option.icon;
             return (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg">
-                <CardHeader className="text-center pb-4">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-4 mx-auto group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="w-8 h-8 text-white" />
+              <Card key={index} className="group overflow-hidden border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-500">
+                <CardHeader className="p-8 pb-4 flex flex-row items-center gap-6">
+                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#06B6D4] group-hover:border-[#06B6D4] transition-all duration-500">
+                    <IconComponent className="w-6 h-6 text-white" />
                   </div>
-                  <CardTitle className="text-xl text-gray-900">{option.title}</CardTitle>
+                  <CardTitle className="text-xl font-bold text-white tracking-tight group-hover:text-[#06B6D4] transition-colors">{option.title}</CardTitle>
                 </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-gray-600 leading-relaxed">{option.description}</p>
+                <CardContent className="p-8 pt-0">
+                  <p className="text-gray-400 text-sm leading-relaxed font-light">{option.description}</p>
                 </CardContent>
               </Card>
             );
@@ -85,45 +88,37 @@ const BookingSection = () => {
 
         {/* Calendly CTA */}
         {!showCalendly ? (
-          <div className="text-center bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Ready to Get Started?
-            </h3>
-            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              Schedule your free consultation today and let's discuss how we can transform your space with stunning wall art that tells your story.
-            </p>
-            <Button 
-              size="lg"
-              onClick={openCalendly}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              Schedule Now
-            </Button>
-            <p className="text-sm text-gray-500 mt-4">
-              Free consultation • No obligation • Professional advice
-            </p>
-          </div>
-        ) : (
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">
-                Schedule Your Consultation
+          <Card className="bg-gradient-to-br from-[#0F172A] to-[#020617] border-white/10 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#3584DE] to-[#06B6D4]"></div>
+            <div className="relative z-10">
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 tracking-tight">
+                Ready to Get Started?
               </h3>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowCalendly(false)}
-                className="p-2"
+              <p className="text-gray-400 mb-10 max-w-2xl mx-auto font-light text-lg">
+                Schedule your free consultation today and let's discuss how we can transform your space with stunning wall art that tells your story.
+              </p>
+              <Button 
+                size="lg"
+                onClick={openCalendly}
+                className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white px-12 h-16 text-lg font-bold rounded-2xl shadow-lg shadow-[#3584DE]/20 transition-all duration-300 hover:scale-105"
               >
-                <X className="w-5 h-5" />
+                Schedule Now
               </Button>
             </div>
-            
-            {/* Calendly inline widget */}
+          </Card>
+        ) : (
+          <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-4 min-h-[600px] overflow-hidden">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setShowCalendly(false)}
+              className="absolute top-4 right-4 z-10 text-gray-400 hover:text-white hover:bg-white/10"
+            >
+              <X className="h-6 w-6" />
+            </Button>
             <div 
-              className="calendly-inline-widget" 
-              data-url="https://calendly.com/najmi72110?hide_landing_page_details=1&hide_gdpr_banner=1" 
-              style={{ minWidth: '320px', height: '700px' }}
+              className="calendly-inline-widget w-full h-[600px]" 
+              data-url="https://calendly.com/graphify-art/consultation?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=0f172a&text_color=ffffff&primary_color=3584de"
             />
           </div>
         )}

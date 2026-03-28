@@ -171,126 +171,156 @@ export const TeamManager = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Team Members</h3>
+        <div>
+          <h2 className="text-xl font-bold text-white tracking-tight">Team Members</h2>
+          <p className="text-gray-400 text-sm font-light">Manage your creative team and their profiles.</p>
+        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => openDialog()} className="flex items-center gap-2">
+            <Button onClick={() => { resetForm(); setIsDialogOpen(true); }} className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl gap-2 shadow-lg shadow-[#3584DE]/20">
               <Plus className="h-4 w-4" />
-              Add Team Member
+              Add Member
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md">
+          <DialogContent className="sm:max-w-[500px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8">
             <DialogHeader>
-              <DialogTitle>{editingTeam ? 'Edit' : 'Add'} Team Member</DialogTitle>
-              <DialogDescription>
-                {editingTeam ? 'Update' : 'Create a new'} team member information.
+              <DialogTitle className="text-2xl font-bold tracking-tight">{editingTeam ? 'Edit Member' : 'Add New Member'}</DialogTitle>
+              <DialogDescription className="text-gray-400 font-light">
+                Fill in the details for the team member. Click save when you're done.
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleSubmit}>
-              <div className="grid gap-4 py-4">
+            <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+              <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="name" className="text-gray-300 ml-1">Full Name</Label>
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
+                    className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="role">Role</Label>
+                  <Label htmlFor="role" className="text-gray-300 ml-1">Role / Specialization</Label>
                   <Input
                     id="role"
                     value={formData.role}
-                    onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                     required
+                    className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description" className="text-gray-300 ml-1">Biography</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
-                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     required
+                    className="bg-white/5 border-white/10 rounded-xl min-h-[100px] focus:ring-[#3584DE] resize-none"
                   />
                 </div>
-                {editingTeam && (formData.imageUrl || editingTeam.image) && (
-                  <div className="space-y-2">
-                    <Label>Current Image</Label>
-                    <img
-                      src={normalizeImageUrl(formData.imageUrl || editingTeam.image)}
-                      alt={editingTeam.name}
-                      className="w-24 h-24 rounded-full object-cover"
+                <div className="space-y-2">
+                  <Label htmlFor="image" className="text-gray-300 ml-1">Profile Photo</Label>
+                  <div className="flex flex-col gap-4">
+                    {editingTeam && !imageFile && (
+                      <div className="w-20 h-20 rounded-xl overflow-hidden border border-white/10">
+                        <img 
+                          src={normalizeImageUrl(editingTeam.image)} 
+                          alt={editingTeam.name} 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <Input
+                      key={fileInputKey}
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                      className="bg-white/5 border-white/10 rounded-xl file:bg-transparent file:text-white file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-widest"
                     />
                   </div>
-                )}
-                <div className="space-y-2">
-                  <Label htmlFor="image">Image File</Label>
-                  <Input
-                    key={fileInputKey}
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
-                    required={!editingTeam}
-                  />
                 </div>
               </div>
-              <DialogFooter>
-                <Button type="submit">{editingTeam ? 'Update' : 'Create'}</Button>
+              <DialogFooter className="pt-4">
+                <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="text-gray-400 hover:text-white hover:bg-white/5">
+                  Cancel
+                </Button>
+                <Button type="submit" className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl px-8 shadow-lg shadow-[#3584DE]/20">
+                  {editingTeam ? 'Update Member' : 'Add Member'}
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden backdrop-blur-xl">
         <Table>
-          <TableHeader>
-            <TableRow>
+          <TableHeader className="bg-white/5">
+            <TableRow className="border-white/10">
+              <TableHead className="w-[80px]">Photo</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Role</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="hidden md:table-cell">Bio</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {teams.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={3} className="text-center text-muted-foreground">
-                  No team members found
+                <TableCell colSpan={5} className="text-center py-20 text-gray-500 italic">
+                  No team members added yet.
                 </TableCell>
               </TableRow>
             ) : (
               teams.map((team) => (
-                <TableRow key={team.id}>
-                  <TableCell className="font-medium">{team.name}</TableCell>
+                <TableRow key={team.id} className="border-white/5 hover:bg-white/5 transition-colors">
                   <TableCell>
-                    <Badge variant="secondary">{team.role}</Badge>
+                    <div className="w-12 h-12 rounded-xl overflow-hidden border border-white/10">
+                      <img 
+                        src={normalizeImageUrl(team.image)} 
+                        alt={team.name} 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </TableCell>
+                  <TableCell className="font-bold text-white tracking-tight">{team.name}</TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setViewingTeam(team)}
+                    <Badge variant="outline" className="border-[#06B6D4]/20 text-[#06B6D4] bg-[#06B6D4]/5 rounded-lg text-[10px] uppercase tracking-wider">
+                      {team.role}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell max-w-md">
+                    <p className="text-gray-400 text-sm font-light truncate">{team.description}</p>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => { setViewingTeam(team); }}
+                        className="text-gray-400 hover:text-[#06B6D4] hover:bg-white/5"
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => openDialog(team)}
+                        className="text-gray-400 hover:text-white hover:bg-white/5"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => handleDelete(team.id)}
-                        className="text-destructive hover:text-destructive"
+                        className="text-gray-400 hover:text-red-400 hover:bg-white/5"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -303,27 +333,27 @@ export const TeamManager = () => {
         </Table>
       </div>
 
-      {/* View Dialog */}
-      <Dialog open={!!viewingTeam} onOpenChange={() => setViewingTeam(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Team Member Details</DialogTitle>
-          </DialogHeader>
+      <Dialog open={!!viewingTeam} onOpenChange={(open) => !open && setViewingTeam(null)}>
+        <DialogContent className="sm:max-w-[400px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8">
           {viewingTeam && (
-            <div className="space-y-4">
-              <div className="text-center">
-                <img
-                  src={normalizeImageUrl(viewingTeam.image)}
-                  alt={viewingTeam.name}
-                  className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+            <div className="text-center space-y-6">
+              <div className="w-32 h-32 rounded-3xl overflow-hidden border-2 border-white/10 mx-auto shadow-2xl">
+                <img 
+                  src={normalizeImageUrl(viewingTeam.image)} 
+                  alt={viewingTeam.name} 
+                  className="w-full h-full object-cover"
                 />
-                <h3 className="font-semibold text-lg">{viewingTeam.name}</h3>
-                <Badge variant="secondary" className="mb-2">{viewingTeam.role}</Badge>
               </div>
               <div>
-                <Label className="font-medium">Description:</Label>
-                <p className="text-sm text-muted-foreground mt-1">{viewingTeam.description}</p>
+                <h3 className="text-2xl font-bold tracking-tight text-white mb-1">{viewingTeam.name}</h3>
+                <p className="text-[#06B6D4] text-xs font-semibold uppercase tracking-widest">{viewingTeam.role}</p>
               </div>
+              <p className="text-gray-400 text-sm font-light leading-relaxed">
+                {viewingTeam.description}
+              </p>
+              <Button onClick={() => setViewingTeam(null)} className="w-full bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-xl">
+                Close Profile
+              </Button>
             </div>
           )}
         </DialogContent>

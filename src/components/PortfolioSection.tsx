@@ -122,79 +122,80 @@ const PortfolioSection = () => {
     : collections.filter((item) => (item.category_id || 'uncategorized') === selectedCategory);
 
   return (
-    <section id="portfolio" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Our <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Portfolio</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover our diverse collection of wall art that transforms spaces across various industries and settings
-          </p>
+    <section id="portfolio" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+          <div className="max-w-2xl">
+            <Badge variant="outline" className="mb-4 border-[#06B6D4]/20 text-[#06B6D4] bg-[#06B6D4]/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
+              Our Portfolio
+            </Badge>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+              Featured <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Collections</span>
+            </h2>
+            <p className="text-lg text-gray-400 font-light leading-relaxed">
+              Explore our diverse range of custom wall art projects across various sectors and styles.
+            </p>
+          </div>
+          
+          <div className="flex flex-wrap gap-3">
+            {categoryOptions.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 border ${
+                  selectedCategory === category.id
+                    ? 'bg-[#3584DE] border-[#3584DE] text-white shadow-lg shadow-[#3584DE]/20'
+                    : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:text-white'
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categoryOptions.map((category) => (
-            <Button
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "outline"}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`rounded-full px-6 py-2 transition-all duration-300 ${
-                selectedCategory === category.id
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                  : 'hover:bg-gray-100'
-              }`}
-            >
-              {category.name} ({category.count})
-            </Button>
-          ))}
-        </div>
-
-        {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {isLoading ? (
-            <div className="col-span-full text-center text-gray-600">Loading portfolio...</div>
+            <div className="col-span-full text-center text-gray-400 py-20">
+               <div className="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+            </div>
           ) : filteredItems.length === 0 ? (
-            <div className="col-span-full text-center text-gray-600">No collections found.</div>
+            <div className="col-span-full text-center text-gray-400 py-20">No collections found.</div>
           ) : (
-          filteredItems.map((item) => (
-            <Link key={item.id} to={`/collections/${toSlug(item.title)}`}>
-              <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-pointer">
-                <div className="relative overflow-hidden">
-                  <img 
-                    src={normalizeImageUrl(item.image)} 
-                    alt={item.title}
-                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <Button className="w-full bg-white text-gray-900 hover:bg-gray-100" type="button">
-                        View Collection
-                      </Button>
-                    </div>
-                  </div>
+            filteredItems.slice(0, 6).map((item) => (
+              <Link 
+                key={item.id} 
+                to={`/collections/${toSlug(item.title)}`}
+                className="group relative overflow-hidden rounded-2xl aspect-[4/5] border border-white/10"
+              >
+                <img 
+                  src={normalizeImageUrl(item.image)} 
+                  alt={item.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
+                
+                <div className="absolute inset-0 p-8 flex flex-col justify-end transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                  <Badge className="w-fit mb-4 bg-white/10 backdrop-blur-md border-white/20 text-[#06B6D4] group-hover:bg-[#06B6D4] group-hover:text-white transition-colors duration-300">
+                    {categories.find(c => c.id === item.category_id)?.name || 'General'}
+                  </Badge>
+                  <h3 className="text-2xl font-bold text-white mb-2 tracking-tight">{item.title}</h3>
+                  <p className="text-gray-400 text-sm line-clamp-2 font-light opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                    {item.description}
+                  </p>
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                  <p className="text-gray-600 mb-4">{item.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          )))}
+              </Link>
+            ))
+          )}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center">
           <Link to="/collections">
-            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-full hover:scale-105 transition-all duration-300">
-              View All Collections
+            <Button 
+              size="lg" 
+              className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white px-10 h-14 text-base font-semibold rounded-2xl shadow-lg shadow-[#3584DE]/20"
+            >
+              View Full Gallery
             </Button>
           </Link>
         </div>

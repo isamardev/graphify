@@ -40,39 +40,37 @@ const FloatingCTA = () => {
       {isMinimized ? (
         <Button
           onClick={() => setIsMinimized(false)}
-          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full p-4 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+          className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-2xl w-14 h-14 p-0 shadow-[0_0_20px_rgba(53,132,222,0.3)] hover:shadow-[0_0_30px_rgba(53,132,222,0.5)] transition-all duration-500 hover:scale-110 border border-white/10"
         >
-          <MessageCircle className="w-6 h-6" />
+          <MessageCircle className="w-7 h-7" />
         </Button>
       ) : (
-        <div className="bg-white rounded-lg shadow-2xl border border-gray-200 p-4 max-w-sm animate-fade-in">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-gray-900">Quick Quote</h3>
-            <Button
-              variant="ghost"
-              size="sm"
+        <div className="bg-[#0F172A]/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6 max-w-[280px] animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-bold text-white tracking-tight">Quick Concierge</h3>
+            <button
               onClick={() => setIsMinimized(true)}
-              className="p-1 h-auto"
+              className="p-1 hover:bg-white/10 rounded-lg transition-colors text-gray-400 hover:text-white"
             >
               <X className="w-4 h-4" />
-            </Button>
+            </button>
           </div>
-          <p className="text-sm text-gray-600 mb-4">
-            Ready to transform your space? Get a personalized quote in minutes.
+          <p className="text-xs text-gray-400 mb-6 leading-relaxed font-light">
+            Ready to transform your space? Get a personalized proposal in minutes.
           </p>
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Button 
               onClick={handleQuickQuote}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+              className="w-full bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl h-11 text-xs font-bold shadow-lg shadow-[#3584DE]/20"
             >
-              Get Quick Quote
+              Request Proposal
             </Button>
             <Button 
               variant="outline" 
-              className="w-full text-sm"
+              className="w-full border-white/10 text-white hover:bg-white/5 rounded-xl h-11 text-xs font-bold"
               onClick={() => window.location.href = '/collections'}
             >
-              Browse Collections
+              View Collections
             </Button>
           </div>
         </div>

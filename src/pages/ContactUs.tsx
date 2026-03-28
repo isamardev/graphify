@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { 
   MapPin, 
@@ -134,292 +135,143 @@ const ContactUs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <Header />
       
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-20 mt-16">
-        <div className="container mx-auto px-6">
+      <main className="pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Get In <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Touch</span>
+            <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
+              Get In Touch
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
+              Start Your <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Transformation</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Ready to transform your space with stunning wall art? Let's discuss your project and bring your vision to life.
+            <p className="text-lg text-gray-400 font-light max-w-2xl mx-auto leading-relaxed">
+              Have a project in mind? We'd love to hear from you. Let's create something extraordinary together.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* Contact Info Cards */}
-      <section className="py-16 -mt-8">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {contactInfo.map((info, index) => {
-              const IconComponent = info.icon;
-              return (
-                <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
-                  <CardHeader className="pb-4">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-4 mx-auto">
-                      <IconComponent className="w-6 h-6 text-white" />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Contact Information */}
+            <div className="lg:col-span-1 space-y-6">
+              {[
+                { icon: MapPin, title: "Our Studio", detail: "123 Creative Avenue, Design District, NY 10001", color: "text-[#3584DE]" },
+                { icon: Phone, title: "Call Us", detail: "+1 (555) 123-4567", color: "text-[#06B6D4]" },
+                { icon: Mail, title: "Email Us", detail: "hello@graphify.art", color: "text-blue-400" },
+                { icon: Clock, title: "Working Hours", detail: "Mon - Fri: 9:00 AM - 6:00 PM", color: "text-cyan-400" }
+              ].map((item, idx) => (
+                <Card key={idx} className="bg-white/5 border-white/10 backdrop-blur-xl group hover:bg-white/10 transition-all duration-300">
+                  <CardContent className="p-6 flex items-start gap-4">
+                    <div className={`w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform ${item.color}`}>
+                      <item.icon className="w-5 h-5" />
                     </div>
-                    <CardTitle className="text-lg text-gray-900">{info.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {info.details.map((detail, idx) => (
-                      <p key={idx} className="text-gray-600 text-sm mb-1">{detail}</p>
-                    ))}
-                    {info.action && (
-                      <Button variant="outline" size="sm" className="mt-3">
-                        {info.action}
-                      </Button>
-                    )}
+                    <div>
+                      <h4 className="text-white font-bold mb-1 tracking-tight">{item.title}</h4>
+                      <p className="text-gray-400 text-sm font-light leading-relaxed">{item.detail}</p>
+                    </div>
                   </CardContent>
                 </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+              ))}
+            </div>
 
-      {/* Main Content */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Form */}
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Tell Us About Your Project
-              </h2>
-              <p className="text-gray-600 mb-8">
-                Fill out the form below with your project details, and we'll get back to you with a personalized consultation and quote.
-              </p>
+            <div className="lg:col-span-2">
+              <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 md:p-10">
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-3">
+                      <Label htmlFor="name" className="text-sm font-medium text-gray-300 ml-1">Full Name</Label>
+                      <Input
+                        id="name"
+                        placeholder="John Doe"
+                        value={formData.name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        required
+                        className="bg-white/5 border-white/10 text-white rounded-xl h-12 focus:ring-[#3584DE]"
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <Label htmlFor="email" className="text-sm font-medium text-gray-300 ml-1">Email Address</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        required
+                        className="bg-white/5 border-white/10 text-white rounded-xl h-12 focus:ring-[#3584DE]"
+                      />
+                    </div>
+                  </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="name">Full Name *</Label>
-                    <Input
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
-                      placeholder="Your full name"
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-3">
+                      <Label htmlFor="phone" className="text-sm font-medium text-gray-300 ml-1">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        placeholder="+1 (555) 000-0000"
+                        value={formData.phone}
+                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                        className="bg-white/5 border-white/10 text-white rounded-xl h-12 focus:ring-[#3584DE]"
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <Label htmlFor="businessType" className="text-sm font-medium text-gray-300 ml-1">Business Type</Label>
+                      <Select value={formData.businessType} onValueChange={(value) => handleInputChange('businessType', value)}>
+                        <SelectTrigger className="bg-white/5 border-white/10 text-white rounded-xl h-12 focus:ring-[#3584DE]">
+                          <SelectValue placeholder="Select business type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1E293B] border-white/10 text-white">
+                          <SelectItem value="Corporate">Corporate</SelectItem>
+                          <SelectItem value="Healthcare">Healthcare</SelectItem>
+                          <SelectItem value="Hospitality">Hospitality</SelectItem>
+                          <SelectItem value="Residential">Residential</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="message" className="text-sm font-medium text-gray-300 ml-1">Your Message</Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Tell us about your project vision..."
+                      value={formData.message}
+                      onChange={(e) => handleInputChange('message', e.target.value)}
                       required
+                      className="bg-white/5 border-white/10 text-white rounded-xl min-h-[150px] focus:ring-[#3584DE] resize-none"
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="email">Email Address *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      placeholder="your@email.com"
-                      required
-                    />
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input
-                      id="phone"
-                      value={formData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                      placeholder="+92 XXX XXX XXXX"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="businessType">Business Type</Label>
-                    <Select onValueChange={(value) => handleInputChange('businessType', value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select business type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="healthcare">Healthcare</SelectItem>
-                        <SelectItem value="corporate">Corporate</SelectItem>
-                        <SelectItem value="hospitality">Hospitality</SelectItem>
-                        <SelectItem value="residential">Residential</SelectItem>
-                        <SelectItem value="educational">Educational</SelectItem>
-                        <SelectItem value="retail">Retail</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="budget">Project Budget</Label>
-                    <Select onValueChange={(value) => handleInputChange('budget', value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select budget range" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="under-50k">Under PKR 50,000</SelectItem>
-                        <SelectItem value="50k-100k">PKR 50,000 - 100,000</SelectItem>
-                        <SelectItem value="100k-250k">PKR 100,000 - 250,000</SelectItem>
-                        <SelectItem value="250k-500k">PKR 250,000 - 500,000</SelectItem>
-                        <SelectItem value="500k-1m">PKR 500,000 - 1,000,000</SelectItem>
-                        <SelectItem value="over-1m">Over PKR 1,000,000</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="timeline">Project Timeline</Label>
-                    <Select onValueChange={(value) => handleInputChange('timeline', value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select timeline" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="asap">ASAP</SelectItem>
-                        <SelectItem value="1-month">Within 1 month</SelectItem>
-                        <SelectItem value="2-3-months">2-3 months</SelectItem>
-                        <SelectItem value="3-6-months">3-6 months</SelectItem>
-                        <SelectItem value="6-months-plus">6+ months</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="message">Project Details *</Label>
-                  <Textarea
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) => handleInputChange('message', e.target.value)}
-                    placeholder="Tell us about your space, design preferences, and project goals..."
-                    rows={5}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="attachments">Reference Files (Optional)</Label>
-                  <Input
-                    id="attachments"
-                    value={formData.attachments}
-                    onChange={(e) => handleInputChange('attachments', e.target.value)}
-                    placeholder="Share a link to your inspiration images or files"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    You can share Google Drive, Dropbox, or other file sharing links
-                  </p>
-                </div>
-
-                <Button 
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3"
-                >
-                  {isSubmitting ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Sending Message...
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      <Send className="w-5 h-5" />
-                      Send Message
-                    </div>
-                  )}
-                </Button>
-              </form>
-            </div>
-
-            {/* Project Types & Additional Info */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                  What We Specialize In
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {projectTypes.map((type, index) => {
-                    const IconComponent = type.icon;
-                    return (
-                      <Card key={index} className="hover:shadow-md transition-shadow duration-300">
-                        <CardContent className="p-4 text-center">
-                          <IconComponent className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                          <h4 className="font-semibold text-gray-900">{type.label}</h4>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <Card className="bg-gradient-to-br from-blue-50 to-purple-50">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-3 mb-4">
-                    <CheckCircle className="w-6 h-6 text-green-600 mt-1" />
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Free Consultation</h4>
-                      <p className="text-gray-600 text-sm">
-                        Every project starts with a complimentary consultation to understand your vision and space.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 mb-4">
-                    <CheckCircle className="w-6 h-6 text-green-600 mt-1" />
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Custom Design Process</h4>
-                      <p className="text-gray-600 text-sm">
-                        We create bespoke designs tailored specifically to your space and requirements.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-green-600 mt-1" />
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Professional Installation</h4>
-                      <p className="text-gray-600 text-sm">
-                        Our experienced team ensures perfect installation and finishing.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Prefer to Schedule a Call?</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4">
-                    Book a consultation call to discuss your project in detail with our design experts.
-                  </p>
-                  <Link to="/#contact">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                      Schedule Consultation
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              {/* Map placeholder */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Visit Our Studio</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-gray-100 rounded-lg h-48 flex items-center justify-center">
-                    <div className="text-center">
-                      <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-600">Interactive Map</p>
-                      <p className="text-sm text-gray-500">123 Design Street, Creative District</p>
-                    </div>
-                  </div>
-                </CardContent>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-[#3584DE] hover:bg-[#3584DE]/90 text-white h-14 rounded-xl text-lg font-bold shadow-lg shadow-[#3584DE]/20 transition-all duration-300 hover:scale-[1.01]"
+                  >
+                    {isSubmitting ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>Sending...</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Send className="w-5 h-5" />
+                        <span>Send Message</span>
+                      </div>
+                    )}
+                  </Button>
+                </form>
               </Card>
             </div>
           </div>
         </div>
-      </section>
+      </main>
 
+      <Footer />
       <WhatsAppButton />
       <FloatingCTA />
-      <Footer />
     </div>
   );
 };

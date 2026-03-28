@@ -36,11 +36,11 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50 transition-all duration-300">
-      <div className="container mx-auto px-6 py-4">
+    <header className="fixed top-0 w-full bg-white/5 backdrop-blur-lg border-b border-white/10 z-50 transition-all duration-300">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-gray-900">
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <Link to="/" className="text-2xl font-bold text-white tracking-tight">
+            <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">
               Graphify
             </span>
           </Link>
@@ -51,7 +51,7 @@ const Header = () => {
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
+                  className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300 font-medium text-sm uppercase tracking-wider"
                 >
                   {item.name}
                 </button>
@@ -59,7 +59,7 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
+                  className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300 font-medium text-sm uppercase tracking-wider"
                 >
                   {item.name}
                 </Link>
@@ -67,14 +67,14 @@ const Header = () => {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden md:flex items-center space-x-4">
             <Link to="/admin/login">
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+              <Button variant="ghost" className="text-gray-400 hover:text-white">
                 Dashboard
               </Button>
             </Link>
             <Button 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+              className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white shadow-lg shadow-[#3584DE]/20"
               onClick={handleGetQuote}
             >
               Get Quote
@@ -86,16 +86,16 @@ const Header = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <div className="w-6 h-6 flex flex-col justify-center items-center">
-              <span className={`bg-gray-900 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}></span>
-              <span className={`bg-gray-900 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-              <span className={`bg-gray-900 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}></span>
+              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}></span>
+              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}></span>
             </div>
           </button>
         </div>
 
         {isMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-200">
-            <nav className="flex flex-col space-y-3 pt-4">
+          <div className="md:hidden mt-4 pb-4 border-t border-white/10">
+            <nav className="flex flex-col space-y-4 pt-4">
               {navItems.map((item) => (
                 item.href.startsWith('/#') ? (
                   <button
@@ -104,7 +104,7 @@ const Header = () => {
                       scrollToSection(item.href);
                       setIsMenuOpen(false);
                     }}
-                    className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium text-left"
+                    className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300 font-medium text-sm uppercase tracking-wider text-left"
                   >
                     {item.name}
                   </button>
@@ -112,31 +112,29 @@ const Header = () => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
                     onClick={() => setIsMenuOpen(false)}
+                    className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300 font-medium text-sm uppercase tracking-wider"
                   >
                     {item.name}
                   </Link>
                 )
               ))}
-              <Link
-                to="/admin/login"
-                className="mt-2 w-full"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-                  Dashboard
+              <div className="flex flex-col space-y-3 pt-4 border-t border-white/10">
+                <Link to="/admin/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full text-gray-400 hover:text-white justify-start px-0">
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button 
+                  className="w-full bg-[#3584DE] hover:bg-[#3584DE]/90 text-white"
+                  onClick={() => {
+                    handleGetQuote();
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  Get Quote
                 </Button>
-              </Link>
-              <Button 
-                className="mt-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white w-full"
-                onClick={() => {
-                  handleGetQuote();
-                  setIsMenuOpen(false);
-                }}
-              >
-                Get Quote
-              </Button>
+              </div>
             </nav>
           </div>
         )}

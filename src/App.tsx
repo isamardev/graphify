@@ -35,6 +35,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <div className="global-overlay" />
       <BrowserRouter>
         <ScrollToTop />
         <Routes>

@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Pencil, Trash2, Plus, Eye } from 'lucide-react';
+import { Pencil, Trash2, Plus, Eye, User, Calendar } from 'lucide-react';
 import axios from 'axios';
 import { Blog, Author } from '@/lib/adminData';
 import { useToast } from '@/hooks/use-toast';
@@ -262,166 +262,199 @@ export const BlogManager = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Blogs</h3>
+        <div>
+          <h2 className="text-xl font-bold text-white tracking-tight">Journal Articles</h2>
+          <p className="text-gray-400 text-sm font-light">Share insights and stories about art and design.</p>
+        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => openDialog()} className="flex items-center gap-2">
+            <Button onClick={() => { resetForm(); setIsDialogOpen(true); }} className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl gap-2 shadow-lg shadow-[#3584DE]/20">
               <Plus className="h-4 w-4" />
-              Add Blog
+              Write Article
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[700px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8 max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>{editingBlog ? 'Edit' : 'Add'} Blog</DialogTitle>
-              <DialogDescription>
-                {editingBlog ? 'Update' : 'Create a new'} blog post.
+              <DialogTitle className="text-2xl font-bold tracking-tight">{editingBlog ? 'Edit Article' : 'New Article'}</DialogTitle>
+              <DialogDescription className="text-gray-400 font-light">
+                Craft a beautiful story for your readers.
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleSubmit}>
-              <div className="grid gap-4 py-4">
-                <div className="space-y-2">
-                  <Label htmlFor="tag">Tag</Label>
-                  <Input
-                    id="tag"
-                    value={formData.tag}
-                    onChange={(e) => setFormData(prev => ({ ...prev, tag: e.target.value }))}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="author">Author</Label>
-                  <Select value={formData.author_id} onValueChange={(value) => setFormData(prev => ({ ...prev, author_id: value }))}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an author" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {authors.map((author) => (
-                        <SelectItem key={author.id} value={author.id}>
-                          {author.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="content">Content</Label>
-                  <Textarea
-                    id="content"
-                    value={formData.content}
-                    onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                    className="min-h-32"
-                    required
-                  />
-                </div>
-                {editingBlog && (formData.imageUrl || editingBlog.image) && (
+            <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Current Image</Label>
-                    <img
-                      src={normalizeImageUrl(formData.imageUrl || editingBlog.image)}
-                      alt={editingBlog.title}
-                      className="w-full h-40 rounded-lg object-cover"
+                    <Label htmlFor="title" className="text-gray-300 ml-1">Article Title</Label>
+                    <Input
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      required
+                      className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
                     />
                   </div>
-                )}
-                <div className="space-y-2">
-                  <Label htmlFor="image">Image File</Label>
-                  <Input
-                    key={fileInputKey}
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
-                    required={!editingBlog}
-                  />
+                  <div className="space-y-2">
+                    <Label htmlFor="tag" className="text-gray-300 ml-1">Primary Tag</Label>
+                    <Input
+                      id="tag"
+                      placeholder="e.g. Design, Interior, Art"
+                      value={formData.tag}
+                      onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
+                      required
+                      className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="author" className="text-gray-300 ml-1">Author</Label>
+                    <Select 
+                      value={formData.author_id} 
+                      onValueChange={(value) => setFormData({ ...formData, author_id: value })}
+                    >
+                      <SelectTrigger className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]">
+                        <SelectValue placeholder="Select Author" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1E293B] border-white/10 text-white">
+                        {authors.map((author) => (
+                          <SelectItem key={author.id} value={author.id}>{author.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="tags">Tags (comma separated)</Label>
-                  <Input
-                    id="tags"
-                    value={formData.tags}
-                    onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
-                    placeholder="tag1, tag2, tag3"
-                  />
+                  <Label htmlFor="image" className="text-gray-300 ml-1">Feature Image</Label>
+                  <div className="flex flex-col gap-4">
+                    {(editingBlog || imageFile) && (
+                      <div className="aspect-video rounded-xl overflow-hidden border border-white/10">
+                        <img 
+                          src={imageFile ? URL.createObjectURL(imageFile) : normalizeImageUrl(formData.imageUrl)} 
+                          alt="Preview" 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <Input
+                      key={fileInputKey}
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                      className="bg-white/5 border-white/10 rounded-xl file:bg-transparent file:text-white file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-widest"
+                    />
+                  </div>
                 </div>
               </div>
-              <DialogFooter>
-                <Button type="submit">{editingBlog ? 'Update' : 'Create'}</Button>
+
+              <div className="space-y-2">
+                <Label htmlFor="content" className="text-gray-300 ml-1">Content (HTML support)</Label>
+                <Textarea
+                  id="content"
+                  value={formData.content}
+                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                  required
+                  className="bg-white/5 border-white/10 rounded-xl min-h-[200px] focus:ring-[#3584DE] resize-none font-mono text-sm"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="tags" className="text-gray-300 ml-1">Additional Tags (comma separated)</Label>
+                <Input
+                  id="tags"
+                  placeholder="art, decor, luxury..."
+                  value={formData.tags}
+                  onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                  className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
+                />
+              </div>
+
+              <DialogFooter className="pt-4">
+                <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="text-gray-400 hover:text-white hover:bg-white/5">
+                  Cancel
+                </Button>
+                <Button type="submit" className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl px-8 shadow-lg shadow-[#3584DE]/20">
+                  {editingBlog ? 'Update Article' : 'Publish Article'}
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden backdrop-blur-xl">
         <Table>
-          <TableHeader>
-            <TableRow>
+          <TableHeader className="bg-white/5">
+            <TableRow className="border-white/10">
+              <TableHead className="w-[120px]">Preview</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Author</TableHead>
-              <TableHead>Tags</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="hidden md:table-cell">Tag</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {blogs.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center text-muted-foreground">
-                  No blogs found
+                <TableCell colSpan={5} className="text-center py-20 text-gray-500 italic">
+                  No articles published yet.
                 </TableCell>
               </TableRow>
             ) : (
               blogs.map((blog) => (
-                <TableRow key={blog.id}>
-                  <TableCell className="font-medium max-w-xs truncate">{blog.title}</TableCell>
+                <TableRow key={blog.id} className="border-white/5 hover:bg-white/5 transition-colors">
                   <TableCell>
-                    <Badge variant="outline">{getAuthorName(blog.author_id)}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {blog.tags.slice(0, 2).map((tag, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                      {blog.tags.length > 2 && (
-                        <Badge variant="secondary" className="text-xs">
-                          +{blog.tags.length - 2}
-                        </Badge>
-                      )}
+                    <div className="aspect-video rounded-lg overflow-hidden border border-white/10">
+                      <img 
+                        src={normalizeImageUrl(blog.image)} 
+                        alt={blog.title} 
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   </TableCell>
+                  <TableCell className="font-bold text-white tracking-tight">{blog.title}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setViewingBlog(blog)}
+                      <div className="w-6 h-6 rounded-full overflow-hidden border border-white/10">
+                        <img 
+                          src={normalizeImageUrl(authors.find(a => a.id === blog.author_id)?.image)} 
+                          alt="Author" 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <span className="text-sm text-gray-300">
+                        {authors.find(a => a.id === blog.author_id)?.name || 'Editorial Team'}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    <Badge variant="outline" className="border-[#3584DE]/20 text-[#3584DE] bg-[#3584DE]/5 rounded-lg text-[10px] uppercase tracking-wider">
+                      {blog.tag || 'Design'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => { setViewingBlog(blog); }}
+                        className="text-gray-400 hover:text-[#06B6D4] hover:bg-white/5"
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => openDialog(blog)}
+                        className="text-gray-400 hover:text-white hover:bg-white/5"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => handleDelete(blog.id)}
-                        className="text-destructive hover:text-destructive"
+                        className="text-gray-400 hover:text-red-400 hover:bg-white/5"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -434,41 +467,49 @@ export const BlogManager = () => {
         </Table>
       </div>
 
-      {/* View Dialog */}
-      <Dialog open={!!viewingBlog} onOpenChange={() => setViewingBlog(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Blog Details</DialogTitle>
-          </DialogHeader>
+      <Dialog open={!!viewingBlog} onOpenChange={(open) => !open && setViewingBlog(null)}>
+        <DialogContent className="sm:max-w-[700px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-0 overflow-hidden">
           {viewingBlog && (
-            <div className="space-y-4">
-              <div className="text-center">
-                <img
-                  src={normalizeImageUrl(viewingBlog.image)}
-                  alt={viewingBlog.title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
+            <div>
+              <div className="aspect-video w-full relative">
+                <img 
+                  src={normalizeImageUrl(viewingBlog.image)} 
+                  alt={viewingBlog.title} 
+                  className="w-full h-full object-cover"
                 />
-                <h3 className="font-semibold text-lg">{viewingBlog.title}</h3>
-                <div className="flex items-center justify-center gap-2 mt-2">
-                  <Badge variant="outline">{getAuthorName(viewingBlog.author_id)}</Badge>
-                  <Badge variant="secondary">{viewingBlog.tag}</Badge>
+                <div className="absolute top-4 left-4">
+                  <Badge className="bg-[#3584DE] text-white border-none">{viewingBlog.tag || 'Design'}</Badge>
                 </div>
               </div>
-              <div>
-                <Label className="font-medium">Content:</Label>
-                <div className="text-sm text-muted-foreground mt-1 whitespace-pre-wrap">
-                  {viewingBlog.content}
+              <div className="p-8 space-y-6 max-h-[60vh] overflow-y-auto">
+                <div>
+                  <h3 className="text-3xl font-bold tracking-tight text-white mb-4">{viewingBlog.title}</h3>
+                  <div className="flex items-center gap-4 text-xs text-gray-500 uppercase tracking-widest mb-6">
+                    <span className="flex items-center gap-1.5">
+                      <User className="w-3 h-3" />
+                      {authors.find(a => a.id === viewingBlog.author_id)?.name || 'Editorial Team'}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="w-3 h-3" />
+                      Published recently
+                    </span>
+                  </div>
+                  <div className="prose prose-invert prose-purple prose-sm max-w-none">
+                    <div dangerouslySetInnerHTML={{ __html: viewingBlog.content }} className="text-gray-400 font-light leading-relaxed" />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <Label className="font-medium">Tags:</Label>
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {viewingBlog.tags.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs">
-                      {tag}
+                
+                <div className="flex flex-wrap gap-2">
+                  {viewingBlog.tags.map((tag, i) => (
+                    <Badge key={i} variant="secondary" className="bg-white/5 border-white/10 text-gray-500 text-[10px] uppercase tracking-wider">
+                      #{tag}
                     </Badge>
                   ))}
                 </div>
+                
+                <Button onClick={() => setViewingBlog(null)} className="w-full bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-xl">
+                  Close Preview
+                </Button>
               </div>
             </div>
           )}

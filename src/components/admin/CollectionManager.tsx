@@ -196,156 +196,182 @@ export const CollectionManager = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Collections</h3>
+        <div>
+          <h2 className="text-xl font-bold text-white tracking-tight">Design Collections</h2>
+          <p className="text-gray-400 text-sm font-light">Manage your portfolio collections and their artworks.</p>
+        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => openDialog()} className="flex items-center gap-2">
+            <Button onClick={() => { resetForm(); setIsDialogOpen(true); }} className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl gap-2 shadow-lg shadow-[#3584DE]/20">
               <Plus className="h-4 w-4" />
-              Add Collection
+              New Collection
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[600px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8 max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>{editingCollection ? 'Edit' : 'Add'} Collection</DialogTitle>
-              <DialogDescription>
-                {editingCollection ? 'Update' : 'Create a new'} collection information.
+              <DialogTitle className="text-2xl font-bold tracking-tight">{editingCollection ? 'Edit Collection' : 'Create Collection'}</DialogTitle>
+              <DialogDescription className="text-gray-400 font-light">
+                Organize your artworks into a premium collection.
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleSubmit}>
-              <div className="grid gap-4 py-4">
-                {editingCollection && (formData.imageUrl || editingCollection.image) && (
+            <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Current Image</Label>
-                    <img
-                      src={resolveImageUrl(formData.imageUrl || editingCollection.image)}
-                      alt={editingCollection.title}
-                      className="w-full h-40 rounded-lg object-cover"
+                    <Label htmlFor="title" className="text-gray-300 ml-1">Collection Title</Label>
+                    <Input
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      required
+                      className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
                     />
                   </div>
-                )}
-                <div className="space-y-2">
-                  <Label htmlFor="image">Image File</Label>
-                  <Input
-                    key={fileInputKey}
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
-                    required={!editingCollection}
-                  />
+                  <div className="space-y-2">
+                    <Label htmlFor="category" className="text-gray-300 ml-1">Category</Label>
+                    <Select 
+                      value={formData.category_id} 
+                      onValueChange={(value) => setFormData({ ...formData, category_id: value })}
+                    >
+                      <SelectTrigger className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]">
+                        <SelectValue placeholder="Select Category" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1E293B] border-white/10 text-white">
+                        {categories.map((cat) => (
+                          <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="title">Title</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category</Label>
-                  <Select value={formData.category_id} onValueChange={(value) => setFormData(prev => ({ ...prev, category_id: value }))}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="tags">Tags (comma separated)</Label>
-                  <Input
-                    id="tags"
-                    value={formData.tags}
-                    onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
-                    placeholder="tag1, tag2, tag3"
-                  />
+                  <Label htmlFor="image" className="text-gray-300 ml-1">Cover Image</Label>
+                  <div className="flex flex-col gap-4">
+                    {(editingCollection || imageFile) && (
+                      <div className="aspect-video rounded-xl overflow-hidden border border-white/10">
+                        <img 
+                          src={imageFile ? URL.createObjectURL(imageFile) : resolveImageUrl(formData.imageUrl)}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <Input
+                      key={fileInputKey}
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                      className="bg-white/5 border-white/10 rounded-xl file:bg-transparent file:text-white file:border-0 file:text-xs file:font-bold file:uppercase file:tracking-widest"
+                    />
+                  </div>
                 </div>
               </div>
-              <DialogFooter>
-                <Button type="submit">{editingCollection ? 'Update' : 'Create'}</Button>
+
+              <div className="space-y-2">
+                <Label htmlFor="description" className="text-gray-300 ml-1">Collection Description</Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  required
+                  className="bg-white/5 border-white/10 rounded-xl min-h-[100px] focus:ring-[#3584DE] resize-none"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="tags" className="text-gray-300 ml-1">Tags (comma separated)</Label>
+                <Input
+                  id="tags"
+                  placeholder="modern, minimal, office..."
+                  value={formData.tags}
+                  onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                  className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
+                />
+              </div>
+
+              <DialogFooter className="pt-4">
+                <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="text-gray-400 hover:text-white hover:bg-white/5">
+                  Cancel
+                </Button>
+                <Button type="submit" className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl px-8 shadow-lg shadow-[#3584DE]/20">
+                  {editingCollection ? 'Update Collection' : 'Create Collection'}
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden backdrop-blur-xl">
         <Table>
-          <TableHeader>
-            <TableRow>
+          <TableHeader className="bg-white/5">
+            <TableRow className="border-white/10">
+              <TableHead className="w-[120px]">Cover</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Category</TableHead>
-              <TableHead>Tags</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="hidden md:table-cell">Tags</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {collections.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center text-muted-foreground">
-                  No collections found
+                <TableCell colSpan={5} className="text-center py-20 text-gray-500 italic">
+                  No collections created yet.
                 </TableCell>
               </TableRow>
             ) : (
               collections.map((collection) => (
-                <TableRow key={collection.id}>
-                  <TableCell className="font-medium">{collection.title}</TableCell>
+                <TableRow key={collection.id} className="border-white/5 hover:bg-white/5 transition-colors">
                   <TableCell>
-                    <Badge variant="outline">{getCategoryName(collection.category_id)}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {collection.tags.slice(0, 2).map((tag, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                      {collection.tags.length > 2 && (
-                        <Badge variant="secondary" className="text-xs">
-                          +{collection.tags.length - 2}
-                        </Badge>
-                      )}
+                    <div className="aspect-video rounded-lg overflow-hidden border border-white/10">
+                      <img 
+                        src={resolveImageUrl(collection.image)} 
+                        alt={collection.title} 
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   </TableCell>
+                  <TableCell className="font-bold text-white tracking-tight">{collection.title}</TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setViewingCollection(collection)}
+                    <Badge variant="outline" className="border-[#06B6D4]/20 text-[#06B6D4] bg-[#06B6D4]/5 rounded-lg text-[10px] uppercase tracking-wider">
+                      {categories.find(c => c.id === collection.category_id)?.name || 'Uncategorized'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    <div className="flex flex-wrap gap-1">
+                      {collection.tags.slice(0, 3).map((tag, i) => (
+                        <span key={i} className="text-[10px] text-gray-500">#{tag}</span>
+                      ))}
+                      {collection.tags.length > 3 && <span className="text-[10px] text-gray-500">...</span>}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => { setViewingCollection(collection); }}
+                        className="text-gray-400 hover:text-[#06B6D4] hover:bg-white/5"
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => openDialog(collection)}
+                        className="text-gray-400 hover:text-white hover:bg-white/5"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => handleDelete(collection.id)}
-                        className="text-destructive hover:text-destructive"
+                        className="text-gray-400 hover:text-red-400 hover:bg-white/5"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -358,36 +384,41 @@ export const CollectionManager = () => {
         </Table>
       </div>
 
-      {/* View Dialog */}
-      <Dialog open={!!viewingCollection} onOpenChange={() => setViewingCollection(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Collection Details</DialogTitle>
-          </DialogHeader>
+      <Dialog open={!!viewingCollection} onOpenChange={(open) => !open && setViewingCollection(null)}>
+        <DialogContent className="sm:max-w-[600px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-0 overflow-hidden">
           {viewingCollection && (
-            <div className="space-y-4">
-              <div className="text-center">
-                <img
-                  src={resolveImageUrl(viewingCollection.image)}
-                  alt={viewingCollection.title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
+            <div>
+              <div className="aspect-video w-full">
+                <img 
+                  src={resolveImageUrl(viewingCollection.image)} 
+                  alt={viewingCollection.title} 
+                  className="w-full h-full object-cover"
                 />
-                <h3 className="font-semibold text-lg">{viewingCollection.title}</h3>
-                <Badge variant="outline" className="mb-2">{getCategoryName(viewingCollection.category_id)}</Badge>
               </div>
-              <div>
-                <Label className="font-medium">Description:</Label>
-                <p className="text-sm text-muted-foreground mt-1">{viewingCollection.description}</p>
-              </div>
-              <div>
-                <Label className="font-medium">Tags:</Label>
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {viewingCollection.tags.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs">
-                      {tag}
+              <div className="p-8 space-y-6">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <Badge className="bg-[#3584DE]/10 text-[#3584DE] border-none text-[10px] uppercase tracking-widest">
+                      {categories.find(c => c.id === viewingCollection.category_id)?.name || 'Collection'}
+                    </Badge>
+                  </div>
+                  <h3 className="text-3xl font-bold tracking-tight text-white mb-4">{viewingCollection.title}</h3>
+                  <p className="text-gray-400 text-sm font-light leading-relaxed">
+                    {viewingCollection.description}
+                  </p>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  {viewingCollection.tags.map((tag, i) => (
+                    <Badge key={i} variant="secondary" className="bg-white/5 border-white/10 text-gray-500 text-[10px] uppercase tracking-wider">
+                      #{tag}
                     </Badge>
                   ))}
                 </div>
+                
+                <Button onClick={() => setViewingCollection(null)} className="w-full bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-xl">
+                  Close Preview
+                </Button>
               </div>
             </div>
           )}

@@ -168,202 +168,128 @@ const BlogDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="container mx-auto px-6 py-20 text-center text-gray-600">Loading blog...</div>
-        <Footer />
+      <div className="min-h-screen bg-transparent flex flex-col items-center justify-center">
+        <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p className="text-gray-400 font-light tracking-widest uppercase text-xs">Preparing Story...</p>
       </div>
     );
   }
 
   if (!blog) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="container mx-auto px-6 py-20 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Blog post not found</h1>
-          <Link to="/blogs">
-            <Button>Back to Blogs</Button>
-          </Link>
+      <div className="min-h-screen bg-transparent flex flex-col items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-white mb-4">Article Not Found</h1>
+          <Button variant="outline" className="border-white/10 text-white hover:bg-white/5" asChild>
+            <Link to="/blogs">Back to Journal</Link>
+          </Button>
         </div>
-        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <Header />
       
-      {/* Back Button */}
-      <div className="container mx-auto px-6 py-6">
-        <Link to="/blogs">
-          <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Blogs
-          </Button>
-        </Link>
-      </div>
+      <main className="pt-32 pb-20">
+        <div className="max-w-4xl mx-auto px-4 md:px-6">
+          <Link to="/blogs" className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-12 group">
+            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Back to Journal
+          </Link>
 
-      {/* Hero Image */}
-      <div className="relative h-56 sm:h-72 md:h-96 overflow-hidden">
-        <img 
-          src={normalizeImageUrl(blog.image)} 
-          alt={blog.title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/30" />
-        <Badge className="absolute top-6 left-6 bg-white/90 text-gray-800">
-          {blog.tag || 'General'}
-        </Badge>
-      </div>
-
-      {/* Article Content */}
-      <article className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Main Content */}
-            <div className="lg:col-span-2">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <article className="space-y-12">
+            <div className="space-y-8 text-center">
+              <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
+                {blog.tag || 'Design Insight'}
+              </Badge>
+              <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight">
                 {blog.title}
               </h1>
-              
-              <div className="flex flex-wrap items-center gap-4 mb-8 text-gray-600">
+              <div className="flex flex-wrap items-center justify-center gap-6 text-gray-500 text-xs uppercase tracking-widest">
                 <div className="flex items-center gap-2">
-                  <User className="w-5 h-5" />
-                  <span>{author?.name || 'Unknown Author'}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5" />
-                  <span>{new Date((blog as any)?.created_at || Date.now()).toLocaleDateString()}</span>
+                  <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10">
+                    <img src={normalizeImageUrl(author?.image)} alt={author?.name} className="w-full h-full object-cover" />
+                  </div>
+                  <span className="text-gray-300">{author?.name || 'Editorial Team'}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5" />
-                  <span>{Math.max(1, Math.ceil(blog.content.split(/\s+/).filter(Boolean).length / 200))} min read</span>
+                  <Calendar className="w-4 h-4" />
+                  <span>Recently Published</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  <span>5 min read</span>
                 </div>
               </div>
+            </div>
 
-              <div className="flex flex-wrap gap-2 mb-8">
-                {blog.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">
-                    {tag}
-                  </Badge>
-                ))}
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-gradient-to-r from-[#3584DE] to-[#06B6D4] opacity-10 blur-3xl group-hover:opacity-20 transition-opacity duration-700"></div>
+              <div className="relative rounded-3xl overflow-hidden border border-white/10 aspect-video">
+                <img 
+                  src={normalizeImageUrl(blog.image)} 
+                  alt={blog.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
+            </div>
 
-              {/* Social Share */}
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8 p-4 bg-gray-50 rounded-lg">
-                <Share2 className="w-5 h-5 text-gray-600" />
-                <span className="text-gray-600 font-medium">Share this article:</span>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleShare('facebook')}
-                    className="p-2"
-                  >
-                    <Facebook className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleShare('twitter')}
-                    className="p-2"
-                  >
-                    <Twitter className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleShare('linkedin')}
-                    className="p-2"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-
-              {/* Article Body */}
+            <div className="prose prose-invert prose-purple max-w-none">
               <div 
-                className="prose prose-lg max-w-none"
+                className="text-gray-300 leading-relaxed text-lg font-light space-y-6"
                 dangerouslySetInnerHTML={{ __html: blog.content }}
               />
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-8">
-              {/* Author Info */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">About the Author</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-start gap-4">
-                    <img 
-                      src={normalizeImageUrl(author?.image)} 
-                      alt={author?.name || 'Author'}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">{author?.name || 'Unknown Author'}</h4>
-                      <p className="text-sm text-gray-600">{author?.bio || 'No author bio available.'}</p>
-                    </div>
+            <div className="pt-12 border-t border-white/10">
+              <div className="flex flex-wrap items-center justify-between gap-8">
+                <div className="flex items-center gap-4">
+                  <span className="text-white font-bold text-sm uppercase tracking-widest">Share:</span>
+                  <div className="flex gap-2">
+                    {[Facebook, Twitter, Linkedin].map((Icon, i) => (
+                      <Button key={i} variant="outline" size="icon" className="w-10 h-10 rounded-xl border-white/10 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10">
+                        <Icon className="w-4 h-4" />
+                      </Button>
+                    ))}
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* Related Articles */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Related Articles</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {relatedBlogs.map((relatedBlog) => (
-                    <Link 
-                      key={relatedBlog.id}
-                      to={`/blogs/${toSlug(relatedBlog.title)}`}
-                      className="block group"
-                    >
-                      <div className="flex gap-3">
-                        <img 
-                          src={normalizeImageUrl(relatedBlog.image)} 
-                          alt={relatedBlog.title}
-                          className="w-20 h-16 object-cover rounded"
-                        />
-                        <div className="flex-1">
-                          <h5 className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors text-sm line-clamp-2 mb-1">
-                            {relatedBlog.title}
-                          </h5>
-                          <span className="text-xs text-gray-500">
-                            {Math.max(1, Math.ceil(relatedBlog.content.split(/\s+/).filter(Boolean).length / 200))} min read
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {blog.tags.map((tag, i) => (
+                    <Badge key={i} className="bg-white/5 border-white/10 text-gray-500 rounded-lg px-3 py-1 text-[10px] uppercase tracking-wider">
+                      #{tag}
+                    </Badge>
                   ))}
-                </CardContent>
-              </Card>
-
-              {/* CTA */}
-              <Card className="bg-gradient-to-br from-blue-50 to-purple-50">
-                <CardContent className="p-6 text-center">
-                  <h4 className="font-bold text-gray-900 mb-2">Ready to Transform Your Space?</h4>
-                  <p className="text-sm text-gray-600 mb-4">Get a personalized consultation for your wall art project.</p>
-                  <Link to="/#contact">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                      Get Quote
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </article>
 
+            {author && (
+              <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl mt-20">
+                <div className="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
+                  <div className="w-24 h-24 rounded-2xl overflow-hidden border-2 border-white/10 shrink-0">
+                    <img src={normalizeImageUrl(author.image)} alt={author.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-xl font-bold text-white tracking-tight">Written by {author.name}</h4>
+                      <p className="text-[#06B6D4] text-xs font-semibold uppercase tracking-widest">Design Specialist</p>
+                    </div>
+                    <p className="text-gray-400 text-sm font-light leading-relaxed">
+                      {author.bio || "Passionate about transforming spaces through art and design. With years of experience in the industry, our team brings a unique perspective to every project."}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            )}
+          </article>
+        </div>
+      </main>
+
+      <Footer />
       <WhatsAppButton />
       <FloatingCTA />
-      <Footer />
     </div>
   );
 };

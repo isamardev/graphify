@@ -120,94 +120,113 @@ export const CategoryManager = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Categories</h3>
+        <div>
+          <h2 className="text-xl font-bold text-white tracking-tight">Portfolio Categories</h2>
+          <p className="text-gray-400 text-sm font-light">Organize your artworks and collections into meaningful groups.</p>
+        </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => openDialog()} className="flex items-center gap-2">
+            <Button onClick={() => { resetForm(); setIsDialogOpen(true); }} className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl gap-2 shadow-lg shadow-[#3584DE]/20">
               <Plus className="h-4 w-4" />
-              Add Category
+              New Category
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md">
+          <DialogContent className="sm:max-w-[500px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8">
             <DialogHeader>
-              <DialogTitle>{editingCategory ? 'Edit' : 'Add'} Category</DialogTitle>
-              <DialogDescription>
-                {editingCategory ? 'Update' : 'Create a new'} category information.
+              <DialogTitle className="text-2xl font-bold tracking-tight">{editingCategory ? 'Edit Category' : 'Create Category'}</DialogTitle>
+              <DialogDescription className="text-gray-400 font-light">
+                Define a new category to organize your design portfolio.
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleSubmit}>
-              <div className="grid gap-4 py-4">
+            <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+              <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="name" className="text-gray-300 ml-1">Category Name</Label>
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
+                    className="bg-white/5 border-white/10 rounded-xl focus:ring-[#3584DE]"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="description" className="text-gray-300 ml-1">Description</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
-                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     required
+                    className="bg-white/5 border-white/10 rounded-xl min-h-[120px] focus:ring-[#3584DE] resize-none"
                   />
                 </div>
               </div>
-              <DialogFooter>
-                <Button type="submit">{editingCategory ? 'Update' : 'Create'}</Button>
+              <DialogFooter className="pt-4">
+                <Button type="button" variant="ghost" onClick={() => setIsDialogOpen(false)} className="text-gray-400 hover:text-white hover:bg-white/5">
+                  Cancel
+                </Button>
+                <Button type="submit" className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl px-8 shadow-lg shadow-[#3584DE]/20">
+                  {editingCategory ? 'Update Category' : 'Create Category'}
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden backdrop-blur-xl">
         <Table>
-          <TableHeader>
-            <TableRow>
+          <TableHeader className="bg-white/5">
+            <TableRow className="border-white/10">
               <TableHead>Name</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="hidden md:table-cell">Description</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {categories.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={3} className="text-center text-muted-foreground">
-                  No categories found
+                <TableCell colSpan={3} className="text-center py-20 text-gray-500 italic">
+                  No categories created yet.
                 </TableCell>
               </TableRow>
             ) : (
               categories.map((category) => (
-                <TableRow key={category.id}>
-                  <TableCell className="font-medium">{category.name}</TableCell>
-                  <TableCell className="max-w-xs truncate">{category.description}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setViewingCategory(category)}
+                <TableRow key={category.id} className="border-white/5 hover:bg-white/5 transition-colors">
+                  <TableCell className="font-bold text-white tracking-tight">
+                    <span className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-[#06B6D4]"></div>
+                      {category.name}
+                    </span>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell max-w-md">
+                    <p className="text-gray-400 text-sm font-light truncate">{category.description}</p>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => { setViewingCategory(category); }}
+                        className="text-gray-400 hover:text-[#06B6D4] hover:bg-white/5"
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => openDialog(category)}
+                        className="text-gray-400 hover:text-white hover:bg-white/5"
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
                         onClick={() => handleDelete(category.id)}
-                        className="text-destructive hover:text-destructive"
+                        className="text-gray-400 hover:text-red-400 hover:bg-white/5"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -220,22 +239,22 @@ export const CategoryManager = () => {
         </Table>
       </div>
 
-      {/* View Dialog */}
-      <Dialog open={!!viewingCategory} onOpenChange={() => setViewingCategory(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Category Details</DialogTitle>
-          </DialogHeader>
+      <Dialog open={!!viewingCategory} onOpenChange={(open) => !open && setViewingCategory(null)}>
+        <DialogContent className="sm:max-w-[400px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8">
           {viewingCategory && (
-            <div className="space-y-4">
-              <div>
-                <Label className="font-medium">Name:</Label>
-                <p className="text-lg font-semibold">{viewingCategory.name}</p>
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#06B6D4]/10 text-[#06B6D4] text-[10px] uppercase tracking-widest font-bold">
+                Category Details
               </div>
               <div>
-                <Label className="font-medium">Description:</Label>
-                <p className="text-sm text-muted-foreground mt-1">{viewingCategory.description}</p>
+                <h3 className="text-3xl font-bold tracking-tight text-white mb-4">{viewingCategory.name}</h3>
+                <p className="text-gray-400 text-sm font-light leading-relaxed">
+                  {viewingCategory.description}
+                </p>
               </div>
+              <Button onClick={() => setViewingCategory(null)} className="w-full bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-xl">
+                Close
+              </Button>
             </div>
           )}
         </DialogContent>

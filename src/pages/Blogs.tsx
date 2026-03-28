@@ -157,126 +157,98 @@ const Blogs = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <Header />
       
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-purple-50 py-20">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Design <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Insights</span>
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Explore the latest trends, insights, and stories from the world of wall art and interior design.
-            </p>
-          </div>
-
-          {/* Search and Filter */}
-          <div className="max-w-4xl mx-auto mb-12">
-            <div className="relative mb-6">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
-                placeholder="Search articles..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 py-3"
-              />
+      <main className="pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+            <div className="max-w-2xl">
+              <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
+                Insights & Stories
+              </Badge>
+              <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
+                Our <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Journal</span>
+              </h1>
+              <p className="text-lg text-gray-400 font-light leading-relaxed">
+                Exploring the intersection of art, design, and architecture.
+              </p>
             </div>
             
-            <div className="flex flex-wrap gap-2 justify-center">
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category)}
-                  className={selectedCategory === category ? 
-                    "bg-gradient-to-r from-blue-600 to-purple-600 text-white" : 
-                    "hover:bg-gray-100"
-                  }
-                >
-                  {category}
-                </Button>
-              ))}
+            <div className="relative w-full md:w-80">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <Input 
+                type="text" 
+                placeholder="Search articles..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-12 bg-white/5 border-white/10 rounded-xl focus:ring-primary text-white"
+              />
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Blog Grid */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          {isLoading ? (
-            <div className="text-center py-16 text-gray-500">Loading articles...</div>
-          ) : filteredBlogs.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-gray-500 text-lg">No articles found matching your criteria.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-              {filteredBlogs.map((blog) => (
-                <Link key={blog.id} to={`/blogs/${toSlug(blog.title)}`} className="block h-full">
-                  <Card className="group h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
-                    <div className="relative overflow-hidden">
-                      <img 
-                        src={normalizeImageUrl(blog.image)} 
-                        alt={blog.title}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <Badge className="absolute top-4 left-4 bg-white/90 text-gray-800">
-                        {blog.tag || 'General'}
-                      </Badge>
-                    </div>
-                    
-                    <CardHeader className="pb-3">
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-2">
-                        <div className="flex items-center gap-1">
-                          <User className="w-4 h-4" />
-                          {getAuthorName(blog.author_id)}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          {new Date((blog as any)?.created_at || Date.now()).toLocaleDateString()}
-                        </div>
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
-                        {blog.title}
-                      </h3>
-                    </CardHeader>
-                    
-                    <CardContent className="pt-0">
-                      <p className="text-gray-600 mb-4 line-clamp-3">
-                        {blog.content.slice(0, 160)}...
-                      </p>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500">{calculateReadTime(blog.content)}</span>
-                        <span className="inline-flex items-center text-sm font-medium text-blue-600">
-                          Read More
-                          <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                        </span>
-                      </div>
-                      
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {blog.tags.slice(0, 3).map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-xs">
-                            {tag}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {isLoading ? (
+              <div className="col-span-full flex flex-col items-center justify-center py-32">
+                <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p className="text-gray-400 font-light">Curating our latest stories...</p>
+              </div>
+            ) : filteredBlogs.length === 0 ? (
+              <div className="col-span-full text-center py-32">
+                <p className="text-gray-400 text-lg">No articles found matching your search.</p>
+              </div>
+            ) : (
+              filteredBlogs.map((blog) => {
+                const author = authors.find(a => a.id === blog.author_id);
+                return (
+                  <Link key={blog.id} to={`/blog/${blog.id}`} className="group">
+                    <Card className="h-full flex flex-col overflow-hidden border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-500">
+                      <div className="relative h-64 overflow-hidden">
+                        <img 
+                          src={normalizeImageUrl(blog.image)} 
+                          alt={blog.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60"></div>
+                        <div className="absolute top-4 left-4">
+                          <Badge className="bg-[#3584DE] text-white border-none rounded-lg px-3 py-1 text-[10px] uppercase tracking-wider">
+                            {blog.tag || 'Design'}
                           </Badge>
-                        ))}
+                        </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          )}
+                      <CardHeader className="p-8 pb-4">
+                        <h3 className="text-2xl font-bold text-white tracking-tight mb-4 group-hover:text-[#06B6D4] transition-colors line-clamp-2">
+                          {blog.title}
+                        </h3>
+                        <div className="flex items-center gap-4 text-gray-500 text-xs uppercase tracking-widest">
+                          <span className="flex items-center gap-1.5">
+                            <User className="w-3 h-3" />
+                            {author?.name || 'Editorial Team'}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Calendar className="w-3 h-3" />
+                            Recently Published
+                          </span>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-8 pt-0 mt-auto">
+                        <div className="flex items-center text-[#06B6D4] text-sm font-semibold group-hover:gap-2 transition-all">
+                          Read Full Article
+                          <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-all" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                );
+              })
+            )}
+          </div>
         </div>
-      </section>
+      </main>
 
+      <Footer />
       <WhatsAppButton />
       <FloatingCTA />
-      <Footer />
     </div>
   );
 };

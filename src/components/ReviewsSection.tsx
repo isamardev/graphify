@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import axios from 'axios';
 import { Review } from '@/lib/adminData';
@@ -93,102 +94,89 @@ const ReviewsSection = () => {
   };
 
   return (
-    <section id="reviews" className="py-20 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            What Our <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Clients Say</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Don't just take our word for it - hear from the amazing clients who trusted us with their vision
-          </p>
-        </div>
-
-        {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {isLoading ? (
-            <div className="col-span-full text-center text-gray-600">Loading reviews...</div>
-          ) : reviews.length === 0 ? (
-            <div className="col-span-full text-center text-gray-600">No reviews found.</div>
-          ) : (
-            getCurrentReviews().map((review, index) => {
-              const rating = Math.max(1, Math.min(5, Number(review.rating || 0)));
-              return (
-                <Card key={index} className="shadow-lg border-0 hover:shadow-xl transition-shadow duration-300">
-                  <CardContent className="p-6">
-                    <div className="flex space-x-1 mb-4">
-                      {[...Array(rating)].map((_, i) => (
-                        <svg key={i} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 24 24">
-                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                        </svg>
-                      ))}
-                    </div>
-
-                    <blockquote
-                      className="text-gray-700 italic mb-4 text-sm leading-relaxed overflow-hidden"
-                      style={{
-                        display: '-webkit-box',
-                        WebkitLineClamp: 4,
-                        WebkitBoxOrient: 'vertical'
-                      }}
-                    >
-                      "{review.text}"
-                    </blockquote>
-
-                    <div className="flex items-center space-x-3">
-                      {review.image ? (
-                        <img 
-                          src={normalizeImageUrl(review.image)} 
-                          alt={review.name}
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                      ) : null}
-                      <div>
-                        <h4 className="font-bold text-gray-900 text-sm">{review.name}</h4>
-                        <p className="text-gray-600 text-xs">{review.role}</p>
-                        <p className="text-blue-600 font-medium text-xs">{review.project}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })
-          )}
-        </div>
-
-        {/* Carousel Navigation */}
-        <div className="flex justify-center items-center space-x-4">
-          <Button 
-            variant="outline" 
-            onClick={prevPage}
-            className="rounded-full w-10 h-10 p-0"
-            disabled={totalPages <= 1}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          
-          <div className="flex space-x-2">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentPage(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentPage 
-                    ? 'bg-blue-600' 
-                    : 'bg-gray-300 hover:bg-gray-400'
-                }`}
-              />
-            ))}
+    <section id="reviews" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/5 blur-[120px] -z-10 rounded-full scale-150"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div className="max-w-2xl text-left">
+            <Badge variant="outline" className="mb-4 border-secondary/20 text-secondary bg-secondary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
+              Testimonials
+            </Badge>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+              Client <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Experiences</span>
+            </h2>
+            <p className="text-lg text-gray-400 font-light leading-relaxed">
+              Hear from the businesses and individuals we've helped transform through custom wall art.
+            </p>
           </div>
           
-          <Button 
-            variant="outline" 
-            onClick={nextPage}
-            className="rounded-full w-10 h-10 p-0"
-            disabled={totalPages <= 1}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+          <div className="flex gap-4">
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={prevPage}
+              className="rounded-xl border-white/10 bg-white/5 text-white hover:bg-white/10 w-12 h-12"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </Button>
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={nextPage}
+              className="rounded-xl border-white/10 bg-white/5 text-white hover:bg-white/10 w-12 h-12"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </Button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-h-[400px]">
+          {isLoading ? (
+            <div className="col-span-full flex items-center justify-center py-20">
+              <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : reviews.length === 0 ? (
+            <div className="col-span-full text-center text-gray-400 py-20">No reviews yet.</div>
+          ) : (
+            getCurrentReviews().map((review) => (
+              <Card key={review.id} className="bg-white/5 border-white/10 backdrop-blur-xl p-8 hover:bg-white/10 transition-all duration-500 group">
+                <div className="flex flex-col h-full">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-white/10">
+                      <img 
+                        src={normalizeImageUrl(review.image) || 'https://via.placeholder.com/150'} 
+                        alt={review.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-white group-hover:text-secondary transition-colors">{review.name}</h4>
+                      <p className="text-[#06B6D4] text-sm font-medium uppercase tracking-wider">{review.role}</p>
+                      <p className="text-gray-500 text-xs mt-1">{review.project}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="relative">
+                    <svg className="absolute -top-4 -left-2 w-10 h-10 text-white/5 transform -scale-x-100" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V12C14.017 12.5523 13.5693 13 13.017 13H11.017C10.4647 13 10.017 12.5523 10.017 12V9C10.017 7.89543 10.9124 7 12.017 7H19.017C20.1216 7 21.017 7.89543 21.017 9V15C21.017 17.2091 19.2261 19 17.017 19H14.017V21ZM5.017 21L5.017 18C5.017 16.8954 5.91243 16 7.017 16H10.017C10.5693 16 11.017 15.5523 11.017 15V9C11.017 8.44772 10.5693 8 10.017 8H6.017C5.46472 8 5.017 8.44772 5.017 9V12C5.017 12.5523 4.56928 13 4.017 13H2.017C1.46472 13 1.017 12.5523 1.017 12V9C1.017 7.89543 1.91243 7 3.017 7H10.017C11.1216 7 12.017 7.89543 12.017 9V15C12.017 17.2091 10.2261 19 8.017 19H5.017V21Z" />
+                    </svg>
+                    <p className="text-gray-300 italic leading-relaxed relative z-10 font-light">
+                      "{review.text}"
+                    </p>
+                  </div>
+                  
+                  <div className="flex gap-1 mt-auto pt-8">
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} className={`w-4 h-4 ${i < review.rating ? 'text-[#06B6D4]' : 'text-white/10'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            ))
+          )}
         </div>
       </div>
     </section>

@@ -7,30 +7,20 @@ import { Link } from 'react-router-dom';
 
 const Team = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-transparent">
       <Header />
       
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 text-white">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center mb-6">
-            <Link to="/" className="flex items-center text-white hover:text-yellow-400 transition-colors">
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to Home
-            </Link>
-          </div>
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-4">
-              Our <span className="bg-gradient-to-r from-yellow-400 to-pink-400 bg-clip-text text-transparent">Team</span>
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Meet the passionate artists and designers who bring creativity, expertise, and dedication to every project we undertake.
-            </p>
-          </div>
+      <main className="pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <Link to="/" className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-8 group">
+            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Back to Home
+          </Link>
+          
+          <TeamSection />
         </div>
-      </section>
+      </main>
 
-      <TeamSection />
       <Footer />
     </div>
   );
