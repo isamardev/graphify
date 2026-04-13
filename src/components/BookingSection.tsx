@@ -52,7 +52,10 @@ const BookingSection = () => {
   };
 
   return (
-    <section id="booking" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
+    <section
+      id="booking"
+      className="scroll-mt-24 md:scroll-mt-28 py-16 md:py-24 bg-transparent relative overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="text-center mb-20">
           <Badge variant="outline" className="mb-4 border-secondary/20 text-secondary bg-secondary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">

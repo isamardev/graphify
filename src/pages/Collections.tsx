@@ -104,6 +104,13 @@ const Collections = () => {
     ? collections
     : collections.filter((item) => (item.category_id || 'uncategorized') === selectedCategory);
 
+  const toSlug = (value: string) =>
+    value
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
   return (
     <div className="min-h-screen bg-transparent">
       <Header />
@@ -166,7 +173,7 @@ const Collections = () => {
               filteredCollections.map((item) => (
                 <Link 
                   key={item.id} 
-                  to={`/collection/${item.id}`}
+                  to={`/collections/${toSlug(item.title)}`}
                   className="group relative overflow-hidden rounded-2xl aspect-[4/5] border border-white/10"
                 >
                   <img 

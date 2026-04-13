@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import FloatingCTA from '@/components/FloatingCTA';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -13,18 +12,12 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  Send, 
-  CheckCircle,
-  Building,
-  Users,
-  Palette,
-  Home
-} from 'lucide-react';
+import {
+  QUOTE_FORM_BUDGET_RANGES,
+  QUOTE_FORM_PREFERRED_STYLES,
+  QUOTE_FORM_PROJECT_TYPES,
+} from '@/lib/quoteFormOptions';
+import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 
 const ContactUs = () => {
   const { toast } = useToast();
@@ -36,6 +29,7 @@ const ContactUs = () => {
     businessType: '',
     projectType: '',
     budget: '',
+    style: '',
     timeline: '',
     message: '',
     attachments: ''
@@ -55,7 +49,8 @@ const ContactUs = () => {
 
     const projectDetail = [
       formData.message,
-      formData.projectType ? `Project type: ${formData.projectType}` : ''
+      formData.projectType ? `Project type: ${formData.projectType}` : '',
+      formData.style ? `Preferred style: ${formData.style}` : '',
     ]
       .filter(Boolean)
       .join('\n');
@@ -85,6 +80,7 @@ const ContactUs = () => {
         businessType: '',
         projectType: '',
         budget: '',
+        style: '',
         timeline: '',
         message: '',
         attachments: ''
@@ -99,40 +95,6 @@ const ContactUs = () => {
       setIsSubmitting(false);
     }
   };
-
-  const contactInfo = [
-    {
-      icon: MapPin,
-      title: "Visit Our Studio",
-      details: ["123 Design Street", "Creative District", "Karachi, Pakistan"],
-      action: "Get Directions"
-    },
-    {
-      icon: Phone,
-      title: "Call Us",
-      details: ["+92 321 234 5678", "+92 333 456 7890"],
-      action: "Call Now"
-    },
-    {
-      icon: Mail,
-      title: "Email Us",
-      details: ["hello@graphify.com", "projects@graphify.com"],
-      action: "Send Email"
-    },
-    {
-      icon: Clock,
-      title: "Business Hours",
-      details: ["Mon - Fri: 9:00 AM - 6:00 PM", "Sat: 10:00 AM - 4:00 PM", "Sun: Closed"],
-      action: null
-    }
-  ];
-
-  const projectTypes = [
-    { icon: Building, label: "Corporate Office", value: "corporate" },
-    { icon: Home, label: "Healthcare Facility", value: "healthcare" },
-    { icon: Users, label: "Hospitality", value: "hospitality" },
-    { icon: Palette, label: "Residential", value: "residential" }
-  ];
 
   return (
     <div className="min-h-screen bg-transparent">
@@ -181,10 +143,12 @@ const ContactUs = () => {
                 <form onSubmit={handleSubmit} className="space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-3">
-                      <Label htmlFor="name" className="text-sm font-medium text-gray-300 ml-1">Full Name</Label>
+                      <Label htmlFor="company-name" className="text-sm font-medium text-gray-300 ml-1">
+                        Company Name
+                      </Label>
                       <Input
-                        id="name"
-                        placeholder="John Doe"
+                        id="company-name"
+                        placeholder="Your company or brand name"
                         value={formData.name}
                         onChange={(e) => handleInputChange('name', e.target.value)}
                         required
@@ -228,6 +192,63 @@ const ContactUs = () => {
                           <SelectItem value="Hospitality">Hospitality</SelectItem>
                           <SelectItem value="Residential">Residential</SelectItem>
                           <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium text-gray-300 ml-1">Project Type</Label>
+                      <Select
+                        value={formData.projectType || undefined}
+                        onValueChange={(value) => handleInputChange('projectType', value)}
+                      >
+                        <SelectTrigger className="bg-white/5 border-white/10 text-white rounded-xl h-12 focus:ring-[#3584DE]">
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1E293B] border-white/10 text-white">
+                          {QUOTE_FORM_PROJECT_TYPES.map(({ value, label }) => (
+                            <SelectItem key={value} value={value}>
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium text-gray-300 ml-1">Budget Range</Label>
+                      <Select
+                        value={formData.budget || undefined}
+                        onValueChange={(value) => handleInputChange('budget', value)}
+                      >
+                        <SelectTrigger className="bg-white/5 border-white/10 text-white rounded-xl h-12 focus:ring-[#3584DE]">
+                          <SelectValue placeholder="Select range" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1E293B] border-white/10 text-white">
+                          {QUOTE_FORM_BUDGET_RANGES.map(({ value, label }) => (
+                            <SelectItem key={value} value={value}>
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium text-gray-300 ml-1">Preferred Style</Label>
+                      <Select
+                        value={formData.style || undefined}
+                        onValueChange={(value) => handleInputChange('style', value)}
+                      >
+                        <SelectTrigger className="bg-white/5 border-white/10 text-white rounded-xl h-12 focus:ring-[#3584DE]">
+                          <SelectValue placeholder="Select style" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1E293B] border-white/10 text-white">
+                          {QUOTE_FORM_PREFERRED_STYLES.map(({ value, label }) => (
+                            <SelectItem key={value} value={value}>
+                              {label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>

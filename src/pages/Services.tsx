@@ -78,6 +78,13 @@ const Services = () => {
     setIsQuoteOpen(true);
   };
 
+  const toSlug = (value: string) =>
+    value
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
   return (
     <div className="min-h-screen bg-transparent">
       <Header />
@@ -115,35 +122,44 @@ const Services = () => {
             ) : (
               services.map((service, index) => {
                 const Icon = iconPool[index % iconPool.length];
+                const detailPath = `/services/${toSlug(service.name)}`;
                 return (
-                  <Card key={service.id} className="group overflow-hidden border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-500">
-                    <div className="relative h-64 overflow-hidden">
-                      <img 
-                        src={normalizeImageUrl(service.image)} 
-                        alt={service.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60"></div>
-                      <div className="absolute top-4 right-4 w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:bg-[#3584DE] group-hover:border-[#3584DE] transition-all duration-500">
-                        <Icon className="w-6 h-6 text-white" />
+                  <Card key={service.id} className="group overflow-hidden border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-500 flex flex-col">
+                    <Link
+                      to={detailPath}
+                      className="block flex-1 min-h-0 rounded-t-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3584DE] focus-visible:ring-offset-2 focus-visible:ring-offset-[#020617]"
+                    >
+                      <div className="relative h-64 overflow-hidden">
+                        <img 
+                          src={normalizeImageUrl(service.image)} 
+                          alt={service.name}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60"></div>
+                        <div className="absolute top-4 right-4 w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:bg-[#3584DE] group-hover:border-[#3584DE] transition-all duration-500">
+                          <Icon className="w-6 h-6 text-white" />
+                        </div>
                       </div>
-                    </div>
-                    <CardHeader className="p-8">
-                      <div className="flex justify-between items-start mb-4">
-                        <CardTitle className="text-2xl font-bold text-white tracking-tight group-hover:text-[#06B6D4] transition-colors">
-                          {service.name}
-                        </CardTitle>
-                      </div>
-                      <p className="text-gray-400 text-sm leading-relaxed mb-8 font-light line-clamp-4">
-                        {service.description}
-                      </p>
+                      <CardHeader className="p-8 pb-4">
+                        <div className="flex justify-between items-start mb-4">
+                          <CardTitle className="text-2xl font-bold text-white tracking-tight group-hover:text-[#06B6D4] transition-colors">
+                            {service.name}
+                          </CardTitle>
+                        </div>
+                        <p className="text-gray-400 text-sm leading-relaxed font-light line-clamp-4">
+                          {service.description}
+                        </p>
+                      </CardHeader>
+                    </Link>
+                    <div className="px-8 pb-8">
                       <Button 
+                        type="button"
                         onClick={openQuote}
                         className="w-full bg-white/5 border border-white/10 text-white hover:bg-[#3584DE] hover:border-[#3584DE] transition-all duration-300"
                       >
                         Request Quote
                       </Button>
-                    </CardHeader>
+                    </div>
                   </Card>
                 );
               })
@@ -154,7 +170,7 @@ const Services = () => {
 
       <Footer />
       
-      <Dialog open={isQuoteOpen} onValueChange={setIsQuoteOpen}>
+      <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
         <DialogContent className="max-w-4xl p-0 bg-[#0F172A] border-white/10 overflow-y-auto max-h-[90vh]">
           <QuotationSection />
         </DialogContent>

@@ -9,6 +9,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Upload, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
+import {
+  QUOTE_FORM_BUDGET_RANGES,
+  QUOTE_FORM_PREFERRED_STYLES,
+  QUOTE_FORM_PROJECT_TYPES,
+} from '@/lib/quoteFormOptions';
 
 type QuotationSectionProps = {
   variant?: 'section' | 'modal';
@@ -109,7 +114,10 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
   };
 
   return (
-    <section id="contact" className={`${isModal ? 'p-0' : 'py-16 md:py-24 bg-transparent relative overflow-hidden'}`}>
+    <section
+      id="contact"
+      className={`${isModal ? 'p-0' : 'scroll-mt-24 md:scroll-mt-28 py-16 md:py-24 bg-transparent relative overflow-hidden'}`}
+    >
       {!isModal && (
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#3584DE]/5 blur-[120px] -z-10 rounded-full scale-150"></div>
       )}
@@ -154,9 +162,12 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
-                    <Label className="text-gray-300 text-sm ml-1">Full Name</Label>
-                    <Input 
-                      placeholder="John Doe" 
+                    <Label htmlFor="company-name" className="text-gray-300 text-sm ml-1">
+                      Company Name
+                    </Label>
+                    <Input
+                      id="company-name"
+                      placeholder="Your company or brand name"
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       required
@@ -179,15 +190,19 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
                     <Label className="text-gray-300 text-sm ml-1">Project Type</Label>
-                    <Select value={formData.projectType} onValueChange={(val) => handleInputChange('projectType', val)}>
+                    <Select
+                      value={formData.projectType || undefined}
+                      onValueChange={(val) => handleInputChange('projectType', val)}
+                    >
                       <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-12 text-white focus:ring-[#3584DE]">
                         <SelectValue placeholder="Select type" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#1E293B] border-white/10 text-white">
-                        <SelectItem value="Residential">Residential Art</SelectItem>
-                        <SelectItem value="Corporate">Corporate Graphics</SelectItem>
-                        <SelectItem value="Healthcare">Healthcare Murals</SelectItem>
-                        <SelectItem value="Hospitality">Hospitality Design</SelectItem>
+                        {QUOTE_FORM_PROJECT_TYPES.map(({ value, label }) => (
+                          <SelectItem key={value} value={value}>
+                            {label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
@@ -206,26 +221,39 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
                     <Label className="text-gray-300 text-sm ml-1">Estimated Budget</Label>
-                    <Select value={formData.budget} onValueChange={(val) => handleInputChange('budget', val)}>
+                    <Select
+                      value={formData.budget || undefined}
+                      onValueChange={(val) => handleInputChange('budget', val)}
+                    >
                       <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-12 text-white focus:ring-[#3584DE]">
                         <SelectValue placeholder="Select range" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#1E293B] border-white/10 text-white">
-                        <SelectItem value="Small">Under $1,000</SelectItem>
-                        <SelectItem value="Medium">$1,000 - $5,000</SelectItem>
-                        <SelectItem value="Large">$5,000 - $15,000</SelectItem>
-                        <SelectItem value="Premium">$15,000+</SelectItem>
+                        {QUOTE_FORM_BUDGET_RANGES.map(({ value, label }) => (
+                          <SelectItem key={value} value={value}>
+                            {label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-3">
                     <Label className="text-gray-300 text-sm ml-1">Preferred Style</Label>
-                    <Input 
-                      placeholder="e.g. Minimalist, Abstract, Realistic" 
-                      value={formData.style}
-                      onChange={(e) => handleInputChange('style', e.target.value)}
-                      className="bg-white/5 border-white/10 rounded-xl h-12 text-white focus:ring-[#3584DE]"
-                    />
+                    <Select
+                      value={formData.style || undefined}
+                      onValueChange={(val) => handleInputChange('style', val)}
+                    >
+                      <SelectTrigger className="bg-white/5 border-white/10 rounded-xl h-12 text-white focus:ring-[#3584DE]">
+                        <SelectValue placeholder="Select style" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1E293B] border-white/10 text-white">
+                        {QUOTE_FORM_PREFERRED_STYLES.map(({ value, label }) => (
+                          <SelectItem key={value} value={value}>
+                            {label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 

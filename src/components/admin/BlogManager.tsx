@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { BlogRichTextEditor } from '@/components/admin/BlogRichTextEditor';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -173,6 +173,19 @@ export const BlogManager = () => {
     try {
       if (!editingBlog && !imageFile) {
         toast({ title: 'Error', description: 'Image file is required', variant: 'destructive' });
+        return;
+      }
+
+      const plainText =
+        new DOMParser().parseFromString(formData.content, 'text/html').body.textContent
+          ?.replace(/\u00a0/g, ' ')
+          .trim() ?? '';
+      if (!plainText) {
+        toast({
+          title: 'Error',
+          description: 'Article content is required',
+          variant: 'destructive',
+        });
         return;
       }
 
@@ -348,13 +361,13 @@ export const BlogManager = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="content" className="text-gray-300 ml-1">Content (HTML support)</Label>
-                <Textarea
-                  id="content"
+                <Label className="text-gray-300 ml-1">Article content</Label>
+                <p className="text-xs text-gray-500 ml-1 mb-1">
+                  Rich text is saved as HTML and shown on the public blog the same way.
+                </p>
+                <BlogRichTextEditor
                   value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  required
-                  className="bg-white/5 border-white/10 rounded-xl min-h-[200px] focus:ring-[#3584DE] resize-none font-mono text-sm"
+                  onChange={(html) => setFormData({ ...formData, content: html })}
                 />
               </div>
 

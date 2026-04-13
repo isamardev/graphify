@@ -3,17 +3,10 @@ import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
 
 const HeroSection = () => {
-  const scrollToContact = () => {
+  const scrollToConsultation = () => {
     const contactSection = document.getElementById('contact');
     if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const scrollToConsultation = () => {
-    const consultationSection = document.getElementById('booking');
-    if (consultationSection) {
-      consultationSection.scrollIntoView({ behavior: 'smooth' });
+      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 

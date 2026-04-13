@@ -92,3 +92,47 @@
     z-index: -1;
   }
 }
+
+/* Admin blog editor (Quill / react-quill), dark theme */
+.blog-rich-text-editor .ql-toolbar.ql-snow {
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(15 23 42);
+  border-radius: 0.75rem 0.75rem 0 0;
+  padding: 0.5rem 0.75rem;
+}
+
+.blog-rich-text-editor .ql-container.ql-snow {
+  border: none !important;
+  font-size: 0.875rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.blog-rich-text-editor .ql-editor {
+  min-height: 220px;
+  color: rgb(243 244 246);
+  line-height: 1.6;
+}
+
+.blog-rich-text-editor .ql-editor.ql-blank::before {
+  color: rgb(107 114 128);
+  font-style: normal;
+}
+
+.blog-rich-text-editor .ql-snow .ql-stroke {
+  stroke: rgb(203 213 225);
+}
+
+.blog-rich-text-editor .ql-snow .ql-fill {
+  fill: rgb(203 213 225);
+}
+
+.blog-rich-text-editor .ql-snow .ql-picker {
+  color: rgb(203 213 225);
+}
+
+.blog-rich-text-editor .ql-snow .ql-picker-options {
+  background: rgb(15 23 42);
+  border-color: rgba(255, 255, 255, 0.1);
+}

@@ -201,7 +201,7 @@ const Blogs = () => {
               filteredBlogs.map((blog) => {
                 const author = authors.find(a => a.id === blog.author_id);
                 return (
-                  <Link key={blog.id} to={`/blog/${blog.id}`} className="group">
+                  <Link key={blog.id} to={`/blogs/${toSlug(blog.title)}`} className="group">
                     <Card className="h-full flex flex-col overflow-hidden border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-500">
                       <div className="relative h-64 overflow-hidden">
                         <img 
