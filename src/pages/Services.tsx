@@ -171,7 +171,7 @@ const Services = () => {
       <Footer />
       
       <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
-        <DialogContent className="max-w-4xl p-0 bg-[#0F172A] border-white/10 overflow-y-auto max-h-[90vh]">
+        <DialogContent className="max-w-4xl p-0 bg-[#0F172A] border-white/10">
           <QuotationSection />
         </DialogContent>
       </Dialog>

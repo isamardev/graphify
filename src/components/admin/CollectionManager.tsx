@@ -209,7 +209,7 @@ export const CollectionManager = () => {
               New Collection
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[600px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8 max-h-[90vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[600px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold tracking-tight">{editingCollection ? 'Edit Collection' : 'Create Collection'}</DialogTitle>
               <DialogDescription className="text-gray-400 font-light">
@@ -385,7 +385,7 @@ export const CollectionManager = () => {
       </div>
 
       <Dialog open={!!viewingCollection} onOpenChange={(open) => !open && setViewingCollection(null)}>
-        <DialogContent className="sm:max-w-[600px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-0 overflow-hidden">
+        <DialogContent className="sm:max-w-[600px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-0">
           {viewingCollection && (
             <div>
               <div className="aspect-video w-full">

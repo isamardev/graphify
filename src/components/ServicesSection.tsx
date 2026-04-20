@@ -152,7 +152,7 @@ const ServicesSection = () => {
         </div>
       </div>
       <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
-        <DialogContent className="max-w-5xl p-0 bg-transparent border-none max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-5xl p-0 bg-transparent border-none">
           <QuotationSection variant="modal" onSubmitted={() => setIsQuoteOpen(false)} />
         </DialogContent>
       </Dialog>

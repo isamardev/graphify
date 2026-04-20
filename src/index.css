@@ -136,3 +136,33 @@
   background: rgb(15 23 42);
   border-color: rgba(255, 255, 255, 0.1);
 }
+
+/* Modal / dialog scrollbars — Graphify blue → cyan (inset so thumb sits inside rounded panel) */
+.dialog-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3584de rgb(15 23 42 / 0.85);
+  padding-right: 4px;
+}
+
+.dialog-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dialog-scroll::-webkit-scrollbar-track {
+  background: rgb(15 23 42 / 0.85);
+  border-radius: 9999px;
+  margin-block: 4px;
+}
+
+.dialog-scroll::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #3584de 0%, #06b6d4 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.dialog-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4a93e8 0%, #22d3ee 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}

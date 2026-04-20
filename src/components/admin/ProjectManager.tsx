@@ -239,7 +239,7 @@ export const ProjectManager = () => {
               Add Project
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>{editingProject ? 'Edit' : 'Add'} Project</DialogTitle>
               <DialogDescription>

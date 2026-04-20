@@ -288,7 +288,7 @@ export const BlogManager = () => {
               Write Article
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[700px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8 max-h-[90vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[700px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold tracking-tight">{editingBlog ? 'Edit Article' : 'New Article'}</DialogTitle>
               <DialogDescription className="text-gray-400 font-light">
@@ -481,7 +481,7 @@ export const BlogManager = () => {
       </div>
 
       <Dialog open={!!viewingBlog} onOpenChange={(open) => !open && setViewingBlog(null)}>
-        <DialogContent className="sm:max-w-[700px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-0 overflow-hidden">
+        <DialogContent className="sm:max-w-[700px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-0">
           {viewingBlog && (
             <div>
               <div className="aspect-video w-full relative">
@@ -494,7 +494,7 @@ export const BlogManager = () => {
                   <Badge className="bg-[#3584DE] text-white border-none">{viewingBlog.tag || 'Design'}</Badge>
                 </div>
               </div>
-              <div className="p-8 space-y-6 max-h-[60vh] overflow-y-auto">
+              <div className="p-8 space-y-6">
                 <div>
                   <h3 className="text-3xl font-bold tracking-tight text-white mb-4">{viewingBlog.title}</h3>
                   <div className="flex items-center gap-4 text-xs text-gray-500 uppercase tracking-widest mb-6">

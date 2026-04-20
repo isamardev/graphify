@@ -184,7 +184,7 @@ export const ServiceManager = () => {
               Add Service
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[600px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8 max-h-[90vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[600px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-8">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold tracking-tight">{editingService ? 'Edit Service' : 'Add New Service'}</DialogTitle>
               <DialogDescription className="text-gray-400 font-light">
@@ -339,7 +339,7 @@ export const ServiceManager = () => {
       </div>
 
       <Dialog open={!!viewingService} onOpenChange={(open) => !open && setViewingService(null)}>
-        <DialogContent className="sm:max-w-[500px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-0 overflow-hidden">
+        <DialogContent className="sm:max-w-[500px] bg-[#0F172A] border-white/10 text-white rounded-3xl p-0">
           {viewingService && (
             <div>
               <div className="aspect-video w-full">

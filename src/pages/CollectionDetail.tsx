@@ -293,7 +293,7 @@ const CollectionDetail = () => {
       </main>
 
       <Dialog open={isProjectModalOpen} onOpenChange={setIsProjectModalOpen}>
-        <DialogContent className="max-w-4xl bg-[#0F172A] border-white/10 text-white p-0 overflow-hidden rounded-3xl">
+        <DialogContent className="max-w-4xl bg-[#0F172A] border-white/10 text-white p-0 rounded-3xl">
           {selectedProject && (
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="h-[300px] md:h-full">
@@ -303,7 +303,7 @@ const CollectionDetail = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-8 md:p-12 space-y-8 max-h-[80vh] overflow-y-auto">
+              <div className="p-8 md:p-12 space-y-8">
                 <div>
                   <Badge className="bg-[#06B6D4]/10 text-[#06B6D4] border-none mb-4 uppercase tracking-widest text-[10px]">Project Details</Badge>
                   <DialogTitle className="text-3xl font-bold tracking-tight mb-4 text-white">{selectedProject.title}</DialogTitle>
@@ -355,7 +355,7 @@ const CollectionDetail = () => {
       </Dialog>
 
       <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
-        <DialogContent className="max-w-4xl p-0 bg-[#0F172A] border-white/10 overflow-y-auto max-h-[90vh]">
+        <DialogContent className="max-w-4xl p-0 bg-[#0F172A] border-white/10">
           <QuotationSection />
         </DialogContent>
       </Dialog>

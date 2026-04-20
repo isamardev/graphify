@@ -1,5 +1,6 @@
-
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { mainNavItems } from '@/lib/navLinks';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -44,27 +45,34 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Same navigation as the header */}
           <div>
-            <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Quick Links</h4>
+            <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Navigate</h4>
             <ul className="space-y-4">
-              <li><a href="#portfolio" className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300">Portfolio</a></li>
-              <li><a href="#services" className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300">Services</a></li>
-              <li><a href="/blogs" className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300">Blog</a></li>
-              <li><a href="#story" className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300">Our Story</a></li>
-              <li><a href="#reviews" className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300">Reviews</a></li>
+              {mainNavItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    to={item.href}
+                    className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Services */}
           <div>
-            <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Services</h4>
+            <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Get in touch</h4>
             <ul className="space-y-4">
-              <li><span className="text-gray-400 hover:text-white transition-colors cursor-default">Custom Wall Art</span></li>
-              <li><span className="text-gray-400 hover:text-white transition-colors cursor-default">Healthcare Murals</span></li>
-              <li><span className="text-gray-400 hover:text-white transition-colors cursor-default">Corporate Graphics</span></li>
-              <li><span className="text-gray-400 hover:text-white transition-colors cursor-default">Cafe Designs</span></li>
-              <li><span className="text-gray-400 hover:text-white transition-colors cursor-default">Home Interiors</span></li>
+              <li>
+                <Link to="/contact" className="text-gray-400 hover:text-[#06B6D4] transition-all duration-300">
+                  Contact form
+                </Link>
+              </li>
+              <li className="text-gray-500 text-sm leading-relaxed pt-2">
+                Custom wall art for healthcare, corporate, hospitality, and residential spaces.
+              </li>
             </ul>
           </div>
         </div>

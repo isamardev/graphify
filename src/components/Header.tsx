@@ -4,20 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Link, useLocation } from 'react-router-dom';
 import QuotationSection from '@/components/QuotationSection';
+import { mainNavItems } from '@/lib/navLinks';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const location = useLocation();
 
-  const navItems = [
-    { name: 'Home', href: '/' },
-    { name: 'Collections', href: '/collections' },
-    { name: 'Services', href: '/services' },
-    { name: 'Blog', href: '/blogs' },
-    { name: 'Team', href: '/team' },
-    { name: 'Contact', href: '/contact' }
-  ];
+  const navItems = mainNavItems;
 
   const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
@@ -67,12 +61,7 @@ const Header = () => {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center space-x-4">
-            <Link to="/admin/login">
-              <Button variant="ghost" className="text-gray-400 hover:text-white">
-                Dashboard
-              </Button>
-            </Link>
+          <div className="hidden md:flex items-center">
             <Button 
               className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white shadow-lg shadow-[#3584DE]/20"
               onClick={handleGetQuote}
@@ -119,12 +108,7 @@ const Header = () => {
                   </Link>
                 )
               ))}
-              <div className="flex flex-col space-y-3 pt-4 border-t border-white/10">
-                <Link to="/admin/login" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full text-gray-400 hover:text-white justify-start px-0">
-                    Dashboard
-                  </Button>
-                </Link>
+              <div className="pt-4 border-t border-white/10">
                 <Button 
                   className="w-full bg-[#3584DE] hover:bg-[#3584DE]/90 text-white"
                   onClick={() => {
@@ -140,7 +124,7 @@ const Header = () => {
         )}
       </div>
       <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
-        <DialogContent className="max-w-5xl p-0 bg-transparent border-none max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-5xl p-0 bg-transparent border-none">
           <QuotationSection variant="modal" onSubmitted={() => setIsQuoteOpen(false)} />
         </DialogContent>
       </Dialog>
