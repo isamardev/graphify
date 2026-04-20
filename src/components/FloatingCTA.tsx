@@ -2,12 +2,13 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, X } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const FloatingCTA = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +25,7 @@ const FloatingCTA = () => {
 
   const handleQuickQuote = () => {
     if (location.pathname !== '/') {
-      window.location.href = '/#contact';
+      navigate({ pathname: '/', hash: 'contact' });
       return;
     }
     const contactSection = document.getElementById('contact');
@@ -68,7 +69,7 @@ const FloatingCTA = () => {
             <Button 
               variant="outline" 
               className="w-full border-white/10 text-white hover:bg-white/5 rounded-xl h-11 text-xs font-bold"
-              onClick={() => window.location.href = '/collections'}
+              onClick={() => navigate('/collections')}
             >
               View Collections
             </Button>
