@@ -66,7 +66,7 @@ const Header = () => {
               className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white shadow-lg shadow-[#3584DE]/20"
               onClick={handleGetQuote}
             >
-              Get Quote
+              Get Free Sample
             </Button>
           </div>
 
@@ -116,7 +116,7 @@ const Header = () => {
                     setIsMenuOpen(false);
                   }}
                 >
-                  Get Quote
+                  Get Free Sample
                 </Button>
               </div>
             </nav>

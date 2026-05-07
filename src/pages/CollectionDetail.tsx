@@ -174,7 +174,7 @@ const CollectionDetail = () => {
     return (
       <div className="min-h-screen bg-transparent flex flex-col items-center justify-center">
         <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p className="text-gray-400 font-light tracking-widest uppercase text-xs">Unveiling Masterpiece...</p>
+        <p className="text-gray-400 font-light tracking-widest uppercase text-xs">Loading design details...</p>
       </div>
     );
   }
@@ -183,9 +183,9 @@ const CollectionDetail = () => {
     return (
       <div className="min-h-screen bg-transparent flex flex-col items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Collection Not Found</h1>
+          <h1 className="text-2xl font-bold text-white mb-4">Design set not found</h1>
           <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5">
-            <Link to="/collections">Back to Collections</Link>
+            <Link to="/collections">Back to our design work</Link>
           </Button>
         </div>
       </div>
@@ -200,7 +200,7 @@ const CollectionDetail = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <Link to="/collections" className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-12 group">
             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-            Back to Collections
+            Back to design work
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20 items-center">
@@ -219,7 +219,7 @@ const CollectionDetail = () => {
             <div className="space-y-8">
               <div>
                 <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-                  Featured Collection
+                  Design work
                 </Badge>
                 <h1 className="text-4xl md:text-7xl font-bold text-white tracking-tight mb-6">
                   {collection.title}
@@ -249,14 +249,14 @@ const CollectionDetail = () => {
 
           <div className="space-y-12">
             <div className="flex items-center gap-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Project <span className="text-[#06B6D4]">Gallery</span></h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Sample <span className="text-[#06B6D4]">outputs</span></h2>
               <div className="h-px flex-grow bg-gradient-to-r from-white/10 to-transparent"></div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {artworks.length === 0 ? (
                 <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-3xl bg-white/5">
-                  <p className="text-gray-500 italic">No projects added to this collection yet.</p>
+                  <p className="text-gray-500 italic">No sample pieces in this set yet — we can recreate the look for your SKUs.</p>
                 </div>
               ) : (
                 artworks.map((artwork) => (
@@ -274,7 +274,7 @@ const CollectionDetail = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         <Button variant="outline" className="rounded-xl border-white text-white hover:bg-white hover:text-black">
-                          Explore Project
+                          View detail
                         </Button>
                       </div>
                     </div>
@@ -346,7 +346,7 @@ const CollectionDetail = () => {
                     setIsQuoteOpen(true);
                   }}
                 >
-                  Inquire About Project
+                  Request similar design
                 </Button>
               </div>
             </div>

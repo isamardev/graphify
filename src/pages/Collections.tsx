@@ -124,11 +124,14 @@ const Collections = () => {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
               <div>
                 <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-                  Our Gallery
+                  Design capabilities
                 </Badge>
                 <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight">
-                  Design <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Collections</span>
+                  Explore Our <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Design Work</span>
                 </h1>
+                <p className="text-gray-400 mt-4 max-w-xl font-light leading-relaxed">
+                  See what we can create for your brand.
+                </p>
               </div>
               
               <div className="flex flex-wrap gap-3">
@@ -163,11 +166,11 @@ const Collections = () => {
             {isLoading ? (
               <div className="col-span-full flex flex-col items-center justify-center py-32">
                 <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p className="text-gray-400 font-light">Loading our masterpieces...</p>
+                <p className="text-gray-400 font-light">Loading design samples...</p>
               </div>
             ) : filteredCollections.length === 0 ? (
               <div className="col-span-full text-center py-32">
-                <p className="text-gray-400 text-lg">No collections found in this category.</p>
+                <p className="text-gray-400 text-lg">Nothing in this filter yet — try another category or request a custom piece.</p>
               </div>
             ) : (
               filteredCollections.map((item) => (

@@ -8,23 +8,23 @@ const BookingSection = () => {
   const consultationOptions = [
     {
       icon: Users,
-      title: "Space Assessment and Recommendations",
-      description: "Professional evaluation of your space with tailored design recommendations that maximize visual impact and functionality."
+      title: "Catalog & Product Review",
+      description: "We review your substrates, finishes, and best-selling formats so new artwork drops match what you produce."
     },
     {
       icon: Palette,
-      title: "Style and Theme Consultation", 
-      description: "Collaborative session to define your aesthetic preferences, color schemes, and overall design direction for your project."
+      title: "Visual Direction Alignment", 
+      description: "Lock palettes, moods, and trend lanes that fit your shoppers — never generic filler content."
     },
     {
       icon: Clock,
-      title: "Project Timeline and Budget Discussion",
-      description: "Detailed planning session covering project phases, realistic timelines, material costs, and investment options."
+      title: "Volume & SLA Planning",
+      description: "Map realistic turnaround and batch sizes so your floor always has fresh SKU-ready visuals."
     },
     {
       icon: Calendar,
-      title: "Custom Design Concepts",
-      description: "Creative brainstorming session where we develop unique design concepts specifically tailored to your vision and space."
+      title: "Brand & Market Signals",
+      description: "Tell us territories and audience segments — we tune compositions and subjects to what actually sells."
     }
   ];
 
@@ -59,13 +59,14 @@ const BookingSection = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="text-center mb-20">
           <Badge variant="outline" className="mb-4 border-secondary/20 text-secondary bg-secondary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-            Consultation
+            Partner onboarding
           </Badge>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-            Book Your <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Consultation</span>
+            Schedule Your <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Strategy Call</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-            Ready to transform your space? Choose the consultation type that best fits your needs and let's bring your vision to life.
+            Walk us through your product mix and customers — we&apos;ll outline how ongoing design supply can slot into
+            your workflow.
           </p>
         </div>
 
@@ -95,10 +96,10 @@ const BookingSection = () => {
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#3584DE] to-[#06B6D4]"></div>
             <div className="relative z-10">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 tracking-tight">
-                Ready to Get Started?
+                Ready to Brief Your Next Line?
               </h3>
               <p className="text-gray-400 mb-10 max-w-2xl mx-auto font-light text-lg">
-                Schedule your free consultation today and let's discuss how we can transform your space with stunning wall art that tells your story.
+                Book a call — we&apos;ll unpack your production setup and outline how Graphify keeps new wall art flowing.
               </p>
               <Button 
                 size="lg"

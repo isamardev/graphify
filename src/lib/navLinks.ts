@@ -6,7 +6,7 @@ export type MainNavItem = {
 /** Same order as the main site header — use in Header, Footer, etc. */
 export const mainNavItems: MainNavItem[] = [
   { name: 'Home', href: '/' },
-  { name: 'Collections', href: '/collections' },
+  { name: 'Our Design Work', href: '/collections' },
   { name: 'Services', href: '/services' },
   { name: 'Blog', href: '/blogs' },
   { name: 'Team', href: '/team' },

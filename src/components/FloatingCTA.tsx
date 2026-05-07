@@ -48,7 +48,7 @@ const FloatingCTA = () => {
       ) : (
         <div className="bg-[#0F172A]/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6 max-w-[280px] animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-white tracking-tight">Quick Concierge</h3>
+            <h3 className="font-bold text-white tracking-tight">Start Your Design Project</h3>
             <button
               onClick={() => setIsMinimized(true)}
               className="p-1 hover:bg-white/10 rounded-lg transition-colors text-gray-400 hover:text-white"
@@ -57,21 +57,21 @@ const FloatingCTA = () => {
             </button>
           </div>
           <p className="text-xs text-gray-400 mb-6 leading-relaxed font-light">
-            Ready to transform your space? Get a personalized proposal in minutes.
+            Request custom wall art tailored to your market — print-ready files for your catalogue.
           </p>
           <div className="space-y-3">
             <Button 
               onClick={handleQuickQuote}
               className="w-full bg-[#3584DE] hover:bg-[#3584DE]/90 text-white rounded-xl h-11 text-xs font-bold shadow-lg shadow-[#3584DE]/20"
             >
-              Request Proposal
+              Request Custom Design
             </Button>
             <Button 
               variant="outline" 
               className="w-full border-white/10 text-white hover:bg-white/5 rounded-xl h-11 text-xs font-bold"
               onClick={() => navigate('/collections')}
             >
-              View Collections
+              View Designs
             </Button>
           </div>
         </div>

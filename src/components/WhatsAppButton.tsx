@@ -19,7 +19,7 @@ const WhatsAppButton = () => {
   }, []);
 
   const handleWhatsAppClick = () => {
-    const message = "Hi! I'm interested in your wall art services. Can you please provide more information?";
+    const message = "Hi Graphify — I'm interested in a free sample wall art brief for my print business.";
     const phoneNumber = "+923212345678"; // Replace with actual WhatsApp number
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');

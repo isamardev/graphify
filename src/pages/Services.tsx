@@ -98,13 +98,14 @@ const Services = () => {
             </Link>
             <div className="max-w-3xl">
               <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-                Our Expertise
+                Design capabilities
               </Badge>
               <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
-                Premium <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Services</span>
+                Printing Partner <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Deliverables</span>
               </h1>
               <p className="text-lg text-gray-400 font-light leading-relaxed">
-                Comprehensive wall art solutions for every space, style, and purpose. From residential homes to large commercial projects, we bring your vision to life with high-end craftsmanship.
+                Explore formats and themes we routinely produce — each can be bespoke to your SKU plan, substrates, and
+                regional trends.
               </p>
             </div>
           </div>
@@ -113,11 +114,11 @@ const Services = () => {
             {isLoading ? (
               <div className="col-span-full flex flex-col items-center justify-center py-32">
                 <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p className="text-gray-400 font-light">Loading our services...</p>
+                <p className="text-gray-400 font-light">Loading capabilities...</p>
               </div>
             ) : services.length === 0 ? (
               <div className="col-span-full text-center py-32">
-                <p className="text-gray-400 text-lg">No services available at the moment.</p>
+                <p className="text-gray-400 text-lg">Capability entries will populate here shortly — ping us for a sample brief meanwhile.</p>
               </div>
             ) : (
               services.map((service, index) => {
@@ -157,7 +158,7 @@ const Services = () => {
                         onClick={openQuote}
                         className="w-full bg-white/5 border border-white/10 text-white hover:bg-[#3584DE] hover:border-[#3584DE] transition-all duration-300"
                       >
-                        Request Quote
+                        Start design project
                       </Button>
                     </div>
                   </Card>

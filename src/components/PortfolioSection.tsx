@@ -2,7 +2,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { Category, Collection } from '@/lib/adminData';
@@ -127,13 +126,14 @@ const PortfolioSection = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div className="max-w-2xl">
             <Badge variant="outline" className="mb-4 border-[#06B6D4]/20 text-[#06B6D4] bg-[#06B6D4]/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-              Our Portfolio
+              Our Design Work
             </Badge>
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-              Featured <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Collections</span>
+              Recent <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Design Projects</span>
             </h2>
             <p className="text-lg text-gray-400 font-light leading-relaxed">
-              Explore our diverse range of custom wall art projects across various sectors and styles.
+              Designed for real printing businesses and real customers. Explore our design capabilities and see what we
+              can create for your brand.
             </p>
           </div>
           
@@ -160,7 +160,9 @@ const PortfolioSection = () => {
                <div className="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : filteredItems.length === 0 ? (
-            <div className="col-span-full text-center text-gray-400 py-20">No collections found.</div>
+            <div className="col-span-full text-center text-gray-400 py-20">
+              No design samples loaded yet. Request a free sample to see our capabilities.
+            </div>
           ) : (
             filteredItems.slice(0, 6).map((item) => (
               <Link 
@@ -195,7 +197,7 @@ const PortfolioSection = () => {
               size="lg" 
               className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white px-10 h-14 text-base font-semibold rounded-2xl shadow-lg shadow-[#3584DE]/20"
             >
-              View Full Gallery
+              Explore Our Design Work
             </Button>
           </Link>
         </div>

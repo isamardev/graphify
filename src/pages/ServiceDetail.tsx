@@ -97,9 +97,9 @@ const ServiceDetail = () => {
     return (
       <div className="min-h-screen bg-transparent flex flex-col items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Service Not Found</h1>
+          <h1 className="text-2xl font-bold text-white mb-4">Capability not found</h1>
           <Button variant="outline" className="border-white/10 text-white hover:bg-white/5" onClick={() => navigate('/services')}>
-            Back to Services
+            Back to capabilities
           </Button>
         </div>
       </div>
@@ -114,7 +114,7 @@ const ServiceDetail = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <Link to="/services" className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-12 group">
             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-            Back to Services
+            Back to capabilities
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
@@ -133,7 +133,7 @@ const ServiceDetail = () => {
             <div className="space-y-10">
               <div>
                 <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-                  Service Details
+                  Capability overview
                 </Badge>
                 <h1 className="text-4xl md:text-7xl font-bold text-white tracking-tight mb-6">
                   {service?.name}
@@ -141,7 +141,7 @@ const ServiceDetail = () => {
                 <div className="flex items-center gap-4 mb-8">
                   <span className="text-[#06B6D4] text-2xl font-bold">{service?.price}</span>
                   <div className="h-4 w-px bg-white/10"></div>
-                  <span className="text-gray-500 text-sm uppercase tracking-widest">Premium Quality</span>
+                  <span className="text-gray-500 text-sm uppercase tracking-widest">Print-ready output</span>
                 </div>
                 <p className="text-xl text-gray-400 font-light leading-relaxed">
                   {service?.description}
@@ -149,13 +149,13 @@ const ServiceDetail = () => {
               </div>
 
               <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl">
-                <h3 className="text-lg font-bold text-white mb-6 tracking-tight">Why Choose This Service?</h3>
+                <h3 className="text-lg font-bold text-white mb-6 tracking-tight">Why teams brief us for this</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {[
-                    { title: "Bespoke Design", desc: "Tailored specifically to your vision and space requirements." },
-                    { title: "Expert Craft", desc: "Handcrafted by our team of master artists and designers." },
-                    { title: "Premium Materials", desc: "We use only the highest quality, durable materials." },
-                    { title: "Professional Finish", desc: "Seamless installation and attention to every detail." }
+                    { title: "Brand-aligned concepts", desc: "Subjects, palettes, and crops tuned to your shopper data." },
+                    { title: "Studio throughput", desc: "Multiple SKUs per sprint without sacrificing QC." },
+                    { title: "File hygiene", desc: "Named layers, bleed, and export presets for your presses." },
+                    { title: "Resale licensing", desc: "Commercial terms that cover your retail and trade channels." }
                   ].map((item, i) => (
                     <div key={i} className="space-y-2">
                       <h4 className="text-[#06B6D4] font-bold text-sm">{item.title}</h4>
@@ -170,7 +170,7 @@ const ServiceDetail = () => {
                 className="w-full bg-[#3584DE] hover:bg-[#3584DE]/90 text-white h-16 text-lg font-bold rounded-2xl shadow-lg shadow-[#3584DE]/20"
                 onClick={() => navigate('/contact')}
               >
-                Inquire About This Service
+                Request this deliverable
               </Button>
             </div>
           </div>

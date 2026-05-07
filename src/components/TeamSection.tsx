@@ -6,7 +6,12 @@ import { Badge } from '@/components/ui/badge';
 import { Palette } from 'lucide-react';
 import { Team } from '@/lib/adminData';
 
-const TeamSection = () => {
+type TeamSectionProps = {
+  /** Dedicated /team route: tighter top spacing (home already separates sections). */
+  variant?: 'landing' | 'page';
+};
+
+const TeamSection = ({ variant = 'landing' }: TeamSectionProps) => {
   const [teamMembers, setTeamMembers] = useState<Team[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
@@ -66,19 +71,23 @@ const TeamSection = () => {
     };
   }, [apiBase]);
 
+  const sectionSpacing =
+    variant === 'page' ? 'pt-0 pb-16 md:pb-24' : 'py-16 md:py-24';
+  const headingSpacing = variant === 'page' ? 'mb-10 md:mb-12' : 'mb-20';
+
   return (
-    <section id="team" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="text-center mb-20">
+    <section id="team" className={`${sectionSpacing} bg-transparent relative overflow-hidden`}>
+      <div className={variant === 'page' ? 'max-w-7xl mx-auto' : 'max-w-7xl mx-auto px-4 md:px-6'}>
+        <div className={`text-center ${headingSpacing}`}>
           <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
             The Artisans
           </Badge>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
             Meet Our <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Creative Team</span>
           </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-            The talented artists and designers behind every masterpiece, bringing your vision to life with passion and expertise.
-          </p>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
+              The designers powering your subscription studio — obsessive about specs, palettes, and what sells through print channels.
+            </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

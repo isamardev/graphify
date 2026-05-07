@@ -69,8 +69,8 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       toast({
-        title: 'Quote request sent!',
-        description: "We'll respond with a customized quote soon."
+        title: 'Request received!',
+        description: "We'll follow up shortly with your sample and next steps."
       });
       setFormData({
         name: '',
@@ -128,18 +128,19 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
             <div className={`lg:col-span-2 p-8 md:p-12 bg-gradient-to-br from-[#3584DE] to-[#06B6D4] text-white flex flex-col justify-between`}>
               <div>
                 <Badge variant="outline" className="mb-6 border-white/20 text-white bg-white/10 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-                  Get a Quote
+                  Request Free Sample
                 </Badge>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Let's Create <br />Something <span className="text-white/70 italic">Extraordinary</span></h2>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Let&apos;s Create <br />Your <span className="text-white/70 italic">Next Drop</span></h2>
                 <p className="text-white/80 font-light leading-relaxed mb-8">
-                  Fill out the form to receive a personalized proposal for your project. Our design team will review your requirements and get back to you within 24 hours.
+                  Tell us about your print catalogue and audience. Our design team replies within 24 hours with next steps
+                  for your free sample and ongoing production.
                 </p>
                 
                 <div className="space-y-6">
                   {[
-                    { title: "Bespoke Consultations", desc: "One-on-one sessions with our lead designers." },
-                    { title: "Premium Materials", desc: "Access to exclusive, high-end textures and paints." },
-                    { title: "Global Delivery", desc: "Expert teams available for international projects." }
+                    { title: "Dedicated art direction", desc: "A lean team that knows your brand lanes and repeat formats." },
+                    { title: "Print-first file delivery", desc: "Exports matched to your presses, substrates, and SKUs." },
+                    { title: "Commercial clarity", desc: "Licensing structured for resale across your channels." }
                   ].map((item, i) => (
                     <div key={i} className="flex gap-4">
                       <div className="w-1.5 h-1.5 rounded-full bg-white mt-2.5 shrink-0"></div>
@@ -281,7 +282,7 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
                 <div className="space-y-3">
                   <Label className="text-gray-300 text-sm ml-1">Project Description</Label>
                   <Textarea 
-                    placeholder="Tell us about your space and vision..." 
+                    placeholder="Describe your print business, formats, and what you need in the sample..."
                     value={formData.description}
                     onChange={(e) => handleInputChange('description', e.target.value)}
                     required
@@ -338,7 +339,7 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
                       <span>Submitting Request...</span>
                     </div>
                   ) : (
-                    "Send Request"
+                    "Request Free Design"
                   )}
                 </Button>
               </form>

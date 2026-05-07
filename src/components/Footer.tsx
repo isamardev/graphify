@@ -17,9 +17,8 @@ const Footer = () => {
               </span>
             </h3>
             <p className="text-gray-400 mb-8 leading-relaxed max-w-md">
-              Transforming walls into stories since 2018. We specialize in creating custom wall art 
-              that enhances spaces and inspires experiences across healthcare, corporate, hospitality, 
-              and residential environments.
+              Wall art design partner for printing companies — a subscription design studio supplying trend-led, print-ready
+              files scaled to your catalogue.
             </p>
             <div className="flex items-center space-x-6">
               <Button variant="secondary" size="sm" className="bg-white/5 border-white/10 hover:bg-white/10">
@@ -71,7 +70,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li className="text-gray-500 text-sm leading-relaxed pt-2">
-                Custom wall art for healthcare, corporate, hospitality, and residential spaces.
+                Custom wall art tailored to your market — designed for global print brands and growing regional producers.
               </li>
             </ul>
           </div>
@@ -80,7 +79,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-500 text-sm">
-            © {currentYear} Graphify. All rights reserved.
+            © {currentYear} Graphify — Design Partner for Print Businesses
           </p>
           <div className="flex space-x-8 text-sm">
             <a href="#" className="text-gray-500 hover:text-white transition-colors">Privacy Policy</a>

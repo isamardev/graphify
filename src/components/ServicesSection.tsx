@@ -86,13 +86,14 @@ const ServicesSection = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="text-center mb-20">
           <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-            Our Expertise
+            Design capabilities
           </Badge>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-            Comprehensive <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Solutions</span>
+            What We Build <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">For Your Catalogue</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-            From custom artwork to complete space transformations, we offer high-end solutions for all your wall art needs.
+            From statement pieces to repeatable lines, our subscription design studio covers the wall art formats your print
+            operation needs — all aligned to trends and resale licensing.
           </p>
         </div>
 
@@ -102,7 +103,9 @@ const ServicesSection = () => {
               <div className="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : services.length === 0 ? (
-            <div className="col-span-full text-center text-gray-400 py-20">No services found.</div>
+            <div className="col-span-full text-center text-gray-400 py-20">
+              Capability cards will appear here once linked — request a brief to preview what we can build.
+            </div>
           ) : (
             services.slice(0, 6).map((service, index) => {
               const Icon = iconPool[index % iconPool.length];
@@ -139,7 +142,7 @@ const ServicesSection = () => {
             className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white px-8 rounded-xl h-12 shadow-lg shadow-[#3584DE]/20"
             onClick={handleShowAllServices}
           >
-            View All Services
+            View capabilities
           </Button>
           <Button 
             variant="outline"
@@ -147,7 +150,7 @@ const ServicesSection = () => {
             className="border-white/10 text-white hover:bg-white/5 px-8 rounded-xl h-12"
             onClick={handleRequestService}
           >
-            Request a Service
+            Start Your Design Project
           </Button>
         </div>
       </div>

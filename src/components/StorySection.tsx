@@ -7,22 +7,22 @@ const StorySection = () => {
     {
       year: "2018",
       title: "The Beginning",
-      description: "Started with a passion for transforming blank walls into meaningful art pieces"
+      description: "Launched Graphify focused on scalable, brand-aligned wall art for print partners"
     },
     {
-      year: "2019",
-      title: "First Hospital Project",
-      description: "Completed our first healthcare facility, bringing joy to children's wards"
+      year: "2020",
+      title: "Print Partner Focus",
+      description: "Shifted fully to supplying print-ready packs and repeatable design systems for catalogs"
     },
     {
-      year: "2021",
-      title: "Corporate Expansion",
-      description: "Expanded into corporate and commercial spaces, creating branded environments"
+      year: "2022",
+      title: "Global Reach",
+      description: "Supporting printing brands overseas with turnaround-focused production workflows"
     },
     {
-      year: "2024",
-      title: "200+ Projects",
-      description: "Celebrating over 200 successful projects across various industries"
+      year: "2026",
+      title: "300+ Artworks Delivered",
+      description: "Hundreds of print-ready artworks shipped — built for resale and showroom display"
     }
   ];
 
@@ -31,13 +31,14 @@ const StorySection = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="text-center mb-20">
           <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-            Our Legacy
+            Design Supply Platform
           </Badge>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
             The Story Behind <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Graphify</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-            Born from a belief that every wall has the potential to inspire, heal, and transform spaces into experiences.
+            Built for printing companies that need a reliable design partner — not one-off files, but a pipeline of
+            trend-aware, print-ready wall art.
           </p>
         </div>
 
@@ -46,15 +47,14 @@ const StorySection = () => {
             <div className="space-y-4">
               <h3 className="text-3xl font-bold text-white tracking-tight">Our Mission</h3>
               <p className="text-lg text-gray-400 leading-relaxed font-light">
-                At Graphify, we believe that art has the power to transform not just spaces, but emotions and experiences. 
-                Our mission is to create wall art that tells stories - whether it's bringing comfort to hospital patients, 
-                inspiring creativity in offices, or adding warmth to homes.
+                Graphify exists to help printing brands grow their wall art lines with designs that sell — aligned to your
+                audience, formatted for production, and licensed for commercial use.
               </p>
             </div>
             <div className="space-y-4">
               <p className="text-lg text-gray-400 leading-relaxed font-light">
-                We combine artistic excellence with deep understanding of how visual elements affect human psychology, 
-                creating pieces that don't just look beautiful, but serve a purpose in enhancing the human experience.
+                We combine trend research with print specifications so your team spends less time fixing files and more
+                time fulfilling orders for real customers.
               </p>
             </div>
           </div>
@@ -63,10 +63,10 @@ const StorySection = () => {
             <div className="absolute -inset-1 bg-gradient-to-r from-[#3584DE] to-[#06B6D4] rounded-full blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative aspect-square bg-white/5 backdrop-blur-xl border border-white/10 rounded-full flex flex-col items-center justify-center shadow-2xl shadow-black/40">
               <div className="text-8xl font-black bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent mb-2">
-                200+
+                300+
               </div>
               <div className="text-gray-400 font-bold uppercase tracking-widest text-sm">
-                Projects Completed
+                Artworks Delivered
               </div>
             </div>
           </div>
