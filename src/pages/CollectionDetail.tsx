@@ -256,7 +256,7 @@ const CollectionDetail = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {artworks.length === 0 ? (
                 <div className="col-span-full py-20 text-center border border-dashed border-white/10 rounded-3xl bg-white/5">
-                  <p className="text-gray-500 italic">No sample pieces in this set yet — we can recreate the look for your SKUs.</p>
+                  <p className="text-gray-500 italic">No sample pieces in this set yet. We can recreate the look for your SKUs.</p>
                 </div>
               ) : (
                 artworks.map((artwork) => (

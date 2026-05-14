@@ -86,7 +86,7 @@ const TeamSection = ({ variant = 'landing' }: TeamSectionProps) => {
             Meet Our <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Creative Team</span>
           </h2>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-              The designers powering your subscription studio — obsessive about specs, palettes, and what sells through print channels.
+              The designers powering your subscription studio, obsessive about specs, palettes, and what sells through print channels.
             </p>
         </div>
 

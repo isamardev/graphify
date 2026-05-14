@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { mainNavItems } from '@/lib/navLinks';
+import { BrandLogo } from '@/components/BrandLogo';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,13 +12,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
-            <h3 className="text-3xl font-bold mb-6 tracking-tight">
-              <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">
-                Graphify
-              </span>
-            </h3>
+            <div className="mb-6">
+              <BrandLogo imgClassName="h-10 md:h-12 w-auto max-w-[260px] md:max-w-[300px]" />
+            </div>
             <p className="text-gray-400 mb-8 leading-relaxed max-w-md">
-              Wall art design partner for printing companies — a subscription design studio supplying trend-led, print-ready
+              Wall art design partner for printing companies, supplying trend-led, print-ready
               files scaled to your catalogue.
             </p>
             <div className="flex items-center space-x-6">
@@ -70,7 +69,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li className="text-gray-500 text-sm leading-relaxed pt-2">
-                Custom wall art tailored to your market — designed for global print brands and growing regional producers.
+                Custom wall art tailored to your market, designed for global print brands and growing regional producers.
               </li>
             </ul>
           </div>
@@ -79,7 +78,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-500 text-sm">
-            © {currentYear} Graphify — Design Partner for Print Businesses
+            © {currentYear} Walluxe. Design Partner for Print Businesses
           </p>
           <div className="flex space-x-8 text-sm">
             <a href="#" className="text-gray-500 hover:text-white transition-colors">Privacy Policy</a>

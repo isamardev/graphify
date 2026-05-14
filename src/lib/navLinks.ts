@@ -3,7 +3,7 @@ export type MainNavItem = {
   href: string;
 };
 
-/** Same order as the main site header — use in Header, Footer, etc. */
+/** Same order as the main site header; use in Header, Footer, etc. */
 export const mainNavItems: MainNavItem[] = [
   { name: 'Home', href: '/' },
   { name: 'Our Design Work', href: '/collections' },

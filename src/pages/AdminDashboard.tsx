@@ -15,6 +15,7 @@ import { BlogManager } from '@/components/admin/BlogManager';
 import { ContactViewer } from '@/components/admin/ContactViewer';
 import { QuoteViewer } from '@/components/admin/QuoteViewer';
 import { ReviewManager } from '@/components/admin/ReviewManager';
+import { BrandLogo } from '@/components/BrandLogo';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('teams');
@@ -53,6 +54,7 @@ const AdminDashboard = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
+              <BrandLogo imgClassName="h-7 w-auto max-w-[160px] md:max-w-[200px]" />
               <h1 className="text-xl font-bold text-white tracking-tight">Admin <span className="text-[#06B6D4]">Dashboard</span></h1>
               <Badge variant="outline" className="border-[#3584DE]/20 text-[#3584DE] bg-[#3584DE]/5">v2.0 Luxury</Badge>
             </div>

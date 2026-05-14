@@ -14,7 +14,7 @@ const BookingSection = () => {
     {
       icon: Palette,
       title: "Visual Direction Alignment", 
-      description: "Lock palettes, moods, and trend lanes that fit your shoppers — never generic filler content."
+      description: "Lock palettes, moods, and trend lanes that fit your shoppers, with no generic filler content."
     },
     {
       icon: Clock,
@@ -24,7 +24,7 @@ const BookingSection = () => {
     {
       icon: Calendar,
       title: "Brand & Market Signals",
-      description: "Tell us territories and audience segments — we tune compositions and subjects to what actually sells."
+      description: "Tell us territories and audience segments, and we tune compositions and subjects to what actually sells."
     }
   ];
 
@@ -65,7 +65,7 @@ const BookingSection = () => {
             Schedule Your <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Strategy Call</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-            Walk us through your product mix and customers — we&apos;ll outline how ongoing design supply can slot into
+            Walk us through your product mix and customers. We&apos;ll outline how ongoing design supply can slot into
             your workflow.
           </p>
         </div>
@@ -99,7 +99,7 @@ const BookingSection = () => {
                 Ready to Brief Your Next Line?
               </h3>
               <p className="text-gray-400 mb-10 max-w-2xl mx-auto font-light text-lg">
-                Book a call — we&apos;ll unpack your production setup and outline how Graphify keeps new wall art flowing.
+                Book a call. We&apos;ll unpack your production setup and outline how Walluxe keeps new wall art flowing.
               </p>
               <Button 
                 size="lg"
@@ -122,7 +122,7 @@ const BookingSection = () => {
             </Button>
             <div 
               className="calendly-inline-widget w-full h-[600px]" 
-              data-url="https://calendly.com/graphify-art/consultation?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=0f172a&text_color=ffffff&primary_color=3584de"
+              data-url="https://calendly.com/walluxe/consultation?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=0f172a&text_color=ffffff&primary_color=3584de"
             />
           </div>
         )}

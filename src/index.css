@@ -137,7 +137,7 @@
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Modal / dialog scrollbars — Graphify blue → cyan (inset so thumb sits inside rounded panel) */
+/* Modal / dialog scrollbars: Walluxe blue to cyan (inset so thumb sits inside rounded panel) */
 .dialog-scroll {
   scrollbar-width: thin;
   scrollbar-color: #3584de rgb(15 23 42 / 0.85);

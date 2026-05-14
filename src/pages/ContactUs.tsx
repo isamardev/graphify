@@ -120,7 +120,7 @@ const ContactUs = () => {
               {[
                 { icon: MapPin, title: "Our Studio", detail: "123 Creative Avenue, Design District, NY 10001", color: "text-[#3584DE]" },
                 { icon: Phone, title: "Call Us", detail: "+1 (555) 123-4567", color: "text-[#06B6D4]" },
-                { icon: Mail, title: "Email Us", detail: "hello@graphify.art", color: "text-blue-400" },
+                { icon: Mail, title: "Email Us", detail: "hello@walluxe.com", color: "text-blue-400" },
                 { icon: Clock, title: "Working Hours", detail: "Mon - Fri: 9:00 AM - 6:00 PM", color: "text-cyan-400" }
               ].map((item, idx) => (
                 <Card key={idx} className="bg-white/5 border-white/10 backdrop-blur-xl group hover:bg-white/10 transition-all duration-300">

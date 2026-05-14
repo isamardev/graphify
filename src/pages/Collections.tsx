@@ -170,7 +170,7 @@ const Collections = () => {
               </div>
             ) : filteredCollections.length === 0 ? (
               <div className="col-span-full text-center py-32">
-                <p className="text-gray-400 text-lg">Nothing in this filter yet — try another category or request a custom piece.</p>
+                <p className="text-gray-400 text-lg">Nothing in this filter yet. Try another category or request a custom piece.</p>
               </div>
             ) : (
               filteredCollections.map((item) => (

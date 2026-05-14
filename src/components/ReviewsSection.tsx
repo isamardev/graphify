@@ -107,7 +107,7 @@ const ReviewsSection = () => {
               Client <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Experiences</span>
             </h2>
             <p className="text-lg text-gray-400 font-light leading-relaxed">
-              Voices from printing partners who relied on Graphify for scalable wall art pipelines.
+              Voices from printing partners who relied on Walluxe for scalable wall art pipelines.
             </p>
           </div>
           

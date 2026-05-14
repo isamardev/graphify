@@ -104,7 +104,7 @@ const Services = () => {
                 Printing Partner <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Deliverables</span>
               </h1>
               <p className="text-lg text-gray-400 font-light leading-relaxed">
-                Explore formats and themes we routinely produce — each can be bespoke to your SKU plan, substrates, and
+                Explore formats and themes we routinely produce. Each can be bespoke to your SKU plan, substrates, and
                 regional trends.
               </p>
             </div>
@@ -118,7 +118,7 @@ const Services = () => {
               </div>
             ) : services.length === 0 ? (
               <div className="col-span-full text-center py-32">
-                <p className="text-gray-400 text-lg">Capability entries will populate here shortly — ping us for a sample brief meanwhile.</p>
+                <p className="text-gray-400 text-lg">Capability entries will populate here shortly. Ping us for a sample brief meanwhile.</p>
               </div>
             ) : (
               services.map((service, index) => {

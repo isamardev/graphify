@@ -14,6 +14,7 @@ import {
   QUOTE_FORM_PREFERRED_STYLES,
   QUOTE_FORM_PROJECT_TYPES,
 } from '@/lib/quoteFormOptions';
+import { BrandLogo } from '@/components/BrandLogo';
 
 type QuotationSectionProps = {
   variant?: 'section' | 'modal';
@@ -127,6 +128,9 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
           <div className="grid grid-cols-1 lg:grid-cols-5">
             <div className={`lg:col-span-2 p-8 md:p-12 bg-gradient-to-br from-[#3584DE] to-[#06B6D4] text-white flex flex-col justify-between`}>
               <div>
+                <div className="mb-6">
+                  <BrandLogo imgClassName="h-9 w-auto max-w-[200px] rounded-lg shadow-lg shadow-black/20" />
+                </div>
                 <Badge variant="outline" className="mb-6 border-white/20 text-white bg-white/10 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
                   Request Free Sample
                 </Badge>
@@ -155,7 +159,7 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
               
               <div className="mt-12 pt-12 border-t border-white/10">
                 <p className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Support Email</p>
-                <p className="text-lg font-medium">concierge@graphify.art</p>
+                <p className="text-lg font-medium">hello@walluxe.com</p>
               </div>
             </div>
 

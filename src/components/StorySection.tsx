@@ -1,13 +1,14 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { BrandLogo } from '@/components/BrandLogo';
 
 const StorySection = () => {
   const milestones = [
     {
       year: "2018",
       title: "The Beginning",
-      description: "Launched Graphify focused on scalable, brand-aligned wall art for print partners"
+      description: "Launched Walluxe focused on scalable, brand-aligned wall art for print partners"
     },
     {
       year: "2020",
@@ -22,7 +23,7 @@ const StorySection = () => {
     {
       year: "2026",
       title: "300+ Artworks Delivered",
-      description: "Hundreds of print-ready artworks shipped — built for resale and showroom display"
+      description: "Hundreds of print-ready artworks shipped, built for resale and showroom display"
     }
   ];
 
@@ -30,14 +31,17 @@ const StorySection = () => {
     <section id="story" className="py-16 md:py-24 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="text-center mb-20">
+          <div className="flex justify-center mb-6">
+            <BrandLogo imgClassName="h-10 md:h-11 w-auto max-w-[260px] md:max-w-[320px]" />
+          </div>
           <Badge variant="outline" className="mb-4 border-primary/20 text-primary bg-primary/5 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-            Design Supply Platform
+            Bespoke wall art · Print partners worldwide
           </Badge>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
-            The Story Behind <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Graphify</span>
+            The Story Behind <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">Walluxe</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-            Built for printing companies that need a reliable design partner — not one-off files, but a pipeline of
+            Built for printing companies that need a reliable design partner, not one-off files, but a pipeline of
             trend-aware, print-ready wall art.
           </p>
         </div>
@@ -47,7 +51,7 @@ const StorySection = () => {
             <div className="space-y-4">
               <h3 className="text-3xl font-bold text-white tracking-tight">Our Mission</h3>
               <p className="text-lg text-gray-400 leading-relaxed font-light">
-                Graphify exists to help printing brands grow their wall art lines with designs that sell — aligned to your
+                Walluxe exists to help printing brands grow their wall art lines with designs that sell, aligned to your
                 audience, formatted for production, and licensed for commercial use.
               </p>
             </div>

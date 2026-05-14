@@ -1,0 +1,19 @@
+# Hostinger / Apache: serve real files with correct type; SPA only for non-files
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType text/css .css
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Subfolder deploy: set to /folder/ and match Vite base: "/folder/"
+  RewriteBase /
+
+  # Skip rewrite if this URL maps to an actual file or directory on disk
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+  RewriteRule ^ - [L]
+
+  # Client-side routes → index.html (do not use leading slash so subfolder + RewriteBase works)
+  RewriteRule . index.html [L]
+</IfModule>

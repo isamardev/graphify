@@ -5,6 +5,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Link, useLocation } from 'react-router-dom';
 import QuotationSection from '@/components/QuotationSection';
 import { mainNavItems } from '@/lib/navLinks';
+import { BrandLogo } from '@/components/BrandLogo';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,10 +34,11 @@ const Header = () => {
     <header className="fixed top-0 w-full bg-white/5 backdrop-blur-lg border-b border-white/10 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-white tracking-tight">
-            <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">
-              Graphify
-            </span>
+          <Link
+            to="/"
+            className="inline-flex items-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3584DE]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+          >
+            <BrandLogo imgClassName="h-8 md:h-9 w-auto max-w-[200px] md:max-w-[240px]" />
           </Link>
           
           <nav className="hidden md:flex items-center space-x-8">

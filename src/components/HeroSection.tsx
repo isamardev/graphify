@@ -13,22 +13,16 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent pt-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-20 text-center relative z-20">
         <div className="max-w-4xl mx-auto">
-          <div className="inline-block mb-6 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
-            <span className="text-xs md:text-sm font-medium uppercase tracking-[0.2em] text-[#06B6D4]">
-              Subscription design studio · Design partner
-            </span>
-          </div>
-
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-tight text-white">
-            Wall Art Design Partner for{' '}
+            Custom Wall Art Design Partner for{' '}
             <span className="bg-gradient-to-r from-[#3584DE] to-[#06B6D4] bg-clip-text text-transparent">
               Printing Companies
             </span>
           </h1>
 
           <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-2xl mx-auto leading-relaxed font-light">
-            Get ready-to-sell wall art designs tailored for your printing business. Scalable, trend-driven, and
-            print-ready.
+            Walluxe partners with print brands to create premium, print-ready wall art tailored for modern interiors and
+            customer trends.
           </p>
 
           <p className="text-sm text-[#06B6D4]/90 font-medium mb-10 tracking-wide">

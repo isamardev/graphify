@@ -2,9 +2,9 @@
  * Quote form dropdown options (Project type, Budget range, Preferred style).
  *
  * HOW TO CHANGE WHAT APPEARS IN THE DROPDOWNS
- * — Edit the arrays below in this file (add/remove/rename lines), then save.
- * — With `npm run dev` running, the page usually hot-reloads; otherwise refresh the browser.
- * — There is no in-browser settings screen: options live in source code only.
+ * Edit the arrays below in this file (add/remove/rename lines), then save.
+ * With `npm run dev` running, the page usually hot-reloads; otherwise refresh the browser.
+ * There is no in-browser settings screen: options live in source code only.
  *
  * Each item: `value` = sent to the API (keep stable if you already store data). `label` = text shown in the UI.
  */

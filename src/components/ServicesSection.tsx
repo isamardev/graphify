@@ -93,7 +93,7 @@ const ServicesSection = () => {
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
             From statement pieces to repeatable lines, our subscription design studio covers the wall art formats your print
-            operation needs — all aligned to trends and resale licensing.
+            operation needs, all aligned to trends and resale licensing.
           </p>
         </div>
 
@@ -104,7 +104,7 @@ const ServicesSection = () => {
             </div>
           ) : services.length === 0 ? (
             <div className="col-span-full text-center text-gray-400 py-20">
-              Capability cards will appear here once linked — request a brief to preview what we can build.
+              Capability cards will appear here once linked. Request a brief to preview what we can build.
             </div>
           ) : (
             services.slice(0, 6).map((service, index) => {

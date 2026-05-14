@@ -57,7 +57,7 @@ const FloatingCTA = () => {
             </button>
           </div>
           <p className="text-xs text-gray-400 mb-6 leading-relaxed font-light">
-            Request custom wall art tailored to your market — print-ready files for your catalogue.
+            Request custom wall art tailored to your market, with print-ready files for your catalogue.
           </p>
           <div className="space-y-3">
             <Button 
