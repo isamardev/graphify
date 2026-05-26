@@ -35,7 +35,7 @@ const HeroSection = () => {
               className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white px-10 h-14 text-base font-semibold rounded-2xl transition-all duration-300 hover:scale-105 shadow-[0_0_20px_rgba(53,132,222,0.3)]"
               onClick={scrollToContact}
             >
-              Get Free Sample
+              Start a Design Partnership
             </Button>
             <Button
               variant="outline"

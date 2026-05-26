@@ -21,7 +21,7 @@ export const CategoryManager = () => {
   });
   const { toast } = useToast();
 
-  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
+  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
 
   const buildApiUrl = (segment: string) => {
     const base = String(apiBase || '').replace(/\/+$/g, '');

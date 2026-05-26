@@ -31,27 +31,31 @@ export const ProjectManager = () => {
   const [fileInputKey, setFileInputKey] = useState(0);
   const { toast } = useToast();
 
-  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
-  const assetBase = apiBase.replace(/\/api\/?$/i, '');
+  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
+  const assetBase = (import.meta as any)?.env?.VITE_ASSET_BASE_URL || 'https://api.walluxe.co';
   const normalizeImageUrl = (value?: string) => {
     if (!value) return '';
     if (/^(data:|blob:)/i.test(value)) return value;
-    const injectPublic = (p: string) => p.replace(/^\/?storage\/(?!app\/public\/)/i, 'storage/app/public/');
-    const cleaned = value.replace(/\\/g, '/');
+    let cleaned = value.replace(/\\/g, '/');
+
+    // Force new domain if old one is present
+    if (cleaned.includes('data.graphify.art')) {
+      cleaned = cleaned.replace('data.graphify.art', 'api.walluxe.co');
+    }
+
     if (/^(https?:)?\/\//i.test(cleaned)) {
-      try {
-        const u = new URL(cleaned);
-        u.pathname = injectPublic(u.pathname);
-        return u.toString();
-      } catch {
-        return cleaned;
-      }
+      return cleaned;
     }
-    if (cleaned.startsWith('/storage') || cleaned.startsWith('storage/')) {
-      return `${assetBase}/${injectPublic(cleaned.replace(/^\/?/, ''))}`;
+
+    // Clean up common Laravel path prefixes that shouldn't be in the public URL
+    cleaned = cleaned.replace(/^\/?(public\/|storage\/app\/public\/|app\/public\/)/i, '');
+    
+    // Ensure it starts with storage/ for the public URL
+    if (!cleaned.startsWith('storage/')) {
+      cleaned = 'storage/' + cleaned.replace(/^\//, '');
     }
-    if (cleaned.startsWith('/')) return cleaned;
-    return `/${cleaned}`;
+
+    return `${assetBase}/${cleaned}`;
   };
 
   const buildApiUrl = (segment: string) => {
@@ -185,17 +189,32 @@ export const ProjectManager = () => {
       payload.append('collection_id', formData.collection_id);
       if (imageFile) {
         payload.append('image', imageFile);
+        payload.append('image_url', imageFile);
       }
       payload.append('material_used', materialUsed.join(', '));
       payload.append('perfect_for', perfectFor.join(', '));
       payload.append('features', features.join(', '));
 
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+
       if (editingProject) {
         payload.append('_method', 'PUT');
-        await axios.post(buildApiUrl(`projects/${editingProject.id}`), payload);
+        try {
+          await axios.post(buildApiUrl(`projects/${editingProject.id}`), payload, config);
+        } catch (err) {
+          await axios.post(buildApiUrl(`project/${editingProject.id}`), payload, config);
+        }
         toast({ title: 'Success', description: 'Project updated successfully' });
       } else {
-        await axios.post(buildApiUrl('projects'), payload);
+        try {
+          await axios.post(buildApiUrl('projects'), payload, config);
+        } catch (err) {
+          await axios.post(buildApiUrl('project'), payload, config);
+        }
         toast({ title: 'Success', description: 'Project created successfully' });
       }
       const response = await axios.get(buildApiUrl('projects'));

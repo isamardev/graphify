@@ -121,8 +121,8 @@ const BookingSection = () => {
               <X className="h-6 w-6" />
             </Button>
             <div 
-              className="calendly-inline-widget w-full h-[600px]" 
-              data-url="https://calendly.com/walluxe/consultation?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=0f172a&text_color=ffffff&primary_color=3584de"
+              className="calendly-inline-widget w-full h-[700px]" 
+              data-url="https://calendly.com/najmi1272?hide_landing_page_details=1&hide_gdpr_banner=1"
             />
           </div>
         )}

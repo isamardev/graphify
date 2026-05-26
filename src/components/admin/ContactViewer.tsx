@@ -11,7 +11,7 @@ import { Contact } from '@/lib/adminData';
 export const ContactViewer = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [viewingContact, setViewingContact] = useState<Contact | null>(null);
-  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
+  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
 
   const buildApiUrl = (segment: string) => {
     const base = String(apiBase || '').replace(/\/+$/g, '');

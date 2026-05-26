@@ -68,7 +68,7 @@ const Header = () => {
               className="bg-[#3584DE] hover:bg-[#3584DE]/90 text-white shadow-lg shadow-[#3584DE]/20"
               onClick={handleGetQuote}
             >
-              Get Free Sample
+              Start a Design Partnership
             </Button>
           </div>
 
@@ -118,7 +118,7 @@ const Header = () => {
                     setIsMenuOpen(false);
                   }}
                 >
-                  Get Free Sample
+                  Start a Design Partnership
                 </Button>
               </div>
             </nav>

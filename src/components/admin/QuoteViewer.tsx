@@ -11,7 +11,7 @@ import { Quote } from '@/lib/adminData';
 export const QuoteViewer = () => {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [viewingQuote, setViewingQuote] = useState<Quote | null>(null);
-  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
+  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
   const assetBase = apiBase.replace(/\/api\/?$/i, '');
 
   const buildApiUrl = (segment: string) => {
@@ -23,22 +23,26 @@ export const QuoteViewer = () => {
   const normalizeImageUrl = (value?: string) => {
     if (!value) return '';
     if (/^(data:|blob:)/i.test(value)) return value;
-    const injectPublic = (p: string) => p.replace(/^\/?storage\/(?!app\/public\/)/i, 'storage/app/public/');
-    const cleaned = value.replace(/\\/g, '/');
+    let cleaned = value.replace(/\\/g, '/');
+
+    // Force new domain if old one is present
+    if (cleaned.includes('data.graphify.art')) {
+      cleaned = cleaned.replace('data.graphify.art', 'api.walluxe.co');
+    }
+
     if (/^(https?:)?\/\//i.test(cleaned)) {
-      try {
-        const u = new URL(cleaned);
-        u.pathname = injectPublic(u.pathname);
-        return u.toString();
-      } catch {
-        return cleaned;
-      }
+      return cleaned;
     }
-    if (cleaned.startsWith('/storage') || cleaned.startsWith('storage/')) {
-      return `${assetBase}/${injectPublic(cleaned.replace(/^\/?/, ''))}`;
+
+    // Clean up common Laravel path prefixes that shouldn't be in the public URL
+    cleaned = cleaned.replace(/^\/?(public\/|storage\/app\/public\/|app\/public\/)/i, '');
+    
+    // Ensure it starts with storage/ for the public URL
+    if (!cleaned.startsWith('storage/')) {
+      cleaned = 'storage/' + cleaned.replace(/^\//, '');
     }
-    if (cleaned.startsWith('/')) return cleaned;
-    return `/${cleaned}`;
+
+    return `${assetBase}/${cleaned}`;
   };
 
   const getFirstReferenceImage = (value: unknown) => {

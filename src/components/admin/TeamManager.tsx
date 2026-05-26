@@ -25,28 +25,32 @@ export const TeamManager = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [fileInputKey, setFileInputKey] = useState(0);
   const { toast } = useToast();
-  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
-  const assetBase = apiBase.replace(/\/api\/?$/i, '');
-  const normalizeImageUrl = (value?: string) => {
-    if (!value) return '';
-    if (/^(data:|blob:)/i.test(value)) return value;
-    const injectPublic = (p: string) => p.replace(/^\/?storage\/(?!app\/public\/)/i, 'storage/app/public/');
-    const cleaned = value.replace(/\\/g, '/');
-    if (/^(https?:)?\/\//i.test(cleaned)) {
-      try {
-        const u = new URL(cleaned);
-        u.pathname = injectPublic(u.pathname);
-        return u.toString();
-      } catch {
-        return cleaned;
-      }
-    }
-    if (cleaned.startsWith('/storage') || cleaned.startsWith('storage/')) {
-      return `${assetBase}/${injectPublic(cleaned.replace(/^\/?/, ''))}`;
-    }
-    if (cleaned.startsWith('/')) return cleaned;
-    return `/${cleaned}`;
-  };
+  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
+    const assetBase = (import.meta as any)?.env?.VITE_ASSET_BASE_URL || 'https://api.walluxe.co';
+    const normalizeImageUrl = (value?: string) => {
+          if (!value) return '';
+          if (/^(data:|blob:)/i.test(value)) return value;
+          let cleaned = value.replace(/\\/g, '/');
+    
+          // Force new domain if old one is present
+          if (cleaned.includes('data.graphify.art')) {
+            cleaned = cleaned.replace('data.graphify.art', 'api.walluxe.co');
+          }
+    
+          if (/^(https?:)?\/\//i.test(cleaned)) {
+            return cleaned;
+          }
+    
+          // Clean up common Laravel path prefixes that shouldn't be in the public URL
+          cleaned = cleaned.replace(/^\/?(public\/|storage\/app\/public\/|app\/public\/)/i, '');
+          
+          // Ensure it starts with storage/ for the public URL
+          if (!cleaned.startsWith('storage/')) {
+            cleaned = 'storage/' + cleaned.replace(/^\//, '');
+          }
+    
+          return `${assetBase}/${cleaned}`;
+        };
 
   const buildApiUrl = (segment: string) => {
     const base = String(apiBase || '').replace(/\/+$/g, '');
@@ -62,7 +66,7 @@ export const TeamManager = () => {
       name: team?.name || '',
       role: team?.role || '',
       description: team?.description || '',
-      image: team?.image || ''
+      image: team?.image || team?.image_url || team?.imageUrl || ''
     });
 
     const loadTeams = async () => {
@@ -127,10 +131,18 @@ export const TeamManager = () => {
 
       if (editingTeam) {
         payload.append('_method', 'PUT');
-        await axios.post(buildApiUrl(`teams/${editingTeam.id}`), payload);
+        try {
+          await axios.post(buildApiUrl(`teams/${editingTeam.id}`), payload);
+        } catch (err) {
+          await axios.post(buildApiUrl(`team/${editingTeam.id}`), payload);
+        }
         toast({ title: 'Success', description: 'Team member updated successfully' });
       } else {
-        await axios.post(buildApiUrl('teams'), payload);
+        try {
+          await axios.post(buildApiUrl('teams'), payload);
+        } catch (err) {
+          await axios.post(buildApiUrl('team'), payload);
+        }
         toast({ title: 'Success', description: 'Team member created successfully' });
       }
       const response = await axios.get(buildApiUrl('teams'));
@@ -140,7 +152,7 @@ export const TeamManager = () => {
         name: team?.name || '',
         role: team?.role || '',
         description: team?.description || '',
-        image: team?.image || ''
+        image: team?.image || team?.image_url || team?.imageUrl || ''
       })));
     } catch (error) {
       toast({ title: 'Error', description: 'Team member save failed', variant: 'destructive' });
@@ -161,7 +173,7 @@ export const TeamManager = () => {
           name: team?.name || '',
           role: team?.role || '',
           description: team?.description || '',
-          image: team?.image || ''
+          image: team?.image || team?.image_url || team?.imageUrl || ''
         })));
         toast({ title: 'Success', description: 'Team member deleted successfully' });
       } catch (error) {

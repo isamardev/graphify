@@ -29,7 +29,7 @@ export const CollectionManager = () => {
   const [fileInputKey, setFileInputKey] = useState(0);
   const { toast } = useToast();
 
-  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
+  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
 
   const buildApiUrl = (segment: string) => {
     const base = String(apiBase || '').replace(/\/+$/g, '');
@@ -40,24 +40,28 @@ export const CollectionManager = () => {
   const resolveImageUrl = (url: string) => {
     if (!url) return '';
     const base = String(apiBase || '').replace(/\/+$/g, '');
-    const assetBase = base.replace(/\/api$/i, '');
-    const injectPublic = (p: string) => p.replace(/^\/?storage\/(?!app\/public\/)/i, 'storage/app/public/');
-    if (/^(data:|blob:)/i.test(url)) return url;
-    if (/^(https?:)?\/\//i.test(url)) {
-      try {
-        const u = new URL(url);
-        u.pathname = injectPublic(u.pathname);
-        return u.toString();
-      } catch {
-        return url;
-      }
+    const assetBase = (import.meta as any)?.env?.VITE_ASSET_BASE_URL || base.replace(/\/api$/i, '');
+    let cleaned = url.replace(/\\/g, '/');
+
+    // Force new domain if old one is present
+    if (cleaned.includes('data.graphify.art')) {
+      cleaned = cleaned.replace('data.graphify.art', 'api.walluxe.co');
     }
-    try {
-      const u = new URL(injectPublic(url.replace(/\\/g, '/')), `${assetBase}/`);
-      return u.toString();
-    } catch {
-      return `${assetBase}/${injectPublic(url.replace(/^\/+/, ''))}`;
+
+    if (/^(data:|blob:)/i.test(cleaned)) return cleaned;
+    if (/^(https?:)?\/\//i.test(cleaned)) {
+      return cleaned;
     }
+
+    // Clean up common Laravel path prefixes that shouldn't be in the public URL
+    cleaned = cleaned.replace(/^\/?(public\/|storage\/app\/public\/|app\/public\/)/i, '');
+    
+    // Ensure it starts with storage/ for the public URL
+    if (!cleaned.startsWith('storage/')) {
+      cleaned = 'storage/' + cleaned.replace(/^\//, '');
+    }
+
+    return `${assetBase}/${cleaned}`;
   };
 
   const normalizeCollection = (collection: any): Collection => ({
@@ -154,15 +158,30 @@ export const CollectionManager = () => {
       payload.append('category_id', formData.category_id);
       if (imageFile) {
         payload.append('image', imageFile);
+        payload.append('image_url', imageFile);
       }
       payload.append('tags', tagsValue);
 
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+
       if (editingCollection) {
         payload.append('_method', 'PUT');
-        await axios.post(buildApiUrl(`collections/${editingCollection.id}`), payload);
+        try {
+          await axios.post(buildApiUrl(`collections/${editingCollection.id}`), payload, config);
+        } catch (err) {
+          await axios.post(buildApiUrl(`collection/${editingCollection.id}`), payload, config);
+        }
         toast({ title: 'Success', description: 'Collection updated successfully' });
       } else {
-        await axios.post(buildApiUrl('collections'), payload);
+        try {
+          await axios.post(buildApiUrl('collections'), payload, config);
+        } catch (err) {
+          await axios.post(buildApiUrl('collection'), payload, config);
+        }
         toast({ title: 'Success', description: 'Collection created successfully' });
       }
       const response = await axios.get(buildApiUrl('collections'));

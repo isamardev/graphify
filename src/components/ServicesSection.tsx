@@ -16,30 +16,33 @@ const ServicesSection = () => {
   const [services, setServices] = useState<Service[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
-  const assetBase = apiBase.replace(/\/api\/?$/i, '');
-  const iconPool = [Pen, Users, Image, Book, Heart, Palette, Building, Home];
+  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
+  const assetBase = (import.meta as any)?.env?.VITE_ASSET_BASE_URL || 'https://api.walluxe.co';
 
   const normalizeImageUrl = (value?: string) => {
-    if (!value) return '';
-    if (/^(data:|blob:)/i.test(value)) return value;
-    const injectPublic = (p: string) => p.replace(/^\/?storage\/(?!app\/public\/)/i, 'storage/app/public/');
-    const cleaned = value.replace(/\\/g, '/');
-    if (/^(https?:)?\/\//i.test(cleaned)) {
-      try {
-        const u = new URL(cleaned);
-        u.pathname = injectPublic(u.pathname);
-        return u.toString();
-      } catch {
-        return cleaned;
-      }
-    }
-    if (cleaned.startsWith('/storage') || cleaned.startsWith('storage/')) {
-      return `${assetBase}/${injectPublic(cleaned.replace(/^\/?/, ''))}`;
-    }
-    if (cleaned.startsWith('/')) return cleaned;
-    return `/${cleaned}`;
-  };
+       if (!value) return '';
+       if (/^(data:|blob:)/i.test(value)) return value;
+       let cleaned = value.replace(/\\/g, '/');
+   
+       // Force new domain if old one is present
+       if (cleaned.includes('data.graphify.art')) {
+         cleaned = cleaned.replace('data.graphify.art', 'api.walluxe.co');
+       }
+   
+       if (/^(https?:)?\/\//i.test(cleaned)) {
+         return cleaned;
+       }
+   
+       // Clean up common Laravel path prefixes that shouldn't be in the public URL
+       cleaned = cleaned.replace(/^\/?(public\/|storage\/app\/public\/|app\/public\/)/i, '');
+       
+       // Ensure it starts with storage/ for the public URL
+       if (!cleaned.startsWith('storage/')) {
+         cleaned = 'storage/' + cleaned.replace(/^\//, '');
+       }
+   
+       return `${assetBase}/${cleaned}`;
+     };
   useEffect(() => {
     let isActive = true;
 

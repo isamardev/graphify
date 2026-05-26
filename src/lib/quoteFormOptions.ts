@@ -14,10 +14,22 @@ export type QuoteFormOption = {
 };
 
 export const QUOTE_FORM_PROJECT_TYPES: QuoteFormOption[] = [
-  { value: 'Residential', label: 'Residential Art' },
-  { value: 'Corporate', label: 'Corporate Graphics' },
-  { value: 'Healthcare', label: 'Healthcare Murals' },
-  { value: 'Hospitality', label: 'Hospitality Design' },
+  { value: 'Custom Wall Mural', label: 'Custom Wall Mural' },
+  { value: 'Wallpaper Design', label: 'Wallpaper Design' },
+  { value: 'Feature Wall Artwork', label: 'Feature Wall Artwork' },
+  { value: 'Kids Room / Nursery Design', label: 'Kids Room / Nursery Design' },
+  { value: 'Office / Corporate Wall Art', label: 'Office / Corporate Wall Art' },
+  { value: 'Hotel / Hospitality Mural', label: 'Hotel / Hospitality Mural' },
+  { value: 'Restaurant / Cafe Wall Design', label: 'Restaurant / Cafe Wall Design' },
+  { value: 'Nature / Landscape Mural', label: 'Nature / Landscape Mural' },
+  { value: 'Abstract Wall Art', label: 'Abstract Wall Art' },
+  { value: 'Portrait / Figure Mural', label: 'Portrait / Figure Mural' },
+  { value: 'Geometric Pattern Design', label: 'Geometric Pattern Design' },
+  { value: 'Floral / Botanical Design', label: 'Floral / Botanical Design' },
+  { value: 'Typography / Quote Wall Art', label: 'Typography / Quote Wall Art' },
+  { value: 'Cultural / Traditional Artwork', label: 'Cultural / Traditional Artwork' },
+  { value: 'Logo Integration into Wall Art', label: 'Logo Integration into Wall Art' },
+  { value: 'Other / Custom Brief', label: 'Other / Custom Brief' },
 ];
 
 export const QUOTE_FORM_BUDGET_RANGES: QuoteFormOption[] = [
@@ -33,5 +45,15 @@ export const QUOTE_FORM_PREFERRED_STYLES: QuoteFormOption[] = [
   { value: 'Realistic', label: 'Realistic' },
   { value: 'Geometric', label: 'Geometric' },
   { value: 'Typography', label: 'Typography / Lettering' },
+  { value: 'Botanical', label: 'Botanical / Floral' },
+  { value: 'Nature', label: 'Nature / Landscape' },
+  { value: 'Watercolor', label: 'Watercolor' },
+  { value: 'Tropical', label: 'Tropical / Exotic' },
+  { value: 'Kids', label: 'Kids / Playful' },
+  { value: 'Vintage', label: 'Vintage / Retro' },
+  { value: 'Cultural', label: 'Cultural / Traditional' },
+  { value: 'Luxury', label: 'Luxury / Ornamental' },
+  { value: 'Doodle', label: 'Doodle Art / Line Art' },
+  { value: 'Vector', label: 'Vector Art' },
   { value: 'Mixed', label: 'Mixed / Not sure yet' },
 ];

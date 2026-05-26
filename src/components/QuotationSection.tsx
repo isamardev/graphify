@@ -36,7 +36,7 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://data.graphify.art';
+  const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
   const isModal = variant === 'modal';
 
   const buildApiUrl = (segment: string) => {
@@ -132,7 +132,7 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
                   <BrandLogo imgClassName="h-9 w-auto max-w-[200px] rounded-lg shadow-lg shadow-black/20" />
                 </div>
                 <Badge variant="outline" className="mb-6 border-white/20 text-white bg-white/10 px-4 py-1 rounded-full uppercase tracking-widest text-[10px]">
-                  Request Free Sample
+                  Start a Design Partnership
                 </Badge>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Let&apos;s Create <br />Your <span className="text-white/70 italic">Next Drop</span></h2>
                 <p className="text-white/80 font-light leading-relaxed mb-8">
@@ -159,7 +159,7 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
               
               <div className="mt-12 pt-12 border-t border-white/10">
                 <p className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Support Email</p>
-                <p className="text-lg font-medium">hello@walluxe.com</p>
+                <p className="text-lg font-medium">wall@walluxe.co</p>
               </div>
             </div>
 
@@ -214,7 +214,7 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
                   <div className="space-y-3">
                     <Label className="text-gray-300 text-sm ml-1">Phone Number</Label>
                     <Input 
-                      placeholder="+1 (555) 000-0000" 
+                      placeholder="+92(306)729-8660" 
                       value={formData.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
                       required
@@ -343,7 +343,7 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
                       <span>Submitting Request...</span>
                     </div>
                   ) : (
-                    "Request Free Design"
+                    "Start a Design Partnership"
                   )}
                 </Button>
               </form>
