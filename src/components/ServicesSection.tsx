@@ -18,6 +18,7 @@ const ServicesSection = () => {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
   const assetBase = (import.meta as any)?.env?.VITE_ASSET_BASE_URL || 'https://api.walluxe.co';
+  const iconPool = [Pen, Users, Image, Book, Heart, Palette, Building, Home];
 
   const normalizeImageUrl = (value?: string) => {
        if (!value) return '';

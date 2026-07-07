@@ -19,7 +19,7 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     // Simple authentication (in a real app, this would be server-side)
-    if (username === 'admin' && password === 'admin123') {
+    if (username === 'admin@gmail.com' && password === 'admin123') {
       localStorage.setItem('admin_logged_in', 'true');
       toast({
         title: 'Success',
@@ -79,11 +79,6 @@ const AdminLogin = () => {
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
-          <div className="mt-4 text-sm text-muted-foreground text-center">
-            <p>Demo credentials:</p>
-            <p>Username: admin</p>
-            <p>Password: admin123</p>
-          </div>
         </CardContent>
       </Card>
     </div>

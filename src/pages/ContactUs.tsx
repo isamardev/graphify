@@ -119,8 +119,8 @@ const ContactUs = () => {
             <div className="lg:col-span-1 space-y-6">
               {[
                 { icon: MapPin, title: "Our Studio", detail: "148 1st Floor Al Rehman Trade Centre Sargodha, Pakistan", color: "text-[#3584DE]" },
-                { icon: Phone, title: "Call Us", detail: "+92(306)729-8660", color: "text-[#06B6D4]" },
-                { icon: Mail, title: "Email Us", detail: "wall@walluxe.co", color: "text-blue-400" },
+                { icon: Phone, title: "Call Us", detail: "+923067298660", color: "text-[#06B6D4]" },
+                  { icon: Mail, title: "Email Us", detail: "hello@walluxe.co", color: "text-blue-400" },
                 { icon: Clock, title: "Working Hours", detail: "Mon - Fri: 9:00 AM - 6:00 PM", color: "text-cyan-400" }
               ].map((item, idx) => (
                 <Card key={idx} className="bg-white/5 border-white/10 backdrop-blur-xl group hover:bg-white/10 transition-all duration-300">

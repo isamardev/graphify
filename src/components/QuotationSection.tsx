@@ -159,7 +159,7 @@ const QuotationSection = ({ variant = 'section', onSubmitted }: QuotationSection
               
               <div className="mt-12 pt-12 border-t border-white/10">
                 <p className="text-xs font-bold uppercase tracking-widest text-white/50 mb-2">Support Email</p>
-                <p className="text-lg font-medium">wall@walluxe.co</p>
+                <p className="text-lg font-medium">hello@walluxe.co</p>
               </div>
             </div>
 

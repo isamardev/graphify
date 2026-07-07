@@ -27,6 +27,7 @@ const CollectionDetail = () => {
     features: string[];
   } | null>(null);
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [isImageFullscreen, setIsImageFullscreen] = useState(false);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const apiBase = (import.meta as any)?.env?.VITE_API_BASE_URL || 'https://api.walluxe.co';
   const assetBase = (import.meta as any)?.env?.VITE_ASSET_BASE_URL || 'https://api.walluxe.co';
@@ -296,64 +297,90 @@ const CollectionDetail = () => {
         </div>
       </main>
 
-      <Dialog open={isProjectModalOpen} onOpenChange={setIsProjectModalOpen}>
-        <DialogContent className="max-w-4xl bg-[#0F172A] border-white/10 text-white p-0 rounded-3xl">
+      <Dialog open={isProjectModalOpen} onOpenChange={(open) => {
+        setIsProjectModalOpen(open);
+        if (!open) setIsImageFullscreen(false);
+      }}>
+        <DialogContent className={`${isImageFullscreen ? 'max-w-6xl' : 'max-w-4xl'} bg-[#0F172A] border-white/10 text-white p-0 rounded-3xl`}>
           {selectedProject && (
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="h-[300px] md:h-full">
-                <img 
-                  src={normalizeImageUrl(selectedProject.image)} 
-                  alt={selectedProject.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-8 md:p-12 space-y-8">
-                <div>
-                  <Badge className="bg-[#06B6D4]/10 text-[#06B6D4] border-none mb-4 uppercase tracking-widest text-[10px]">Project Details</Badge>
-                  <DialogTitle className="text-3xl font-bold tracking-tight mb-4 text-white">{selectedProject.title}</DialogTitle>
-                  <p className="text-gray-400 font-light leading-relaxed">
-                    {selectedProject.description}
-                  </p>
-                </div>
-
-                <div className="space-y-6">
-                  <div>
-                    <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-3">Specifications</h4>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-500">Materials:</span>
-                        <span className="text-gray-300 font-medium">{selectedProject.materials}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-500">Use Case:</span>
-                        <span className="text-gray-300 font-medium">{selectedProject.useCase}</span>
-                      </div>
+            <>
+              {!isImageFullscreen ? (
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  <div className="h-[300px] md:h-full relative">
+                    <img 
+                      src={normalizeImageUrl(selectedProject.image)} 
+                      alt={selectedProject.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Button 
+                        variant="secondary"
+                        className="rounded-xl bg-black/50 backdrop-blur-md hover:bg-black/70 text-white border border-white/20"
+                        onClick={() => setIsImageFullscreen(true)}
+                      >
+                        View Image
+                      </Button>
                     </div>
                   </div>
-
-                  <div>
-                    <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-3">Key Features</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.features.map((feature, i) => (
-                        <Badge key={i} variant="secondary" className="bg-white/5 border-white/10 text-gray-400 text-[10px] uppercase tracking-wider">
-                          {feature}
-                        </Badge>
-                      ))}
+                  <div className="p-8 md:p-12 space-y-8">
+                    <div>
+                      <Badge className="bg-[#06B6D4]/10 text-[#06B6D4] border-none mb-4 uppercase tracking-widest text-[10px]">Project Details</Badge>
+                      <DialogTitle className="text-3xl font-bold tracking-tight mb-4 text-white">{selectedProject.title}</DialogTitle>
+                      <p className="text-gray-400 font-light leading-relaxed">
+                        {selectedProject.description}
+                      </p>
                     </div>
+
+                    <div className="space-y-6">
+                      <div>
+                        <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-3">Specifications</h4>
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Materials:</span>
+                            <span className="text-gray-300 font-medium">{selectedProject.materials}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Use Case:</span>
+                            <span className="text-gray-300 font-medium">{selectedProject.useCase}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-3">Key Features</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedProject.features.map((feature, i) => (
+                            <Badge key={i} variant="secondary" className="bg-white/5 border-white/10 text-gray-400 text-[10px] uppercase tracking-wider">
+                              {feature}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <Button 
+                      className="w-full bg-[#3584DE] hover:bg-[#3584DE]/90 text-white h-12 rounded-xl"
+                      onClick={() => {
+                        setIsProjectModalOpen(false);
+                        setIsQuoteOpen(true);
+                      }}
+                    >
+                      Request similar design
+                    </Button>
                   </div>
                 </div>
-
-                <Button 
-                  className="w-full bg-[#3584DE] hover:bg-[#3584DE]/90 text-white h-12 rounded-xl"
-                  onClick={() => {
-                    setIsProjectModalOpen(false);
-                    setIsQuoteOpen(true);
-                  }}
-                >
-                  Request similar design
-                </Button>
-              </div>
-            </div>
+              ) : (
+                <div className="relative p-4">
+                  <div className="flex items-center justify-center">
+                    <img 
+                      src={normalizeImageUrl(selectedProject.image)} 
+                      alt={selectedProject.title}
+                      className="max-h-[80vh] max-w-full object-contain"
+                    />
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </DialogContent>
       </Dialog>
